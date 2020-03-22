@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:house_review/blocprovs/home_inspection_screen_bloc_provider.dart';
 import 'package:house_review/screens/home_inspection_screen/home_inspection_screen.dart';
 import 'package:house_review/screens/splash_screen.dart';
 import 'package:house_review/theme/theme.dart';
@@ -13,6 +14,10 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: appData(),
         home: SplashScreen(),
-        routes: {'/inspectionForm': (context) => HomeInspectionScreen()});
+        routes: {
+          '/inspectionForm': (context) => HomeInspectionScreenBlocProvider(
+                child: HomeInspectionScreen(),
+              )
+        });
   }
 }
