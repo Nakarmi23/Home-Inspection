@@ -22,9 +22,21 @@ class SqliteStructuralSysService extends SqliteBaseService<IStructuralSystem> {
   }
 
   @override
-  Future<List<IStructuralSystem>> select() async {
-    final List<Map<String, dynamic>> dataRow =
-        await (await db).query(tableName);
+  Future<List<IStructuralSystem>> select({
+    List<String> columns,
+    String orderBy,
+    int limit,
+    String where,
+    List<String> whereArgs,
+  }) async {
+    final List<Map<String, dynamic>> dataRow = await (await db).query(
+      tableName,
+      columns: columns,
+      orderBy: orderBy,
+      limit: limit,
+      where: where,
+      whereArgs: whereArgs,
+    );
     return dataRow.map((item) => IStructuralSystem.fromJSON(item)).toList();
   }
 

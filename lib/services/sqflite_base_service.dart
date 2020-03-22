@@ -21,7 +21,13 @@ abstract class SqliteBaseService<T> {
   String get tableName;
 
   Future<void> insert(T data);
-  Future<List<T>> select();
+  Future<List<T>> select({
+    List<String> columns,
+    String orderBy,
+    int limit,
+    String where,
+    List<String> whereArgs,
+  });
   Future<int> count();
   Future<void> update(T data);
   Future<void> delete(int id);
