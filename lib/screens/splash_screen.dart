@@ -25,7 +25,6 @@ class _SplashScreenState extends State<SplashScreen> {
     _bloc = SplashScreenBlocProvider.of(context);
     _bloc.getStructuralSystemCount();
     _bloc.structuralSystemCount.listen((count) {
-      print('hello');
       if (count == 0) {
         _bloc.initializeStructuralSystem();
       } else {
@@ -43,6 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void dispose() {
     super.dispose();
     _navigateTimer.cancel();
+    _bloc.dispose();
   }
 
   @override
