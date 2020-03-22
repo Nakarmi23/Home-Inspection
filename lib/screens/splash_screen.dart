@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:house_review/models/IStructuralSystem.dart';
-import 'package:house_review/services/sqflite_structural_system_service.dart';
+import 'package:house_review/bloc/splash_screen_bloc.dart';
+import 'package:house_review/blocprovs/splash_screen_bloc_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key}) : super(key: key);
@@ -12,23 +12,37 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  SplashScreenBloc _bloc;
+  Timer _navigateTimer;
   @override
   void initState() {
     super.initState();
-    SqliteStructuralSysService().count().then((count) => {
-          if (count == 0)
-            {
-              ['RCC Framed Structure', 'Masonary Structure', 'Steel Structure']
-                  .forEach((item) => {
-                        SqliteStructuralSysService()
-                            .insert(IStructuralSystem(systemName: item))
-                      })
-            }
-        });
-    Timer(
-      Duration(seconds: 2),
-      () => Navigator.of(context).pushReplacementNamed('/inspectionForm'),
-    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc = SplashScreenBlocProvider.of(context);
+    _bloc.getStructuralSystemCount();
+    _bloc.structuralSystemCount.listen((count) {
+      print('hello');
+      if (count == 0) {
+        _bloc.initializeStructuralSystem();
+      } else {
+        _navigateTimer = Timer(
+          Duration(seconds: 2),
+          () => Navigator.of(context).pushReplacementNamed('/inspectionForm'),
+        );
+      }
+    }).onError((err) {
+      throw (err);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _navigateTimer.cancel();
   }
 
   @override
