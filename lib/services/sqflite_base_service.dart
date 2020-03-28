@@ -7,16 +7,23 @@ abstract class SqliteBaseService<T> {
         join(await getDatabasesPath(), 'skill_inspection.db'),
 
         onCreate: (db, version) async {
-          return db.execute('''
+          return Future.wait([
+            db.execute('''
+            CREATE TABLE IF NOT EXISTS inspection_cause(
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              inspection_cause TEXT
+            );
+          '''),
+            db.execute('''
             CREATE TABLE IF NOT EXISTS structural_system(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               system_name TEXT
-            );
-          ''');
+            )''')
+          ]);
         },
         // Set the version. This executes the onCreate function and provides a
         // path to perform database upgrades and downgrades.
-        version: 1,
+        version: 2,
       );
   String get tableName;
 
