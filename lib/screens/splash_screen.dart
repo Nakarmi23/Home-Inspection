@@ -13,7 +13,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   SplashScreenBloc _bloc;
-  Timer _navigateTimer;
   @override
   void initState() {
     super.initState();
@@ -23,25 +22,27 @@ class _SplashScreenState extends State<SplashScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _bloc = SplashScreenBlocProvider.of(context);
-    _bloc.getStructuralSystemCount();
-    _bloc.structuralSystemCount.listen((count) {
-      if (count == 0) {
-        _bloc.initializeStructuralSystem();
+    _bloc.isDefaultDataInitialized();
+    _bloc.isAppInitialized.listen((data) {
+      if (!data.isAllDataInitialized) {
+        if (!data.inspectionCause) {
+          _bloc.initializeInspectionCause();
+        } else if (!data.structuralSystem) {
+          _bloc.initializeStructuralSystem();
+        } else {
+          Navigator.of(context).pushReplacementNamed('/inspectionForm');
+        }
       } else {
-        _navigateTimer = Timer(
-          Duration(seconds: 2),
-          () => Navigator.of(context).pushReplacementNamed('/inspectionForm'),
-        );
+        Navigator.of(context).pushReplacementNamed('/inspectionForm');
       }
     }).onError((err) {
-      throw (err);
+      throw err;
     });
   }
 
   @override
   void dispose() {
     super.dispose();
-    _navigateTimer.cancel();
     _bloc.dispose();
   }
 
