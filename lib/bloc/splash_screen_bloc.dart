@@ -45,8 +45,8 @@ class SplashScreenBloc {
       'Masonary Structure',
       'Steel Structure',
     ]
-            .map((item) => _repository
-                .insertStructuralSystem(IStructuralSystem(systemName: item)))
+            .map((item) => _repository.insertStructuralSystem(
+                IStructuralSystem(systemName: item, isEditable: false)))
             .toList())
         .then((data) {
       isDefaultDataInitialized();
@@ -62,8 +62,8 @@ class SplashScreenBloc {
       'Renting',
       'Problem Encounter Case',
     ]
-            .map((item) => _repository
-                .insertInspectionCause(IInspectionCause(inspectionCause: item)))
+            .map((item) => _repository.insertInspectionCause(
+                IInspectionCause(inspectionCause: item, isEditable: false)))
             .toList())
         .then((data) {
       isDefaultDataInitialized();
