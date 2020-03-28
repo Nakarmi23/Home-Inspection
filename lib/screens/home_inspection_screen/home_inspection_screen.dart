@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:house_review/bloc/home_inspection_screen_bloc.dart';
+import 'package:house_review/blocprovs/home_inspection_screen_bloc_provider.dart';
+import 'package:house_review/components/AppInputTextField.dart';
+import 'package:house_review/models/IInsepctionCause.dart';
+import 'package:house_review/models/IStructuralSystem.dart';
 
 class HomeInspectionScreen extends StatefulWidget {
   HomeInspectionScreen({Key key}) : super(key: key);
@@ -8,6 +13,39 @@ class HomeInspectionScreen extends StatefulWidget {
 }
 
 class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
+  HomeInspectionScreenBloc _bloc;
+  int selectedStructuralSystem;
+  int selectedInspectionCause;
+  List<String> materialUsed = ["Sand"];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc = HomeInspectionScreenBlocProvider.of(context);
+    _bloc.getStructuralSystem();
+    _bloc.getInspectionCause();
+    _bloc.structuralSystem.listen((data) {
+      if (selectedStructuralSystem == null) {
+        setState(() {
+          selectedStructuralSystem = data[0].id;
+        });
+      }
+    });
+    _bloc.inspectionCause.listen((data) {
+      if (selectedInspectionCause == null) {
+        setState(() {
+          selectedInspectionCause = data[0].id;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _bloc.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var appBar = SliverAppBar(
@@ -59,134 +97,235 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
             delegate: SliverChildListDelegate(
               [
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 16.0,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 16.0 * 2),
-                    child: Form(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Text(
+                  padding: const EdgeInsets.only(top: 16.0 * 2),
+                  child: Form(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 16.0, left: 16.0, right: 16.0),
+                          child: Text(
                             'Client Deatils',
                             style: Theme.of(context).textTheme.title,
                           ),
-                          inputFieldSpacer,
-                          TextFormField(
-                            decoration: InputDecoration(
-                              border: outlineInputBorder,
-                              enabledBorder: outlineInputBorder,
-                              labelText: 'Client Name',
-                            ),
-                          ),
-                          inputFieldSpacer,
-                          TextFormField(
-                            decoration: InputDecoration(
-                              border: outlineInputBorder,
-                              enabledBorder: outlineInputBorder,
-                              labelText: 'Address',
-                            ),
-                          ),
-                          inputFieldSpacer,
-                          Text(
+                        ),
+                        AppInputTextField(
+                          labelText: 'Client Name',
+                        ),
+                        AppInputTextField(
+                          labelText: 'Address',
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 16.0, left: 16.0, right: 16.0),
+                          child: Text(
                             'Building Deatils',
                             style: Theme.of(context).textTheme.title,
                           ),
-                          inputFieldSpacer,
-                          TextFormField(
-                            decoration: InputDecoration(
-                              border: outlineInputBorder,
-                              enabledBorder: outlineInputBorder,
-                              labelText: 'No. of Storey',
-                            ),
-                          ),
-                          inputFieldSpacer,
-                          TextFormField(
-                            decoration: InputDecoration(
-                              border: outlineInputBorder,
-                              enabledBorder: outlineInputBorder,
-                              labelText: 'Original Purpose of Building',
-                            ),
-                          ),
-                          inputFieldSpacer,
-                          TextFormField(
-                            decoration: InputDecoration(
-                              border: outlineInputBorder,
-                              enabledBorder: outlineInputBorder,
-                              labelText: 'Current Purpose of Building',
-                            ),
-                          ),
-                          inputFieldSpacer,
-                          Text(
+                        ),
+                        AppInputTextField(
+                          labelText: 'No. of Storey',
+                        ),
+                        AppInputTextField(
+                          labelText: 'Original Purpose of Building',
+                        ),
+                        AppInputTextField(
+                          labelText: 'Current Purpose of Building',
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 16.0, left: 16.0, right: 16.0),
+                          child: Text(
                             'Area of Building',
-                            style: Theme.of(context).textTheme.subhead,
+                            style: Theme.of(context).textTheme.title,
                           ),
-                          inputFieldSpacer,
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: TextFormField(
-                                  keyboardType: TextInputType.numberWithOptions(
-                                    decimal: true,
-                                  ),
-                                  decoration: InputDecoration(
-                                    border: outlineInputBorder,
-                                    enabledBorder: outlineInputBorder,
-                                    labelText: 'Length',
-                                  ),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: AppInputTextField(
+                                keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true,
                                 ),
+                                labelText: 'Length',
                               ),
-                              SizedBox.fromSize(
-                                size: Size(8.0, 0),
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  keyboardType: TextInputType.numberWithOptions(
-                                    decimal: true,
-                                  ),
-                                  decoration: InputDecoration(
-                                    border: outlineInputBorder,
-                                    enabledBorder: outlineInputBorder,
-                                    labelText: 'Breath',
-                                  ),
+                            ),
+                            SizedBox.fromSize(
+                              size: Size(8.0, 0),
+                            ),
+                            Expanded(
+                              child: AppInputTextField(
+                                keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true,
                                 ),
+                                labelText: 'Breath',
                               ),
-                              SizedBox.fromSize(
-                                size: Size(8.0, 0),
-                              ),
-                              Text('='),
-                              SizedBox.fromSize(
-                                size: Size(8.0, 0),
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  keyboardType: TextInputType.numberWithOptions(
-                                    decimal: true,
-                                  ),
-                                  decoration: InputDecoration(
-                                    border: outlineInputBorder,
-                                    enabledBorder: outlineInputBorder,
-                                    labelText: 'Area',
-                                  ),
+                            ),
+                            SizedBox.fromSize(
+                              size: Size(8.0, 0),
+                            ),
+                            Text('='),
+                            SizedBox.fromSize(
+                              size: Size(8.0, 0),
+                            ),
+                            Expanded(
+                              child: AppInputTextField(
+                                enabled: false,
+                                keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true,
                                 ),
+                                labelText: 'Area',
                               ),
-                            ],
-                          ),
-                          inputFieldSpacer,
-                          Text(
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Text(
                             'Structural System of Building',
-                            style: Theme.of(context).textTheme.subhead,
+                            style: Theme.of(context).textTheme.title,
                           ),
-                          inputFieldSpacer,
-                          DropdownButton(
-                            items: [],
-                            onChanged: (value) {},
-                          )
-                        ],
-                      ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                              width: 2,
+                              color: Theme.of(context).primaryColor,
+                            )),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 4,
+                              horizontal: 8,
+                            ),
+                            child: StreamBuilder<List<IStructuralSystem>>(
+                              stream:
+                                  HomeInspectionScreenBlocProvider.of(context)
+                                      .structuralSystem,
+                              builder: (context, snapshot) {
+                                List<IStructuralSystem> data =
+                                    snapshot.hasData ? [...snapshot.data] : [];
+                                data.add(IStructuralSystem(
+                                    id: 0, systemName: 'Other'));
+                                return DropdownButton(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subhead
+                                      .copyWith(
+                                        color: Colors.grey.shade800,
+                                      ),
+                                  isExpanded: true,
+                                  items: data
+                                      .map((item) => DropdownMenuItem(
+                                            child: Text(item.systemName),
+                                            value: item.id,
+                                          ))
+                                      .toList(),
+                                  value: selectedStructuralSystem,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedStructuralSystem = value;
+                                    });
+                                  },
+                                  underline: Container(),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        AppInputTextField(
+                          enabled: selectedStructuralSystem == 0,
+                          labelText: 'Other Structural System of Building',
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 16.0, left: 16.0, right: 16.0),
+                          child: Text(
+                            'Materials Used',
+                            style: Theme.of(context).textTheme.title,
+                          ),
+                        ),
+                        ...createMaterialUsedWidgets(),
+                        InkWell(
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text('Add Materials Used'),
+                                ),
+                                Icon(
+                                  Icons.add_circle,
+                                  color: Theme.of(context).accentColor,
+                                ),
+                              ],
+                            ),
+                          ),
+                          onTap: () {},
+                        ),
+                        AppInputTextField(
+                          labelText: 'Soil/Foundation Condition of Building',
+                        ),
+                        AppInputTextField(
+                          labelText: 'Supervision Status',
+                        ),
+                        AppInputTextField(
+                          labelText: 'Comment',
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Text(
+                            'Cause of Inspection',
+                            style: Theme.of(context).textTheme.title,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                              width: 2,
+                              color: Theme.of(context).primaryColor,
+                            )),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 4,
+                              horizontal: 8,
+                            ),
+                            child: StreamBuilder<List<IInspectionCause>>(
+                              stream: _bloc.inspectionCause,
+                              builder: (context, snapshot) {
+                                List<IInspectionCause> data =
+                                    snapshot.hasData ? [...snapshot.data] : [];
+                                return DropdownButton(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subhead
+                                      .copyWith(
+                                        color: Colors.grey.shade800,
+                                      ),
+                                  isExpanded: true,
+                                  items: data
+                                      .map((item) => DropdownMenuItem(
+                                            child: Text(item.inspectionCause),
+                                            value: item.id,
+                                          ))
+                                      .toList(),
+                                  value: selectedInspectionCause,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedInspectionCause = value;
+                                    });
+                                  },
+                                  underline: Container(),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -197,4 +336,33 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
       ),
     );
   }
+
+  List<Widget> createMaterialUsedWidgets() => materialUsed
+      .map(
+        (item) => ListTile(
+          title: Text(item),
+          trailing: PopupMenuButton(
+              itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.edit),
+                          Padding(padding: EdgeInsets.all(8.0)),
+                          Text('Edit'),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.delete),
+                          Padding(padding: EdgeInsets.all(8.0)),
+                          Text('Delete'),
+                        ],
+                      ),
+                    ),
+                  ]),
+        ),
+      )
+      .toList();
 }
