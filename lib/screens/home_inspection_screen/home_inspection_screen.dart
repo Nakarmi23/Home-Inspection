@@ -325,6 +325,9 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                             ),
                           ),
                         ),
+                        AppInputTextField(
+                          labelText: 'Comment on Existing Problems',
+                        ),
                       ],
                     ),
                   ),
