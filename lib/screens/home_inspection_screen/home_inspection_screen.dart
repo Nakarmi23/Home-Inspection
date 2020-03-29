@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:house_review/bloc/home_inspection_screen_bloc.dart';
 import 'package:house_review/blocprovs/home_inspection_screen_bloc_provider.dart';
+import 'package:house_review/components/AppDropdownMenu.dart';
 import 'package:house_review/components/AppInputTextField.dart';
 import 'package:house_review/models/IInsepctionCause.dart';
 import 'package:house_review/models/IStructuralSystem.dart';
@@ -181,59 +182,33 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                             ),
                           ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Text(
-                            'Structural System of Building',
-                            style: Theme.of(context).textTheme.title,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                              width: 2,
-                              color: Theme.of(context).primaryColor,
-                            )),
-                            padding: EdgeInsets.symmetric(
-                              vertical: 4,
-                              horizontal: 8,
-                            ),
-                            child: StreamBuilder<List<IStructuralSystem>>(
-                              stream:
-                                  HomeInspectionScreenBlocProvider.of(context)
-                                      .structuralSystem,
-                              builder: (context, snapshot) {
-                                List<IStructuralSystem> data =
-                                    snapshot.hasData ? [...snapshot.data] : [];
-                                data.add(IStructuralSystem(
-                                    id: 0, systemName: 'Other'));
-                                return DropdownButton(
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subhead
-                                      .copyWith(
-                                        color: Colors.grey.shade800,
-                                      ),
-                                  isExpanded: true,
-                                  items: data
-                                      .map((item) => DropdownMenuItem(
-                                            child: Text(item.systemName),
-                                            value: item.id,
-                                          ))
-                                      .toList(),
-                                  value: selectedStructuralSystem,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedStructuralSystem = value;
-                                    });
-                                  },
-                                  underline: Container(),
-                                );
-                              },
-                            ),
-                          ),
+                        StreamBuilder<List<IStructuralSystem>>(
+                          stream: HomeInspectionScreenBlocProvider.of(context)
+                              .structuralSystem,
+                          builder: (context, snapshot) {
+                            List<IStructuralSystem> data =
+                                snapshot.hasData ? [...snapshot.data] : [];
+                            data.add(
+                                IStructuralSystem(id: 0, systemName: 'Other'));
+                            return Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              child: AppDropdownMenu(
+                                title: 'Structural System of Building',
+                                value: selectedStructuralSystem,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedStructuralSystem = value;
+                                  });
+                                },
+                                items: data
+                                    .map((item) => DropdownMenuItem(
+                                          child: Text(item.systemName),
+                                          value: item.id,
+                                        ))
+                                    .toList(),
+                              ),
+                            );
+                          },
                         ),
                         AppInputTextField(
                           enabled: selectedStructuralSystem == 0,
@@ -275,55 +250,30 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                         AppInputTextField(
                           labelText: 'Comment',
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Text(
-                            'Cause of Inspection',
-                            style: Theme.of(context).textTheme.title,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                              width: 2,
-                              color: Theme.of(context).primaryColor,
-                            )),
-                            padding: EdgeInsets.symmetric(
-                              vertical: 4,
-                              horizontal: 8,
-                            ),
-                            child: StreamBuilder<List<IInspectionCause>>(
-                              stream: _bloc.inspectionCause,
-                              builder: (context, snapshot) {
-                                List<IInspectionCause> data =
-                                    snapshot.hasData ? [...snapshot.data] : [];
-                                return DropdownButton(
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subhead
-                                      .copyWith(
-                                        color: Colors.grey.shade800,
-                                      ),
-                                  isExpanded: true,
-                                  items: data
-                                      .map((item) => DropdownMenuItem(
-                                            child: Text(item.inspectionCause),
-                                            value: item.id,
-                                          ))
-                                      .toList(),
-                                  value: selectedInspectionCause,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedInspectionCause = value;
-                                    });
-                                  },
-                                  underline: Container(),
-                                );
-                              },
-                            ),
-                          ),
+                        StreamBuilder<List<IInspectionCause>>(
+                          stream: _bloc.inspectionCause,
+                          builder: (context, snapshot) {
+                            List<IInspectionCause> data =
+                                snapshot.hasData ? [...snapshot.data] : [];
+                            return Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              child: AppDropdownMenu(
+                                title: 'Cause of Inspection',
+                                value: selectedInspectionCause,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedInspectionCause = value;
+                                  });
+                                },
+                                items: data
+                                    .map((item) => DropdownMenuItem(
+                                          child: Text(item.inspectionCause),
+                                          value: item.id,
+                                        ))
+                                    .toList(),
+                              ),
+                            );
+                          },
                         ),
                         AppInputTextField(
                           labelText: 'Comment on Existing Problems',
