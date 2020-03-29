@@ -12,11 +12,11 @@ class IStructuralSystem {
   IStructuralSystem.fromJSON(Map<String, dynamic> json) {
     id = json['id'];
     systemName = json['system_name'];
-    isEditable = json['is_editable'];
+    isEditable = json['is_editable'] == 1 ? true : false;
   }
   Map<String, dynamic> toJson() => {
         'id': id,
         'system_name': systemName,
-        'is_editable': isEditable,
+        'is_editable': isEditable ? 1 : 0,
       };
 }

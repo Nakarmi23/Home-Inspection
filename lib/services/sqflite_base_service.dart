@@ -11,14 +11,23 @@ abstract class SqliteBaseService<T> {
             db.execute('''
             CREATE TABLE IF NOT EXISTS inspection_cause(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
-              inspection_cause TEXT
+              inspection_cause TEXT,
+              is_editable NUMERIC
             );
           '''),
             db.execute('''
             CREATE TABLE IF NOT EXISTS structural_system(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
-              system_name TEXT
-            )''')
+              system_name TEXT,
+              is_editable NUMERIC
+            )'''),
+            db.execute('''
+            CREATE TABLE IF NOT EXISTS client_tbl(
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              name TEXT,
+              address TEXT
+            )
+            '''),
           ]);
         },
         // Set the version. This executes the onCreate function and provides a
