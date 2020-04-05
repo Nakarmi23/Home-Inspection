@@ -18,6 +18,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
   int selectedStructuralSystem;
   int selectedInspectionCause;
   List<String> materialUsed = ["Sand"];
+  List<String> buildingRooms = ["Bedroom"];
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -278,6 +279,33 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                         AppInputTextField(
                           labelText: 'Comment on Existing Problems',
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 16.0, left: 16.0, right: 16.0),
+                          child: Text(
+                            'Rooms',
+                            style: Theme.of(context).textTheme.title,
+                          ),
+                        ),
+                        ...createBuildingRooms(),
+                        InkWell(
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text('Add New Room'),
+                                ),
+                                Icon(
+                                  Icons.add_circle,
+                                  color: Theme.of(context).accentColor,
+                                ),
+                              ],
+                            ),
+                          ),
+                          onTap: () {},
+                        ),
                       ],
                     ),
                   ),
@@ -295,26 +323,57 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
         (item) => ListTile(
           title: Text(item),
           trailing: PopupMenuButton(
-              itemBuilder: (context) => [
-                    PopupMenuItem(
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.edit),
-                          Padding(padding: EdgeInsets.all(8.0)),
-                          Text('Edit'),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.delete),
-                          Padding(padding: EdgeInsets.all(8.0)),
-                          Text('Delete'),
-                        ],
-                      ),
-                    ),
-                  ]),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.edit),
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    Text('Edit'),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.delete),
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    Text('Delete'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      )
+      .toList();
+
+  List<Widget> createBuildingRooms() => buildingRooms
+      .map(
+        (item) => ListTile(
+          title: Text(item),
+          trailing: PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.edit),
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    Text('Edit'),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.delete),
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    Text('Delete'),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       )
       .toList();
