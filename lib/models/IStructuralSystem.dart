@@ -1,5 +1,3 @@
-import 'dart:core';
-
 class IStructuralSystem {
   int id;
   String systemName;

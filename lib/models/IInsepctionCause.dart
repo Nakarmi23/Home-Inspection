@@ -1,5 +1,3 @@
-import 'dart:core';
-
 class IInspectionCause {
   int id;
   String inspectionCause;
