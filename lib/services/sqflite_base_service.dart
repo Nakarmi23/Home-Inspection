@@ -1,12 +1,12 @@
+import 'package:house_review/models/IBaseModel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-abstract class SqliteBaseService<T> {
+abstract class SqliteBaseService<T extends IBaseModel> {
   Future<Database> get db async => openDatabase(
         // Set the path to the database.
         join(await getDatabasesPath(), 'skill_inspection.db'),
-
-        onCreate: (db, version) async {
+        onCreate: (db, version) {
           return Future.wait([
             db.execute('''
             CREATE TABLE IF NOT EXISTS inspection_cause(
@@ -19,6 +19,12 @@ abstract class SqliteBaseService<T> {
             CREATE TABLE IF NOT EXISTS structural_system(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               system_name TEXT,
+              is_editable NUMERIC
+            )'''),
+            db.execute('''
+            CREATE TABLE IF NOT EXISTS room_purpose(
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              purpose TEXT,
               is_editable NUMERIC
             )'''),
             db.execute('''
