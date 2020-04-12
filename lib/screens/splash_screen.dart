@@ -29,6 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
           _bloc.initializeInspectionCause();
         } else if (!data.structuralSystem) {
           _bloc.initializeStructuralSystem();
+        } else if (!data.roomPurpose) {
+          _bloc.initializeRoomPurpose();
         } else {
           Navigator.of(context).pushReplacementNamed('/inspectionForm');
         }

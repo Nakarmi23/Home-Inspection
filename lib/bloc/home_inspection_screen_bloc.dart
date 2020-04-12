@@ -1,10 +1,10 @@
 import 'package:house_review/models/IInsepctionCause.dart';
 import 'package:house_review/models/IStructuralSystem.dart';
-import 'package:house_review/resources/repository.dart';
+import 'package:house_review/resources/root_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomeInspectionScreenBloc {
-  final Repository _repository = Repository();
+  final RootRepository _repository = RootRepository();
   BehaviorSubject<List<IStructuralSystem>> _structuralSystem =
       BehaviorSubject<List<IStructuralSystem>>();
   BehaviorSubject<List<IInspectionCause>> _inspectionCause =
@@ -24,15 +24,15 @@ class HomeInspectionScreenBloc {
   }
 
   void getStructuralSystem() {
-    _repository
-        .selectStructuralSystem()
+    _repository.structuralSystemRepo
+        .select()
         .then((data) => {_structuralSystem.add(data)})
         .catchError((err) => {_structuralSystem.addError(err)});
   }
 
   void getInspectionCause() {
-    _repository
-        .selectInspectionCause()
+    _repository.inspectionCauseRepo
+        .select()
         .then((data) => {_inspectionCause.add(data)})
         .catchError((err) => {_inspectionCause.addError(err)});
   }

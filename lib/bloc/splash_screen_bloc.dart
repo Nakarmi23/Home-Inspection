@@ -1,6 +1,7 @@
 import 'package:house_review/models/IInsepctionCause.dart';
+import 'package:house_review/models/IRoomPurpose.dart';
 import 'package:house_review/models/IStructuralSystem.dart';
-import 'package:house_review/resources/repository.dart';
+import 'package:house_review/resources/root_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class _IIsAppInitialized {
@@ -8,14 +9,15 @@ class _IIsAppInitialized {
   bool inspectionCause;
   bool roomPurpose;
 
-  get isAllDataInitialized => structuralSystem && inspectionCause;
+  get isAllDataInitialized =>
+      structuralSystem && inspectionCause && roomPurpose;
 
   _IIsAppInitialized(
       {this.structuralSystem, this.inspectionCause, this.roomPurpose});
 }
 
 class SplashScreenBloc {
-  final Repository _repository = Repository();
+  final RootRepository _repository = RootRepository();
   BehaviorSubject<_IIsAppInitialized> _isAppInitialized =
       BehaviorSubject<_IIsAppInitialized>();
 
@@ -29,25 +31,28 @@ class SplashScreenBloc {
 
   void isDefaultDataInitialized() {
     Future.wait([
-      _repository.countInspectionCause(),
-      _repository.countStructuralSystem(),
+      _repository.inspectionCauseRepo.count(),
+      _repository.structuralSystemRepo.count(),
+      _repository.roomPurposeRepo.count(),
     ]).then((data) {
       _isAppInitialized.add(_IIsAppInitialized(
-        inspectionCause: data[0] > 0,
-        structuralSystem: data[1] > 0,
-      ));
+          inspectionCause: data[0] > 0,
+          structuralSystem: data[1] > 0,
+          roomPurpose: data[2] > 0));
     });
   }
 
   void initializeStructuralSystem() {
-    Future.wait([
+    var defaultStructuralSystem = [
       'RCC Framed Structure',
       'Masonary Structure',
       'Steel Structure',
     ]
-            .map((item) => _repository.insertStructuralSystem(
-                IStructuralSystem(systemName: item, isEditable: false)))
-            .toList())
+        .map((item) => IStructuralSystem(systemName: item, isEditable: false))
+        .toList();
+
+    Future.wait(defaultStructuralSystem.map((structuralSystem) =>
+            _repository.structuralSystemRepo.insert(structuralSystem)))
         .then((data) {
       isDefaultDataInitialized();
     }).catchError((err) {
@@ -56,15 +61,44 @@ class SplashScreenBloc {
   }
 
   void initializeInspectionCause() {
-    Future.wait([
+    var defaultInspectionCauseList = [
       'Routine Inspection',
       'Selling Buying Case',
       'Renting',
       'Problem Encounter Case',
     ]
-            .map((item) => _repository.insertInspectionCause(
-                IInspectionCause(inspectionCause: item, isEditable: false)))
-            .toList())
+        .map((item) =>
+            IInspectionCause(inspectionCause: item, isEditable: false))
+        .toList();
+
+    Future.wait(defaultInspectionCauseList.map((inspectionCause) =>
+        _repository.inspectionCauseRepo.insert(inspectionCause))).then((data) {
+      isDefaultDataInitialized();
+    }).catchError((err) {
+      _isAppInitialized.addError(err);
+    });
+  }
+
+  void initializeRoomPurpose() {
+    var defaultRoomPurposeList = [
+      'Kitchen',
+      'Toilet',
+      'Living Room',
+      'Bed Room',
+      'Empty Room',
+      'Verandah',
+      'Terrace',
+      'Pooja Kotha',
+      'Shutter',
+      'Store',
+      'Staircase',
+      'Class Room',
+      'Office Room',
+      'Lab'
+    ].map((item) => IRoomPurpose(purpose: item, isEditable: false)).toList();
+
+    Future.wait(defaultRoomPurposeList.map(
+            (roomPurpose) => _repository.roomPurposeRepo.insert(roomPurpose)))
         .then((data) {
       isDefaultDataInitialized();
     }).catchError((err) {
