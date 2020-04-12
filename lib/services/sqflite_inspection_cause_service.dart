@@ -37,7 +37,7 @@ class SqliteInspectionCauseService extends SqliteBaseService<IInspectionCause> {
       where: where,
       whereArgs: whereArgs,
     );
-    return dataRow.map((item) => IInspectionCause.fromJSON(item)).toList();
+    return dataRow.map((item) => IInspectionCause().fromJson(item)).toList();
   }
 
   @override

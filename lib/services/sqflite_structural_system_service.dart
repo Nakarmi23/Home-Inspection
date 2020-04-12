@@ -37,7 +37,7 @@ class SqliteStructuralSysService extends SqliteBaseService<IStructuralSystem> {
       where: where,
       whereArgs: whereArgs,
     );
-    return dataRow.map((item) => IStructuralSystem.fromJSON(item)).toList();
+    return dataRow.map((item) => IStructuralSystem().fromJson(item)).toList();
   }
 
   @override

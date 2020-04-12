@@ -1,6 +1,7 @@
+import 'package:house_review/models/IBaseModel.dart';
 import 'package:house_review/models/IRoomPicture.dart';
 
-class IRoom {
+class IRoom extends IBaseModel {
   int id;
   int buildingId;
   int roomPurposeId;
@@ -19,15 +20,7 @@ class IRoom {
     this.pictures,
   });
 
-  IRoom.fromJSON(Map<String, dynamic> json) {
-    id = json['id'];
-    buildingId = json['building_id'];
-    roomPurposeId = json['room_purpose_id'];
-    structuralInspectionId = json['structural_inspection_id'];
-    roomId = json['room_id'];
-    storeyNo = json['storey_no'];
-  }
-
+  @override
   Map<String, dynamic> toJson() => {
         'id': id,
         'building_id': buildingId,
@@ -36,4 +29,15 @@ class IRoom {
         'room_id': roomId,
         'storey_no': storeyNo,
       };
+
+  @override
+  IRoom fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    buildingId = json['building_id'];
+    roomPurposeId = json['room_purpose_id'];
+    structuralInspectionId = json['structural_inspection_id'];
+    roomId = json['room_id'];
+    storeyNo = json['storey_no'];
+    return this;
+  }
 }

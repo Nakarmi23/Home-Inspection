@@ -1,4 +1,6 @@
-class IClient {
+import 'package:house_review/models/IBaseModel.dart';
+
+class IClient extends IBaseModel {
   int id;
   String name;
   String address;
@@ -9,14 +11,18 @@ class IClient {
     this.address,
   });
 
-  IClient.fromJSON(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    address = json['address'];
-  }
+  @override
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
         'address': address,
       };
+
+  @override
+  IClient fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    address = json['address'];
+    return this;
+  }
 }

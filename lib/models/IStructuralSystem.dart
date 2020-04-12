@@ -1,4 +1,6 @@
-class IStructuralSystem {
+import 'package:house_review/models/IBaseModel.dart';
+
+class IStructuralSystem extends IBaseModel {
   int id;
   String systemName;
   bool isEditable;
@@ -7,14 +9,19 @@ class IStructuralSystem {
     this.systemName,
     this.isEditable,
   });
-  IStructuralSystem.fromJSON(Map<String, dynamic> json) {
-    id = json['id'];
-    systemName = json['system_name'];
-    isEditable = json['is_editable'] == 1 ? true : false;
-  }
+
+  @override
   Map<String, dynamic> toJson() => {
         'id': id,
         'system_name': systemName,
         'is_editable': isEditable ? 1 : 0,
       };
+
+  @override
+  IStructuralSystem fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    systemName = json['system_name'];
+    isEditable = json['is_editable'] == 1 ? true : false;
+    return this;
+  }
 }

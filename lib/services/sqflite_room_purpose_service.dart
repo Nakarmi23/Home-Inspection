@@ -36,7 +36,7 @@ class SqliteRoomPurposeService extends SqliteBaseService<IRoomPurpose> {
       where: where,
       whereArgs: whereArgs,
     );
-    return dataRow.map((item) => IRoomPurpose.fromJson(item)).toList();
+    return dataRow.map((item) => IRoomPurpose().fromJson(item)).toList();
   }
 
   @override
