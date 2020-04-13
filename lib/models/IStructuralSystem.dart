@@ -1,6 +1,6 @@
 import 'package:house_review/models/IBaseModel.dart';
 
-class IStructuralSystem extends IBaseModel {
+class IStructuralSystem extends IBaseModel<IStructuralSystem> {
   int id;
   String systemName;
   bool isEditable;

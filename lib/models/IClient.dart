@@ -1,6 +1,6 @@
 import 'package:house_review/models/IBaseModel.dart';
 
-class IClient extends IBaseModel {
+class IClient extends IBaseModel<IClient> {
   int id;
   String name;
   String address;

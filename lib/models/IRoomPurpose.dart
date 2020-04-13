@@ -1,6 +1,6 @@
 import 'package:house_review/models/IBaseModel.dart';
 
-class IRoomPurpose extends IBaseModel {
+class IRoomPurpose extends IBaseModel<IRoomPurpose> {
   int id;
   String purpose;
   bool isEditable;

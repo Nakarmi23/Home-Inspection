@@ -1,6 +1,6 @@
 import 'package:house_review/models/IBaseModel.dart';
 
-class IInspectionCause extends IBaseModel {
+class IInspectionCause extends IBaseModel<IInspectionCause> {
   int id;
   String inspectionCause;
   bool isEditable;

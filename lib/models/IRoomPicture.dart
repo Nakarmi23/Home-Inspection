@@ -1,6 +1,6 @@
 import 'package:house_review/models/IBaseModel.dart';
 
-class IRoomPicture extends IBaseModel {
+class IRoomPicture extends IBaseModel<IRoomPicture> {
   int roomId;
   String picture;
 

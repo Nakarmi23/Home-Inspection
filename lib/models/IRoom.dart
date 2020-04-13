@@ -1,7 +1,7 @@
 import 'package:house_review/models/IBaseModel.dart';
 import 'package:house_review/models/IRoomPicture.dart';
 
-class IRoom extends IBaseModel {
+class IRoom extends IBaseModel<IRoom> {
   int id;
   int buildingId;
   int roomPurposeId;
