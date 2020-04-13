@@ -1,7 +1,8 @@
 import 'package:house_review/models/IBaseModel.dart';
 import 'package:house_review/services/sqflite_base_service.dart';
 
-abstract class BaseRepo<T extends SqliteBaseService, I extends IBaseModel> {
+abstract class BaseRepo<T extends SqliteBaseService<I>,
+    I extends IBaseModel<I>> {
   T get service;
 
   Future<void> insert(I data) {
