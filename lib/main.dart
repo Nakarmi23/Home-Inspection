@@ -12,15 +12,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: appData(),
-        home: SplashScreenBlocProvider(
-          child: SplashScreen(),
-        ),
-        routes: {
-          '/inspectionForm': (context) => HomeInspectionScreenBlocProvider(
-                child: HomeInspectionScreen(),
-              )
-        });
+      title: 'Skill Sewa: Home Inspection',
+      theme: appData(),
+      home: SplashScreenBlocProvider(
+        child: SplashScreen(),
+      ),
+      routes: {
+        '/inspectionForm': (context) => HomeInspectionScreenBlocProvider(
+              child: HomeInspectionScreen(),
+            ),
+      },
+    );
   }
 }
