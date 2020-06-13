@@ -55,12 +55,14 @@ abstract class SqliteBaseService<T extends IBaseModel<T>> {
     int limit,
     String where,
     List<String> whereArgs,
+    int offset,
   }) async {
     final List<Map<String, dynamic>> dataRow = await (await db).query(
       tableName,
       columns: columns,
       orderBy: orderBy,
       limit: limit,
+      offset: offset,
       where: where,
       whereArgs: whereArgs,
     );
