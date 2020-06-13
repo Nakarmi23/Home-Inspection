@@ -22,20 +22,20 @@ abstract class SqliteBaseService<T extends IBaseModel<T>> {
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               system_name TEXT,
               is_editable NUMERIC
-            )'''),
+            );'''),
             db.execute('''
             CREATE TABLE IF NOT EXISTS room_purpose(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               purpose TEXT,
               is_editable NUMERIC
-            )'''),
+            );'''),
             db.execute('''
             CREATE TABLE IF NOT EXISTS client_tbl(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               name TEXT,
-              address TEXT
-            )
-            '''),
+              address TEXT,
+              date_of_inspection TEXT
+            );'''),
           ]);
         },
         // Set the version. This executes the onCreate function and provides a
