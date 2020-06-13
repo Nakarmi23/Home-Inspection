@@ -2,14 +2,26 @@ Projects:
   ☐ Project should be able to take pictures
   ☐ Project should be able to create a PDF file form the json value that is provided
   ☐ Project should be able to search for the data which is saved
+  ✔ Project should have a database to store the inspection data @done(20-06-13 14:48)
 Todo:
   ✔ Create a abstract class (SqfliteBaseService) with all the needed methods like insert, select etc @done(20-06-13 15:14)
-
   ☐ Create a Bloc (HomeInspectionBloc) for maintaining the state of the form 
   ☐ Createa a Bloc Provider (HomeInspectionBlocProvider) for providing the bloc
-  Client Data:
-    ☐ create a sqlite service to store client data
-    ☐ connect the client service to the "HomeInspectionBloc"
+  Screen:
+    Home:
+      ☐ create a home screen bloc
+      ☐ create a home screen bloc provider
+      Home Screen Bloc:
+        ☐ get the client details from the database
+      ☐ should be able to edit exisitng data
+      ☐ should be able to delete exisiting data
+      ☐ if choose edit then navigate to the Home Inspection Screen
+      ☐ after the route is poped referesh the list on the home screen to show new data
+      ✔ create search option on the appbar @done(20-06-13 17:42)
+      ☐ when the user presses the search option the app should navigate to the search screen shown the relevant data
+  Data:
+    Client Data:
+      ☐ create a sqlite service to store client data
+      ☐ connect the client service to the "HomeInspectionBloc"
 
 Archive:
-  ✔ Project should have a database to store the inspection data @done(20-06-13 14:48)
