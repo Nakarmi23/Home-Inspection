@@ -24,14 +24,14 @@ class HomeInspectionScreenBloc {
   }
 
   void getStructuralSystem() {
-    _repository.structuralSystemRepo
+    _repository.structuralSysService
         .select()
         .then((data) => {_structuralSystem.add(data)})
         .catchError((err) => {_structuralSystem.addError(err)});
   }
 
   void getInspectionCause() {
-    _repository.inspectionCauseRepo
+    _repository.inspectionCauesService
         .select()
         .then((data) => {_inspectionCause.add(data)})
         .catchError((err) => {_inspectionCause.addError(err)});

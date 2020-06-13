@@ -31,9 +31,9 @@ class SplashScreenBloc {
 
   void isDefaultDataInitialized() {
     Future.wait([
-      _repository.inspectionCauseRepo.count(),
-      _repository.structuralSystemRepo.count(),
-      _repository.roomPurposeRepo.count(),
+      _repository.inspectionCauesService.count(),
+      _repository.structuralSysService.count(),
+      _repository.roomPurposeService.count(),
     ]).then((data) {
       _isAppInitialized.add(_IIsAppInitialized(
           inspectionCause: data[0] > 0,
@@ -52,7 +52,7 @@ class SplashScreenBloc {
         .toList();
 
     Future.wait(defaultStructuralSystem.map((structuralSystem) =>
-            _repository.structuralSystemRepo.insert(structuralSystem)))
+            _repository.structuralSysService.insert(structuralSystem)))
         .then((data) {
       isDefaultDataInitialized();
     }).catchError((err) {
@@ -72,7 +72,8 @@ class SplashScreenBloc {
         .toList();
 
     Future.wait(defaultInspectionCauseList.map((inspectionCause) =>
-        _repository.inspectionCauseRepo.insert(inspectionCause))).then((data) {
+            _repository.inspectionCauesService.insert(inspectionCause)))
+        .then((data) {
       isDefaultDataInitialized();
     }).catchError((err) {
       _isAppInitialized.addError(err);
@@ -97,9 +98,8 @@ class SplashScreenBloc {
       'Lab'
     ].map((item) => IRoomPurpose(purpose: item, isEditable: false)).toList();
 
-    Future.wait(defaultRoomPurposeList.map(
-            (roomPurpose) => _repository.roomPurposeRepo.insert(roomPurpose)))
-        .then((data) {
+    Future.wait(defaultRoomPurposeList.map((roomPurpose) =>
+        _repository.roomPurposeService.insert(roomPurpose))).then((data) {
       isDefaultDataInitialized();
     }).catchError((err) {
       _isAppInitialized.addError(err);
