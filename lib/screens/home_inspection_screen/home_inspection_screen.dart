@@ -43,7 +43,6 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _bloc.dispose();
   }
@@ -52,19 +51,19 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
   Widget build(BuildContext context) {
     var appBar = SliverAppBar(
       expandedHeight: 300.0,
+      title: Text(
+        'Home Inspection Form',
+      ),
+      centerTitle: true,
       floating: true,
-      pinned: true,
+      pinned: false,
       flexibleSpace: Stack(
         overflow: Overflow.visible,
         children: <Widget>[
           FlexibleSpaceBar(
-            titlePadding: EdgeInsets.all(16),
             background: Image.network(
               'https://images.unsplash.com/photo-1475855581690-80accde3ae2b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
               fit: BoxFit.cover,
-            ),
-            title: Text(
-              'Home Inspection Form',
             ),
           ),
           Positioned(
