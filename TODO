@@ -9,8 +9,8 @@ Todo:
   ☐ Createa a Bloc Provider (HomeInspectionBlocProvider) for providing the bloc
   Screen:
     Home:
-      ☐ create a home screen bloc
-      ☐ create a home screen bloc provider
+      ✔ create a home screen bloc @done(20-06-13 17:50)
+      ✔ create a home screen bloc provider @done(20-06-13 17:50)
       Home Screen Bloc:
         ☐ get the client details from the database
       ☐ should be able to edit exisitng data
