@@ -14,10 +14,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Skill Sewa: Home Inspection',
       theme: appData(),
-      home: SplashScreenBlocProvider(
-        child: SplashScreen(),
-      ),
+      initialRoute: '/splashScreen',
       routes: {
+        '/splashScreen': (context) => SplashScreenBlocProvider(
+          child: SplashScreen(),
+        ),
         '/inspectionForm': (context) => HomeInspectionScreenBlocProvider(
               child: HomeInspectionScreen(),
             ),
