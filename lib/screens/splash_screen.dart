@@ -32,10 +32,10 @@ class _SplashScreenState extends State<SplashScreen> {
         } else if (!data.roomPurpose) {
           _bloc.initializeRoomPurpose();
         } else {
-          Navigator.of(context).pushReplacementNamed('/inspectionForm');
+          Navigator.of(context).pushReplacementNamed('/home');
         }
       } else {
-        Navigator.of(context).pushReplacementNamed('/inspectionForm');
+        Navigator.of(context).pushReplacementNamed('/home');
       }
     }).onError((err) {
       throw err;
