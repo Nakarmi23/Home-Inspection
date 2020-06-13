@@ -39,6 +39,8 @@ class SplashScreenBloc {
           inspectionCause: data[0] > 0,
           structuralSystem: data[1] > 0,
           roomPurpose: data[2] > 0));
+    }).catchError((err) {
+      _isAppInitialized.addError(err);
     });
   }
 
