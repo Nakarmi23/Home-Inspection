@@ -17,6 +17,6 @@ class HomeScreenBlocProvider extends InheritedWidget {
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) {
-    throw true;
+    return true;
   }
 }

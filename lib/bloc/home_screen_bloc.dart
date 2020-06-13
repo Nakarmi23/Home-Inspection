@@ -11,14 +11,11 @@ class HomeScreenBloc {
   Stream<List<IClient>> get client => _client.stream;
 
   void getClientData() {
-    _repository.clientService.count().then((count) {
-      if (_currentCount < count)
-        _repository.clientService
-            .select(limit: 20, offset: _currentCount, orderBy: 'id desc')
-            .then((value) {
-          _currentCount = value.length;
-          _client.sink.add(value);
-        }).catchError((err) => throw err);
-    });
+    _repository.clientService
+        .select(limit: 20, offset: _currentCount, orderBy: 'id desc')
+        .then((value) {
+      if (value.length > 0) _currentCount = value.length;
+      _client.sink.add(value);
+    }).catchError((err) => throw err);
   }
 }
