@@ -1,4 +1,4 @@
-package com.example.house_review
+package com.skill_sewa.house_review
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
