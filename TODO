@@ -20,7 +20,10 @@ Todo:
       ☐ after the route is poped referesh the list on the home screen to show new data
       ✔ create search option on the appbar @done(20-06-13 17:42)
       ☐ when the user presses the search option the app should navigate to the search screen shown the relevant data
+      ✔ if there is no data to display then show a text saying "No Data To Display" @done(20-06-13 20:57)
+      ✔ show a loading sign when loading the client data @done(20-06-13 20:58)
+      ✔ create a FAB icon for add new inspection data @done(20-06-13 20:59)
+      ✔ after pressing the FAB icon navigate the user to the Home Inspection Screen @done(20-06-13 21:25)
   Data:
     Client Data:
-      ☐ create a sqlite service to store client data
-      ☐ connect the client service to the "HomeInspectionBloc"
+      ✔ create a sqlite service to store client data @done(20-06-13 18:40)

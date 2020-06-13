@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:house_review/bloc/home_inspection_screen_bloc.dart';
+import 'package:house_review/bloc/home_screen_bloc.dart';
+import 'package:house_review/blocprovs/home_inspection_screen_bloc_provider.dart';
+import 'package:house_review/blocprovs/home_screen_bloc-provider.dart';
+import 'package:house_review/models/IClient.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -10,6 +15,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ScrollController _scrollController;
   bool isFABExtended = true;
+  List<IClient> _clientData = [];
+  HomeScreenBloc _bloc;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc = HomeScreenBlocProvider.of(context);
+    _bloc.getClientData();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -31,13 +46,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed('/inspectionForm');
+        },
         child: Icon(Icons.add),
         tooltip: 'Create New Inspection',
       ),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
+            title: Text('House Inspection'),
+            centerTitle: true,
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.search),
@@ -46,23 +65,56 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
             floating: true,
-            pinned: true,
+            pinned: false,
             snap: false,
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: EdgeInsets.only(left: 20, bottom: 20),
-              title: Text('House Inspection List'),
-            ),
-            expandedHeight: kToolbarHeight * 2,
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, inedx) {
-                return ListTile(
-                  title: Text('index.toString()'),
+          StreamBuilder<List<IClient>>(
+            stream: _bloc.client,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return SliverFillRemaining(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
-              },
-              childCount: 50,
-            ),
+              } else {
+                if (!snapshot.hasData || snapshot.data.length == 0) {
+                  return SliverFillRemaining(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'No Data to Display',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        RaisedButton(
+                          onPressed: () {
+                            _bloc.getClientData();
+                          },
+                          child: Text('Reload'),
+                          color: Theme.of(context).primaryColor,
+                          textColor: Colors.white,
+                        )
+                      ],
+                    ),
+                  );
+                }
+                _clientData.addAll(snapshot.data);
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return ListTile(
+                        title: Text(_clientData[index].name),
+                      );
+                    },
+                    childCount: 0,
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),
