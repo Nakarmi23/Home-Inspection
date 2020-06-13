@@ -12,7 +12,8 @@ Todo:
       ✔ create a home screen bloc @done(20-06-13 17:50)
       ✔ create a home screen bloc provider @done(20-06-13 17:50)
       Home Screen Bloc:
-        ☐ get the client details from the database
+        ✔ get the client details from the database @done(20-06-13 18:26)
+        ✔ Paginate the data @done(20-06-13 18:26)
       ☐ should be able to edit exisitng data
       ☐ should be able to delete exisiting data
       ☐ if choose edit then navigate to the Home Inspection Screen
@@ -23,5 +24,3 @@ Todo:
     Client Data:
       ☐ create a sqlite service to store client data
       ☐ connect the client service to the "HomeInspectionBloc"
-
-Archive:
