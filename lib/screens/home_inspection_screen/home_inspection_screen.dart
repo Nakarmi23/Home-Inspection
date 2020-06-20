@@ -3,6 +3,7 @@ import 'package:house_review/bloc/home_inspection_screen_bloc.dart';
 import 'package:house_review/blocprovs/home_inspection_screen_bloc_provider.dart';
 import 'package:house_review/components/AppDropdownMenu.dart';
 import 'package:house_review/components/AppInputTextField.dart';
+import 'package:house_review/components/heading_text.dart';
 import 'package:house_review/models/IInsepctionCause.dart';
 import 'package:house_review/models/IStructuralSystem.dart';
 
@@ -107,10 +108,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                         Padding(
                           padding: EdgeInsets.only(
                               top: 16.0, left: 16.0, right: 16.0),
-                          child: Text(
-                            'Client Deatils',
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
+                          child: HeadingText('Client Deatils'),
                         ),
                         AppInputTextField(
                           labelText: 'Client Name',
@@ -121,10 +119,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                         Padding(
                           padding: EdgeInsets.only(
                               top: 16.0, left: 16.0, right: 16.0),
-                          child: Text(
-                            'Building Deatils',
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
+                          child: HeadingText('Building Deatils'),
                         ),
                         AppInputTextField(
                           labelText: 'No. of Storey',
@@ -138,9 +133,8 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                         Padding(
                           padding: EdgeInsets.only(
                               top: 16.0, left: 16.0, right: 16.0),
-                          child: Text(
+                          child: HeadingText(
                             'Area of Building',
-                            style: Theme.of(context).textTheme.headline6,
                           ),
                         ),
                         Row(
@@ -217,10 +211,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                         Padding(
                           padding: EdgeInsets.only(
                               top: 16.0, left: 16.0, right: 16.0),
-                          child: Text(
-                            'Materials Used',
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
+                          child: HeadingText('Materials Used'),
                         ),
                         ...createMaterialUsedWidgets(),
                         InkWell(
@@ -281,10 +272,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                         Padding(
                           padding: EdgeInsets.only(
                               top: 16.0, left: 16.0, right: 16.0),
-                          child: Text(
-                            'Rooms',
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
+                          child: HeadingText('Rooms'),
                         ),
                         ...createBuildingRooms(),
                         InkWell(

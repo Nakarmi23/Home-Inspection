@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:house_review/components/heading_text.dart';
 
 class AppDropdownMenu extends StatelessWidget {
   const AppDropdownMenu(
@@ -15,10 +16,7 @@ class AppDropdownMenu extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.symmetric(vertical: 16.0),
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.headline6,
-          ),
+          child: HeadingText(title),
         ),
         Container(
           decoration: BoxDecoration(
