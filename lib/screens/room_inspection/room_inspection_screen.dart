@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 
+part 'forms/structural_inspection_form.dart';
+part 'forms/water_quality_form.dart';
+part 'forms/luxmeter_reading_form.dart';
+part 'forms/seepage_analysis_form.dart';
+part 'forms/minor_checks_form.dart';
+part 'forms/kitchen_inspection_form.dart';
+part 'forms/toilet_inspection_form.dart';
+part 'forms/staircase_inspection_form.dart';
+
 class RoomInspectionScreen extends StatefulWidget {
   final String title;
   RoomInspectionScreen({Key key, this.title}) : super(key: key);
@@ -41,9 +50,6 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
                     text: 'Seepage Analysis',
                   ),
                   Tab(
-                    text: 'Visual Inspection',
-                  ),
-                  Tab(
                     text: 'Minor Checks',
                   ),
                   Tab(
@@ -82,22 +88,21 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
     );
     return Scaffold(
       body: DefaultTabController(
-        length: 9,
+        length: 8,
         child: CustomScrollView(
           slivers: <Widget>[
             appBar,
             SliverFillRemaining(
               child: TabBarView(
                 children: <Widget>[
-                  Text('1'),
-                  Text('2'),
-                  Text('3'),
-                  Text('4'),
-                  Text('5'),
-                  Text('6'),
-                  Text('7'),
-                  Text('8'),
-                  Text('9'),
+                  StructuralInspectionForm(),
+                  WaterQualityForm(),
+                  LuxmeterReadingForm(),
+                  SeepageAnalysisFrom(),
+                  MinorChecksForm(),
+                  KitchenInspectionForm(),
+                  ToiletInspectionForm(),
+                  StaircaseInspectionForm(),
                 ],
               ),
             )
