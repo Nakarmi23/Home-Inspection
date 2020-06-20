@@ -109,7 +109,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                               top: 16.0, left: 16.0, right: 16.0),
                           child: Text(
                             'Client Deatils',
-                            style: Theme.of(context).textTheme.title,
+                            style: Theme.of(context).textTheme.headline6,
                           ),
                         ),
                         AppInputTextField(
@@ -123,7 +123,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                               top: 16.0, left: 16.0, right: 16.0),
                           child: Text(
                             'Building Deatils',
-                            style: Theme.of(context).textTheme.title,
+                            style: Theme.of(context).textTheme.headline6,
                           ),
                         ),
                         AppInputTextField(
@@ -140,7 +140,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                               top: 16.0, left: 16.0, right: 16.0),
                           child: Text(
                             'Area of Building',
-                            style: Theme.of(context).textTheme.title,
+                            style: Theme.of(context).textTheme.headline6,
                           ),
                         ),
                         Row(
@@ -219,7 +219,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                               top: 16.0, left: 16.0, right: 16.0),
                           child: Text(
                             'Materials Used',
-                            style: Theme.of(context).textTheme.title,
+                            style: Theme.of(context).textTheme.headline6,
                           ),
                         ),
                         ...createMaterialUsedWidgets(),
@@ -283,7 +283,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                               top: 16.0, left: 16.0, right: 16.0),
                           child: Text(
                             'Rooms',
-                            style: Theme.of(context).textTheme.title,
+                            style: Theme.of(context).textTheme.headline6,
                           ),
                         ),
                         ...createBuildingRooms(),

@@ -17,7 +17,7 @@ class AppDropdownMenu extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 16.0),
           child: Text(
             title,
-            style: Theme.of(context).textTheme.title,
+            style: Theme.of(context).textTheme.headline6,
           ),
         ),
         Container(
@@ -32,7 +32,7 @@ class AppDropdownMenu extends StatelessWidget {
           ),
           child: DropdownButton(
             key: key,
-            style: Theme.of(context).textTheme.subhead.copyWith(
+            style: Theme.of(context).textTheme.subtitle1.copyWith(
                   color: Colors.grey.shade800,
                 ),
             isExpanded: true,
