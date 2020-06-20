@@ -3,6 +3,7 @@ Projects:
   ☐ Project should be able to create a PDF file form the json value that is provided
   ☐ Project should be able to search for the data which is saved
   ✔ Project should have a database to store the inspection data @done(20-06-13 14:48)
+  ☐ Change data flow structure of app
 Todo:
   ✔ Create a abstract class (SqfliteBaseService) with all the needed methods like insert, select etc @done(20-06-13 15:14)
   ☐ Create a Bloc `HomeInspectionBloc` for maintaining the state of the form 
