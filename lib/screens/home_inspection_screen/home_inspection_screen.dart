@@ -303,7 +303,10 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                               ],
                             ),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/roomFrom',
+                                arguments: 'F2 - Kitchen');
+                          },
                         ),
                       ],
                     ),
