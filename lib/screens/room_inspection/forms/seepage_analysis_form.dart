@@ -9,6 +9,12 @@ class SeepageAnalysisFrom extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            child: HeadingText(
+              'Sample 1 - Visual Inspection',
+            ),
+          ),
           AppInputTextField(
             labelText: 'Temperature',
           ),
@@ -18,8 +24,7 @@ class SeepageAnalysisFrom extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SubHeadingText(
-              'Visual Inspection - Upload photo (Normal Camera)',
-              subHeading: SubHeading.sub2,
+              'Upload photo (Normal Camera)',
             ),
           ),
           Padding(
@@ -64,8 +69,7 @@ class SeepageAnalysisFrom extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SubHeadingText(
-              'Visual Inspection - Upload photo (Thermal Camera)',
-              subHeading: SubHeading.sub2,
+              'Upload photo (Thermal Camera)',
             ),
           ),
           Padding(
@@ -110,8 +114,7 @@ class SeepageAnalysisFrom extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SubHeadingText(
-              'Visual Inspection - Moisture Meter Reading',
-              subHeading: SubHeading.sub2,
+              'Moisture Meter Reading',
             ),
           ),
           Padding(
@@ -141,8 +144,7 @@ class SeepageAnalysisFrom extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SubHeadingText(
-              'Visual Inspection - Upload Photo using Moisture Meter',
-              subHeading: SubHeading.sub2,
+              'Upload Photo using Moisture Meter',
             ),
           ),
           Padding(
@@ -187,7 +189,13 @@ class SeepageAnalysisFrom extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SubHeadingText(
-              'Visual Inspection (Digital Level)- Upload Photo',
+              'Digital Level',
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            child: SubHeadingText(
+              'Upload Photo',
               subHeading: SubHeading.sub2,
             ),
           ),

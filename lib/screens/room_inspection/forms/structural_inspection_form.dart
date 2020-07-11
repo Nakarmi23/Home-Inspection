@@ -300,13 +300,37 @@ class StructuralInspectionForm extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            child: SubHeadingText(
+              'Other Problems',
+            ),
+          ),
+          // ...createMaterialUsedWidgets(),
+          InkWell(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                    child: Text('Add Other Problems'),
+                  ),
+                  Icon(
+                    Icons.add_circle,
+                    color: Theme.of(context).accentColor,
+                  ),
+                ],
+              ),
+            ),
+            onTap: () {},
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: HeadingText('Non Destructive Test'),
           ),
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SubHeadingText(
               'Non Destructive Test - Photo using Schmidt Hammer',
-              subHeading: SubHeading.sub2,
             ),
           ),
           Padding(
@@ -367,7 +391,6 @@ class StructuralInspectionForm extends StatelessWidget {
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SubHeadingText(
               'Non Destructive Test - Reading',
-              subHeading: SubHeading.sub2,
             ),
           ),
           Padding(
