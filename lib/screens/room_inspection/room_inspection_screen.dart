@@ -90,23 +90,28 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
       ),
     );
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: DefaultTabController(
         length: 8,
         child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [appBar];
           },
-          body: TabBarView(
-            children: <Widget>[
-              StructuralInspectionForm(),
-              WaterQualityForm(),
-              LuxmeterReadingForm(),
-              SeepageAnalysisFrom(),
-              MinorChecksForm(),
-              KitchenInspectionForm(),
-              ToiletInspectionForm(),
-              StaircaseInspectionForm(),
-            ],
+          body: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: TabBarView(
+              children: <Widget>[
+                StructuralInspectionForm(),
+                WaterQualityForm(),
+                LuxmeterReadingForm(),
+                SeepageAnalysisFrom(),
+                MinorChecksForm(),
+                KitchenInspectionForm(),
+                ToiletInspectionForm(),
+                StaircaseInspectionForm(),
+              ],
+            ),
           ),
         ),
       ),
