@@ -24,6 +24,46 @@ class MinorChecksForm extends StatelessWidget {
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SubHeadingText('Door Checklist'),
           ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Door Frames',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Door Panels',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Hinges',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Holder',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Other Fixtures',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
           AppInputTextField(
             labelText: 'Condition',
           ),
@@ -131,6 +171,46 @@ class MinorChecksForm extends StatelessWidget {
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SubHeadingText('Celling Checklist'),
           ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Painting',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Plastering',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'False Ceilings',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Mason Problems',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Other Problems',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
           AppInputTextField(
             labelText: 'Condition',
           ),
@@ -180,6 +260,38 @@ class MinorChecksForm extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SubHeadingText('Walls Checklist'),
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Painting',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Plastering',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Mason Problems',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Other Problems',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
           ),
           AppInputTextField(
             labelText: 'Condition',
@@ -233,6 +345,46 @@ class MinorChecksForm extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SubHeadingText('Electrical Fittings Checklist'),
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Wiring',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Switches',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Lights',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Ceiling Fan',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Other Accessories',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
           ),
           AppInputTextField(
             labelText: 'Condition',
@@ -327,7 +479,7 @@ class MinorChecksForm extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-            child: HeadingText('Carpentry (Wood Works'),
+            child: HeadingText('Carpentry (Wood Works)'),
           ),
           AppInputTextField(
             labelText: 'Condition',
