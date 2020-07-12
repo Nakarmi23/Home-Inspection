@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:house_review/bloc/home_inspection_screen_bloc.dart';
 import 'package:house_review/blocprovs/home_inspection_screen_bloc_provider.dart';
 import 'package:house_review/components/AppDropdownMenu.dart';
 import 'package:house_review/components/AppInputTextField.dart';
 import 'package:house_review/components/heading_text.dart';
+import 'package:house_review/components/image_picker_bottomsheet.dart';
 import 'package:house_review/models/IInsepctionCause.dart';
 import 'package:house_review/models/IStructuralSystem.dart';
 
@@ -15,16 +18,12 @@ class HomeInspectionScreen extends StatefulWidget {
 }
 
 class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
+  String imageFile;
   HomeInspectionScreenBloc _bloc;
   int selectedStructuralSystem;
   int selectedInspectionCause;
   List<String> materialUsed = ["Sand"];
   List<String> buildingRooms = ["Bedroom"];
-
-  @override
-  void initState() async {
-    super.initState();
-  }
 
   @override
   void didChangeDependencies() {
@@ -68,10 +67,12 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
         overflow: Overflow.visible,
         children: <Widget>[
           FlexibleSpaceBar(
-            background: Image.network(
-              'https://images.unsplash.com/photo-1475855581690-80accde3ae2b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
-              fit: BoxFit.cover,
-            ),
+            background: imageFile != null
+                ? Image.file(
+                    File(imageFile),
+                    fit: BoxFit.cover,
+                  )
+                : null,
           ),
           Positioned(
             bottom: -30,
@@ -81,78 +82,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
               child: FloatingActionButton(
                 child: Icon(Icons.camera_enhance),
                 onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return Container(
-                        padding: EdgeInsets.all(16.0),
-                        height: 200,
-                        child: Column(
-                          children: <Widget>[
-                            HeadingText('Choose Action'),
-                            Expanded(
-                              child: Container(),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              flex: 9,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 8.0),
-                                          child: Icon(Icons.image),
-                                        ),
-                                        Text(
-                                          'Choose from Gallery',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle1,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 8.0),
-                                          child: Icon(Icons.camera_alt),
-                                        ),
-                                        Text(
-                                          'Take a Picture',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle1,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
+                  buildShowModalBottomSheet(context);
                 },
               ),
             ),
@@ -384,6 +314,21 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Future buildShowModalBottomSheet(BuildContext context) async {
+    return await showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return ImagePickerBottomSheet(
+          onImage: (image) {
+            setState(() {
+              imageFile = image;
+            });
+          },
+        );
+      },
     );
   }
 
