@@ -1,10 +1,8 @@
-import 'package:house_review/models/IBaseModel.dart';
+import 'package:house_review/models/base_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-abstract class SqliteBaseService<T extends IBaseModel<T>> {
-  T get model;
-
+abstract class SqliteBaseService<T extends BaseModel> {
   Future<Database> get db async => openDatabase(
         // Set the path to the database.
         join(await getDatabasesPath(), 'skill_inspection.db'),
@@ -13,28 +11,28 @@ abstract class SqliteBaseService<T extends IBaseModel<T>> {
             db.execute('''
             CREATE TABLE IF NOT EXISTS inspection_cause(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
-              inspection_cause TEXT,
+              inspectionCause TEXT,
               is_editable NUMERIC
             );
           '''),
             db.execute('''
             CREATE TABLE IF NOT EXISTS structural_system(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
-              system_name TEXT,
-              is_editable NUMERIC
+              systemName TEXT,
+              isEditable NUMERIC
             );'''),
             db.execute('''
             CREATE TABLE IF NOT EXISTS room_purpose(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               purpose TEXT,
-              is_editable NUMERIC
+              isEditable NUMERIC
             );'''),
             db.execute('''
             CREATE TABLE IF NOT EXISTS client_tbl(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               name TEXT,
               address TEXT,
-              date_of_inspection TEXT
+              dateOfInspection TEXT
             );'''),
           ]);
         },
@@ -42,6 +40,7 @@ abstract class SqliteBaseService<T extends IBaseModel<T>> {
         // path to perform database upgrades and downgrades.
         version: 2,
       );
+
   String get tableName;
 
   Future<void> insert(T data) async {
@@ -49,7 +48,7 @@ abstract class SqliteBaseService<T extends IBaseModel<T>> {
         conflictAlgorithm: ConflictAlgorithm.fail);
   }
 
-  Future<List<T>> select({
+  Future<List<Map<String, dynamic>>> select({
     List<String> columns,
     String orderBy,
     int limit,
@@ -66,7 +65,7 @@ abstract class SqliteBaseService<T extends IBaseModel<T>> {
       where: where,
       whereArgs: whereArgs,
     );
-    return dataRow.map((item) => model.fromJson(item)).toList();
+    return dataRow;
   }
 
   Future<int> count() async {
@@ -75,9 +74,9 @@ abstract class SqliteBaseService<T extends IBaseModel<T>> {
     return Sqflite.firstIntValue(dataRow);
   }
 
-  Future<void> update(T data) async {
-    return (await db).update(tableName, data.toJson(),
-        where: 'id = ?', whereArgs: [data.id]);
+  Future<void> update(T data, int id) async {
+    return (await db)
+        .update(tableName, data.toJson(), where: 'id = ?', whereArgs: [id]);
   }
 
   Future<void> delete(int id) async {
