@@ -121,6 +121,46 @@ class MinorChecksForm extends StatelessWidget {
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SubHeadingText('Window Checklist'),
           ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Door Frames',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Door Panels',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Hinges',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Holder',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            value: false,
+            onChanged: (value) {},
+            title: Text(
+              'Other Fixture',
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
           AppInputTextField(
             labelText: 'Condition',
           ),
