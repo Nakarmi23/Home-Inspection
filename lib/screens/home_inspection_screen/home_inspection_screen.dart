@@ -20,6 +20,12 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
   int selectedInspectionCause;
   List<String> materialUsed = ["Sand"];
   List<String> buildingRooms = ["Bedroom"];
+
+  @override
+  void initState() async {
+    super.initState();
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -74,7 +80,80 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
               size: Size(60.0, 60.0),
               child: FloatingActionButton(
                 child: Icon(Icons.camera_enhance),
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        padding: EdgeInsets.all(16.0),
+                        height: 200,
+                        child: Column(
+                          children: <Widget>[
+                            HeadingText('Choose Action'),
+                            Expanded(
+                              child: Container(),
+                              flex: 3,
+                            ),
+                            Expanded(
+                              flex: 9,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 8.0),
+                                          child: Icon(Icons.image),
+                                        ),
+                                        Text(
+                                          'Choose from Gallery',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 8.0),
+                                          child: Icon(Icons.camera_alt),
+                                        ),
+                                        Text(
+                                          'Take a Picture',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(),
+                              flex: 3,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ),
