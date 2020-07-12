@@ -2,7 +2,7 @@ import 'package:house_review/models/base_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-abstract class SqliteBaseService<T extends BaseModel> {
+abstract class BaseRepository<T extends BaseModel> {
   Future<Database> get db async => openDatabase(
         // Set the path to the database.
         join(await getDatabasesPath(), 'skill_inspection.db'),
