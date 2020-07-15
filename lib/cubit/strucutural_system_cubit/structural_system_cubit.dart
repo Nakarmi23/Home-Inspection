@@ -10,17 +10,27 @@ class StructuralSystemCubit extends Cubit<StructuralSystemState> {
 
   StructuralSystemCubit() : super(StructuralSystemInitial());
 
+  Future<bool> _checkIfInitialized() async {
+    int count = await _structuralSysRepository.count();
+    return count > 0;
+  }
+
   void initializeData() async {
-    var defaultStructuralSystem = [
-      'RCC Framed Structure',
-      'Masonary Structure',
-      'Steel Structure',
-    ]
-        .map((item) => StructuralSystem(systemName: item, isEditable: false))
-        .toList();
     try {
-      await Future.wait(defaultStructuralSystem.map((structuralSystem) =>
-          _structuralSysRepository.insert(structuralSystem)));
+      final isInitialized = await _checkIfInitialized();
+      if (isInitialized == false) {
+        var defaultStructuralSystem = [
+          'RCC Framed Structure',
+          'Masonary Structure',
+          'Steel Structure',
+        ]
+            .map(
+                (item) => StructuralSystem(systemName: item, isEditable: false))
+            .toList();
+
+        await Future.wait(defaultStructuralSystem.map((structuralSystem) =>
+            _structuralSysRepository.insert(structuralSystem)));
+      }
 
       loadData();
     } catch (err) {

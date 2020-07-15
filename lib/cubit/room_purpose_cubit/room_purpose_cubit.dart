@@ -10,28 +10,35 @@ class RoomPurposeCubit extends Cubit<RoomPurposeState> {
 
   RoomPurposeCubit() : super(RoomPurposeInitial());
 
+  Future<bool> _checkIfInitialized() async {
+    int count = await _roomPurposeRepository.count();
+    return count > 0;
+  }
+
   void initializeData() async {
     try {
-      var defaultRoomPurposeList = [
-        'Kitchen',
-        'Toilet',
-        'Living Room',
-        'Bed Room',
-        'Empty Room',
-        'Verandah',
-        'Terrace',
-        'Pooja Kotha',
-        'Shutter',
-        'Store',
-        'Staircase',
-        'Class Room',
-        'Office Room',
-        'Lab'
-      ].map((item) => RoomPurpose(purpose: item, isEditable: false)).toList();
+      final isInitialized = await _checkIfInitialized();
+      if (isInitialized == false) {
+        var defaultRoomPurposeList = [
+          'Kitchen',
+          'Toilet',
+          'Living Room',
+          'Bed Room',
+          'Empty Room',
+          'Verandah',
+          'Terrace',
+          'Pooja Kotha',
+          'Shutter',
+          'Store',
+          'Staircase',
+          'Class Room',
+          'Office Room',
+          'Lab'
+        ].map((item) => RoomPurpose(purpose: item, isEditable: false)).toList();
 
-      Future.wait(defaultRoomPurposeList
-          .map((roomPurpose) => _roomPurposeRepository.insert(roomPurpose)));
-
+        Future.wait(defaultRoomPurposeList
+            .map((roomPurpose) => _roomPurposeRepository.insert(roomPurpose)));
+      }
       loadData();
     } catch (err) {
       emit(RoomPurposeFailed(error: err));

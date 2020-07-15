@@ -11,20 +11,28 @@ class InspectionCauseCubit extends Cubit<InspectionCauseState> {
 
   InspectionCauseCubit() : super(InspectionCauseInitial());
 
-  void initializeData() async {
-    var defaultInspectionCauseList = [
-      'Routine Inspection',
-      'Selling Buying Case',
-      'Renting',
-      'Problem Encounter Case',
-    ]
-        .map(
-            (item) => InspectionCause(inspectionCause: item, isEditable: false))
-        .toList();
-    try {
-      await Future.wait(defaultInspectionCauseList.map((inspectionCause) =>
-          _inspectionCauseRepository.insert(inspectionCause)));
+  Future<bool> _checkIfInitialized() async {
+    int count = await _inspectionCauseRepository.count();
+    return count > 0;
+  }
 
+  void initializeData() async {
+    try {
+      final isInitialized = await _checkIfInitialized();
+      if (isInitialized == false) {
+        var defaultInspectionCauseList = [
+          'Routine Inspection',
+          'Selling Buying Case',
+          'Renting',
+          'Problem Encounter Case',
+        ]
+            .map((item) =>
+                InspectionCause(inspectionCause: item, isEditable: false))
+            .toList();
+
+        await Future.wait(defaultInspectionCauseList.map((inspectionCause) =>
+            _inspectionCauseRepository.insert(inspectionCause)));
+      }
       loadData();
     } catch (err) {
       emit(InspectionCauseFailed(error: err));
