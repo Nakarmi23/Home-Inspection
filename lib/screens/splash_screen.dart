@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:house_review/bloc/splash_screen_bloc.dart';
-import 'package:house_review/blocprovs/splash_screen_bloc_provider.dart';
+import 'package:flutter_cubit/flutter_cubit.dart';
+import 'package:house_review/cubit/inspection_cause_cubit/inspection_cause_cubit.dart';
+import 'package:house_review/cubit/room_purpose_cubit/room_purpose_cubit.dart';
+import 'package:house_review/cubit/strucutural_system_cubit/structural_system_cubit.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key}) : super(key: key);
@@ -12,45 +14,20 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  SplashScreenBloc _bloc;
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _bloc = SplashScreenBlocProvider.of(context);
-    _bloc.isDefaultDataInitialized();
-    _bloc.isAppInitialized.listen((data) {
-      if (!data.isAllDataInitialized) {
-        if (!data.inspectionCause) {
-          _bloc.initializeInspectionCause();
-        } else if (!data.structuralSystem) {
-          _bloc.initializeStructuralSystem();
-        } else if (!data.roomPurpose) {
-          _bloc.initializeRoomPurpose();
-        } else {
-          Navigator.of(context).pushReplacementNamed('/home');
-        }
-      } else {
-        Navigator.of(context).pushReplacementNamed('/home');
-      }
-    }).onError((err) {
-      throw err;
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _bloc.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return MultiCubitListener(
+      listeners: [
+        CubitListener<InspectionCauseCubit, InspectionCauseState>(
+          listener: (context, state) {},
+        ),
+        CubitListener<RoomPurposeCubit, RoomPurposeState>(
+          listener: (context, state) {},
+        ),
+        CubitListener<StructuralSystemCubit, StructuralSystemState>(
+          listener: (context, state) {},
+        )
+      ],
       child: Scaffold(
         body: Center(
           child: SizedBox.fromSize(

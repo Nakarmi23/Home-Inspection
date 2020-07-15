@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:house_review/bloc/home_inspection_screen_bloc.dart';
-import 'package:house_review/bloc/home_screen_bloc.dart';
-import 'package:house_review/blocprovs/home_inspection_screen_bloc_provider.dart';
-import 'package:house_review/blocprovs/home_screen_bloc-provider.dart';
-import 'package:house_review/models/IClient.dart';
+import 'package:house_review/models/client.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -15,15 +11,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ScrollController _scrollController;
   bool isFABExtended = true;
-  List<IClient> _clientData = [];
-  HomeScreenBloc _bloc;
+  List<Client> _clientData = [];
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _bloc = HomeScreenBlocProvider.of(context);
-    _bloc.getClientData();
-  }
+  void didChangeDependencies() {}
 
   @override
   void initState() {
@@ -68,54 +59,54 @@ class _HomeScreenState extends State<HomeScreen> {
             pinned: false,
             snap: false,
           ),
-          StreamBuilder<List<IClient>>(
-            stream: _bloc.client,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return SliverFillRemaining(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              } else {
-                if (!snapshot.hasData || snapshot.data.length == 0) {
-                  return SliverFillRemaining(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'No Data to Display',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        RaisedButton(
-                          onPressed: () {
-                            _bloc.getClientData();
-                          },
-                          child: Text('Reload'),
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                        )
-                      ],
-                    ),
-                  );
-                }
-                _clientData.addAll(snapshot.data);
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return ListTile(
-                        title: Text(_clientData[index].name),
-                      );
-                    },
-                    childCount: 0,
-                  ),
-                );
-              }
-            },
-          ),
+          // StreamBuilder<List<Client>>(
+          //   stream: _bloc.client,
+          //   builder: (context, snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return SliverFillRemaining(
+          //         child: Center(
+          //           child: CircularProgressIndicator(),
+          //         ),
+          //       );
+          //     } else {
+          //       if (!snapshot.hasData || snapshot.data.length == 0) {
+          //         return SliverFillRemaining(
+          //           child: Column(
+          //             crossAxisAlignment: CrossAxisAlignment.center,
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: <Widget>[
+          //               Text(
+          //                 'No Data to Display',
+          //                 style: TextStyle(
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //               ),
+          //               RaisedButton(
+          //                 onPressed: () {
+          //                   _bloc.getClientData();
+          //                 },
+          //                 child: Text('Reload'),
+          //                 color: Theme.of(context).primaryColor,
+          //                 textColor: Colors.white,
+          //               )
+          //             ],
+          //           ),
+          //         );
+          //       }
+          //       _clientData.addAll(snapshot.data);
+          //       return SliverList(
+          //         delegate: SliverChildBuilderDelegate(
+          //           (context, index) {
+          //             return ListTile(
+          //               title: Text(_clientData[index].name),
+          //             );
+          //           },
+          //           childCount: 0,
+          //         ),
+          //       );
+          //     }
+          //   },
+          // ),
         ],
       ),
       // body: ListView.builder(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:house_review/components/AppInputTextField.dart';
+import 'package:house_review/components/app_input_text_field.dart';
 import 'package:house_review/components/heading_text.dart';
 import 'package:house_review/components/sub_heading_text.dart';
 

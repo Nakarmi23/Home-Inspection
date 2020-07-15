@@ -1,14 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:house_review/bloc/home_inspection_screen_bloc.dart';
-import 'package:house_review/blocprovs/home_inspection_screen_bloc_provider.dart';
-import 'package:house_review/components/AppDropdownMenu.dart';
-import 'package:house_review/components/AppInputTextField.dart';
+import 'package:flutter_cubit/flutter_cubit.dart';
+import 'package:house_review/components/app_dropdown_menu.dart';
+import 'package:house_review/components/app_input_text_field.dart';
 import 'package:house_review/components/heading_text.dart';
 import 'package:house_review/components/image_picker_bottomsheet.dart';
-import 'package:house_review/models/IInsepctionCause.dart';
-import 'package:house_review/models/IStructuralSystem.dart';
+import 'package:house_review/cubit/inspection_cause_cubit/inspection_cause_cubit.dart';
+import 'package:house_review/cubit/strucutural_system_cubit/structural_system_cubit.dart';
+import 'package:house_review/models/insepction_cause.dart';
+import 'package:house_review/models/structural_system.dart';
 
 class HomeInspectionScreen extends StatefulWidget {
   HomeInspectionScreen({Key key}) : super(key: key);
@@ -19,7 +20,6 @@ class HomeInspectionScreen extends StatefulWidget {
 
 class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
   String imageFile;
-  HomeInspectionScreenBloc _bloc;
   int selectedStructuralSystem;
   int selectedInspectionCause;
   List<String> materialUsed = ["Sand"];
@@ -28,29 +28,12 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _bloc = HomeInspectionScreenBlocProvider.of(context);
-    _bloc.getStructuralSystem();
-    _bloc.getInspectionCause();
-    _bloc.structuralSystem.listen((data) {
-      if (selectedStructuralSystem == null) {
-        setState(() {
-          selectedStructuralSystem = data[0].id;
-        });
-      }
-    });
-    _bloc.inspectionCause.listen((data) {
-      if (selectedInspectionCause == null) {
-        setState(() {
-          selectedInspectionCause = data[0].id;
-        });
-      }
-    });
   }
 
   @override
   void dispose() {
     super.dispose();
-    _bloc.dispose();
+    // _bloc.dispose();
   }
 
   @override
@@ -185,14 +168,17 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                             ),
                           ],
                         ),
-                        StreamBuilder<List<IStructuralSystem>>(
-                          stream: HomeInspectionScreenBlocProvider.of(context)
-                              .structuralSystem,
-                          builder: (context, snapshot) {
-                            List<IStructuralSystem> data =
-                                snapshot.hasData ? [...snapshot.data] : [];
-                            data.add(
-                                IStructuralSystem(id: 0, systemName: 'Other'));
+                        CubitBuilder<StructuralSystemCubit,
+                            StructuralSystemState>(
+                          builder: (context, state) {
+                            List<StructuralSystem> data;
+                            if (state is StructuralSystemSuccess) {
+                              data = state.structuralSystem
+                                ..add(StructuralSystem(
+                                    id: 0, systemName: 'Other'));
+                            } else {
+                              data = [];
+                            }
                             return Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.0),
                               child: AppDropdownMenu(
@@ -250,11 +236,15 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                         AppInputTextField(
                           labelText: 'Comment',
                         ),
-                        StreamBuilder<List<IInspectionCause>>(
-                          stream: _bloc.inspectionCause,
-                          builder: (context, snapshot) {
-                            List<IInspectionCause> data =
-                                snapshot.hasData ? [...snapshot.data] : [];
+                        CubitBuilder<InspectionCauseCubit,
+                            InspectionCauseState>(
+                          builder: (context, state) {
+                            List<InspectionCause> data;
+                            if (state is InspectionCauseSuccess) {
+                              data = state.inspectionCause;
+                            } else {
+                              data = [];
+                            }
                             return Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.0),
                               child: AppDropdownMenu(
