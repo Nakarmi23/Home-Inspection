@@ -6,7 +6,7 @@ import 'package:house_review/cubit/strucutural_system_cubit/structural_system_cu
 import 'package:house_review/screens/home_inspection_screen/home_inspection_screen.dart';
 import 'package:house_review/screens/home_screen.dart';
 import 'package:house_review/screens/room_inspection/room_inspection_screen.dart';
-import 'package:house_review/screens/splash_screen.dart';
+import 'package:house_review/screens/splash_screen/splash_screen.dart';
 import 'package:house_review/theme/theme.dart';
 
 void main() {
