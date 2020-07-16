@@ -173,9 +173,12 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                           builder: (context, state) {
                             List<StructuralSystem> data;
                             if (state is StructuralSystemSuccess) {
-                              data = state.structuralSystem
+                              data = [...state.structuralSystem]
                                 ..add(StructuralSystem(
-                                    id: 0, systemName: 'Other'));
+                                  id: 0,
+                                  isEditable: 0,
+                                  systemName: 'Other',
+                                ));
                             } else {
                               data = [];
                             }
