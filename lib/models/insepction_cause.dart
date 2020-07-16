@@ -7,7 +7,7 @@ part 'insepction_cause.g.dart';
 class InspectionCause extends BaseModel {
   int id;
   String inspectionCause;
-  bool isEditable;
+  int isEditable;
 
   InspectionCause({
     this.id,

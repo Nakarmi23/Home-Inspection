@@ -24,8 +24,7 @@ class StructuralSystemCubit extends Cubit<StructuralSystemState> {
           'Masonary Structure',
           'Steel Structure',
         ]
-            .map(
-                (item) => StructuralSystem(systemName: item, isEditable: false))
+            .map((item) => StructuralSystem(systemName: item, isEditable: 0))
             .toList();
 
         await Future.wait(defaultStructuralSystem.map((structuralSystem) =>

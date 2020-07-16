@@ -10,7 +10,7 @@ StructuralSystem _$StructuralSystemFromJson(Map<String, dynamic> json) {
   return StructuralSystem(
     id: json['id'] as int,
     systemName: json['systemName'] as String,
-    isEditable: json['isEditable'] as bool,
+    isEditable: json['isEditable'] as int,
   );
 }
 

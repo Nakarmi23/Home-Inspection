@@ -7,7 +7,7 @@ part 'structural_system.g.dart';
 class StructuralSystem extends BaseModel {
   int id;
   String systemName;
-  bool isEditable;
+  int isEditable;
 
   StructuralSystem({
     this.id,

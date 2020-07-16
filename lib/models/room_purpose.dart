@@ -7,7 +7,7 @@ part 'room_purpose.g.dart';
 class RoomPurpose extends BaseModel {
   int id;
   String purpose;
-  bool isEditable;
+  int isEditable;
 
   RoomPurpose({this.id, this.purpose, this.isEditable});
 

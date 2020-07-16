@@ -10,7 +10,7 @@ RoomPurpose _$RoomPurposeFromJson(Map<String, dynamic> json) {
   return RoomPurpose(
     id: json['id'] as int,
     purpose: json['purpose'] as String,
-    isEditable: json['isEditable'] as bool,
+    isEditable: json['isEditable'] as int,
   );
 }
 

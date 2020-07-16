@@ -12,9 +12,8 @@ abstract class BaseRepository<T extends BaseModel> {
             CREATE TABLE IF NOT EXISTS inspection_cause(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               inspectionCause TEXT,
-              is_editable NUMERIC
-            );
-          '''),
+              isEditable NUMERIC
+            );'''),
             db.execute('''
             CREATE TABLE IF NOT EXISTS structural_system(
               id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -34,7 +34,7 @@ class RoomPurposeCubit extends Cubit<RoomPurposeState> {
           'Class Room',
           'Office Room',
           'Lab'
-        ].map((item) => RoomPurpose(purpose: item, isEditable: false)).toList();
+        ].map((item) => RoomPurpose(purpose: item, isEditable: 0)).toList();
 
         Future.wait(defaultRoomPurposeList
             .map((roomPurpose) => _roomPurposeRepository.insert(roomPurpose)));

@@ -10,7 +10,7 @@ InspectionCause _$InspectionCauseFromJson(Map<String, dynamic> json) {
   return InspectionCause(
     id: json['id'] as int,
     inspectionCause: json['inspectionCause'] as String,
-    isEditable: json['isEditable'] as bool,
+    isEditable: json['isEditable'] as int,
   );
 }
 

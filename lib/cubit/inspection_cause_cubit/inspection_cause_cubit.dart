@@ -26,8 +26,8 @@ class InspectionCauseCubit extends Cubit<InspectionCauseState> {
           'Renting',
           'Problem Encounter Case',
         ]
-            .map((item) =>
-                InspectionCause(inspectionCause: item, isEditable: false))
+            .map(
+                (item) => InspectionCause(inspectionCause: item, isEditable: 0))
             .toList();
 
         await Future.wait(defaultInspectionCauseList.map((inspectionCause) =>
