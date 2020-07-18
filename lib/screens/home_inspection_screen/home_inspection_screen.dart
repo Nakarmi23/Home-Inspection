@@ -9,7 +9,9 @@ import 'package:house_review/components/image_picker_bottomsheet.dart';
 import 'package:house_review/cubit/inspection_cause_cubit/inspection_cause_cubit.dart';
 import 'package:house_review/cubit/strucutural_system_cubit/structural_system_cubit.dart';
 import 'package:house_review/models/insepction_cause.dart';
+import 'package:house_review/models/inspection_data.dart';
 import 'package:house_review/models/structural_system.dart';
+import 'package:house_review/utility/debounce.dart';
 
 class HomeInspectionScreen extends StatefulWidget {
   HomeInspectionScreen({Key key}) : super(key: key);
@@ -24,16 +26,13 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
   int selectedInspectionCause;
   List<String> materialUsed = ["Sand"];
   List<String> buildingRooms = ["Bedroom"];
-
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  InspectionData _inspectionData =
+      InspectionData(dateOfInspection: DateTime.now());
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    // _bloc.dispose();
+    // _formKey.currentState.
   }
 
   @override
@@ -73,16 +72,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
         ],
       ),
     );
-    var outlineInputBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(0.0)),
-      borderSide: BorderSide(
-        color: Theme.of(context).primaryColor,
-        width: 2,
-      ),
-    );
-    var inputFieldSpacer = SizedBox.fromSize(
-      size: Size.fromHeight(16),
-    );
+
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -93,6 +83,8 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0 * 2),
                   child: Form(
+                    onChanged: () {},
+                    key: _formKey,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -104,9 +96,19 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                         ),
                         AppInputTextField(
                           labelText: 'Client Name',
+                          onChange: (value) {
+                            debounceEvent(() {
+                              _inspectionData.name = value;
+                            });
+                          },
                         ),
                         AppInputTextField(
                           labelText: 'Address',
+                          onChange: (value) {
+                            debounceEvent(() {
+                              _inspectionData.address = value;
+                            });
+                          },
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -130,6 +132,8 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                           ),
                         ),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             Expanded(
                               child: AppInputTextField(
@@ -139,9 +143,9 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                                 labelText: 'Length',
                               ),
                             ),
-                            SizedBox.fromSize(
-                              size: Size(8.0, 0),
-                            ),
+                            // SizedBox.fromSize(
+                            //   size: Size(8.0, 0),
+                            // ),
                             Expanded(
                               child: AppInputTextField(
                                 keyboardType: TextInputType.numberWithOptions(
@@ -150,13 +154,12 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                                 labelText: 'Breath',
                               ),
                             ),
-                            SizedBox.fromSize(
-                              size: Size(8.0, 0),
-                            ),
-                            Text('='),
-                            SizedBox.fromSize(
-                              size: Size(8.0, 0),
-                            ),
+                            // SizedBox.fromSize(
+                            //   size: Size(8.0, 0),
+                            // ),
+                            // SizedBox.fromSize(
+                            //   size: Size(8.0, 0),
+                            // ),
                             Expanded(
                               child: AppInputTextField(
                                 enabled: false,
@@ -228,7 +231,35 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                               ],
                             ),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('Material Used'),
+                                  content: TextField(
+                                    controller: _materialTextFieldController,
+                                    autofocus: true,
+                                  ),
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      color: Theme.of(context).primaryColor,
+                                      child: Text('Add'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop(
+                                            _materialTextFieldController
+                                                .value.text);
+                                      },
+                                    )
+                                  ],
+                                );
+                              },
+                            ).then((value) {
+                              setState(() {
+                                materialUsed.add(value);
+                              });
+                            });
+                          },
                         ),
                         AppInputTextField(
                           labelText: 'Soil/Foundation Condition of Building',
