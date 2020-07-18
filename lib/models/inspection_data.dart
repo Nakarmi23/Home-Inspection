@@ -9,15 +9,15 @@ class InspectionData extends BaseModel {
   String name;
   String address;
   DateTime dateOfInspection;
-  Building buildingData;
+  final Building buildingData;
 
   InspectionData({
     this.id,
     this.name,
     this.address,
     this.dateOfInspection,
-    this.buildingData,
-  });
+    Building buildingData,
+  }) : buildingData = buildingData ?? Building();
 
   factory InspectionData.fromJson(Map<String, dynamic> json) =>
       _$InspectionDataFromJson(json);

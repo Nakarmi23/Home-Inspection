@@ -28,14 +28,14 @@ class Building extends BaseModel {
     this.length,
     this.breath,
     this.storeyNo,
-    this.materialUsed,
+    List<String> materialUsed,
     this.originalPurpose,
     this.currentPurpose,
     this.foundationCondition,
     this.supervisionStatus,
     this.comment,
     this.problemComment,
-  });
+  }) : materialUsed = materialUsed ?? [];
 
   factory Building.fromJson(Map<String, dynamic> json) =>
       _$BuildingFromJson(json);
