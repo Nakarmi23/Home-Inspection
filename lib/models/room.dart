@@ -4,7 +4,7 @@ import 'package:house_review/models/minor_checks/minor_checks.dart';
 import 'package:house_review/models/room_purpose.dart';
 import 'package:house_review/models/seepage_analysis.dart';
 import 'package:house_review/models/structural_inspection/structural_inspection.dart';
-import 'package:house_review/models/toilet_inspection.dart';
+import 'package:house_review/models/toilet_inspection/toilet_inspection.dart';
 import 'package:house_review/models/water_quality.dart';
 import 'package:house_review/models/luxmeter_reading.dart';
 import 'package:json_annotation/json_annotation.dart';
