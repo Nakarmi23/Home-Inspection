@@ -12,7 +12,7 @@ class StructuralInspection extends BaseModel {
 
   StructuralInspection({this.visualInspection, this.nonDestructiveTest});
 
-  factory StructuralInspection.formJson(Map<String, dynamic> json) =>
+  factory StructuralInspection.fromJson(Map<String, dynamic> json) =>
       _$StructuralInspectionFromJson(json);
 
   @override
