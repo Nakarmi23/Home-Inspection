@@ -376,9 +376,6 @@ class StructuralInspectionForm extends StatelessWidget {
             labelText: ' Element of Structure',
           ),
           AppInputTextField(
-            labelText: ' Tilting Reading',
-          ),
-          AppInputTextField(
             labelText: ' Concrete Grade',
           ),
           AppInputTextField(
