@@ -1,8 +1,10 @@
 import 'package:house_review/models/base_model.dart';
-import 'package:house_review/models/minor_checks.dart';
+import 'package:house_review/models/kitchen_inspection.dart';
+import 'package:house_review/models/minor_checks/minor_checks.dart';
 import 'package:house_review/models/room_purpose.dart';
 import 'package:house_review/models/seepage_analysis.dart';
 import 'package:house_review/models/structural_inspection/structural_inspection.dart';
+import 'package:house_review/models/toilet_inspection.dart';
 import 'package:house_review/models/water_quality.dart';
 import 'package:house_review/models/luxmeter_reading.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -17,6 +19,8 @@ class Room extends BaseModel {
   List<LuxmeterReading> luxmeterReadings;
   List<SeepageAnalysis> seepageAnalysis;
   MinorChecks minorChecks;
+  KitchenInspection kitchenInspection;
+  ToiletInspection toiletInspection;
   String roomId;
   int storeyNo;
   List<String> pictures;
