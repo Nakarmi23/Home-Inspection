@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'client.dart';
+part of 'inspection_data.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Client _$ClientFromJson(Map<String, dynamic> json) {
-  return Client(
+InspectionData _$InspectionDataFromJson(Map<String, dynamic> json) {
+  return InspectionData(
     id: json['id'] as int,
     name: json['name'] as String,
     address: json['address'] as String,
@@ -17,7 +17,8 @@ Client _$ClientFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ClientToJson(Client instance) => <String, dynamic>{
+Map<String, dynamic> _$InspectionDataToJson(InspectionData instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'address': instance.address,
