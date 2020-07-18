@@ -28,6 +28,10 @@ Building _$BuildingFromJson(Map<String, dynamic> json) {
     supervisionStatus: json['supervisionStatus'] as String,
     comment: json['comment'] as String,
     problemComment: json['problemComment'] as String,
+    rooms: (json['rooms'] as List)
+        ?.map(
+            (e) => e == null ? null : Room.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -45,4 +49,5 @@ Map<String, dynamic> _$BuildingToJson(Building instance) => <String, dynamic>{
       'supervisionStatus': instance.supervisionStatus,
       'comment': instance.comment,
       'problemComment': instance.problemComment,
+      'rooms': instance.rooms?.map((e) => e?.toJson())?.toList(),
     };
