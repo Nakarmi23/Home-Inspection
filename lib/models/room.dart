@@ -3,6 +3,7 @@ import 'package:house_review/models/kitchen_inspection/kitchen_inspection.dart';
 import 'package:house_review/models/minor_checks/minor_checks.dart';
 import 'package:house_review/models/room_purpose.dart';
 import 'package:house_review/models/seepage_analysis.dart';
+import 'package:house_review/models/staircase_inspection/staircase_inspection.dart';
 import 'package:house_review/models/structural_inspection/structural_inspection.dart';
 import 'package:house_review/models/toilet_inspection/toilet_inspection.dart';
 import 'package:house_review/models/water_quality.dart';
@@ -21,6 +22,7 @@ class Room extends BaseModel {
   MinorChecks minorChecks;
   KitchenInspection kitchenInspection;
   ToiletInspection toiletInspection;
+  StaircaseInspection staircaseInspection;
   String roomId;
   int storeyNo;
   List<String> pictures;

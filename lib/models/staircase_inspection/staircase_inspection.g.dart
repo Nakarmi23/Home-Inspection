@@ -18,6 +18,9 @@ StaircaseInspection _$StaircaseInspectionFromJson(Map<String, dynamic> json) {
     functionality: json['functionality'] == null
         ? null
         : Functionality.fromJson(json['functionality'] as Map<String, dynamic>),
+    location: json['location'] as String,
+    type: json['type'] as String,
+    material: json['material'] as String,
   );
 }
 
@@ -27,6 +30,9 @@ Map<String, dynamic> _$StaircaseInspectionToJson(
       'clearanceCondition': instance.clearanceCondition?.toJson(),
       'railing': instance.railing?.toJson(),
       'functionality': instance.functionality?.toJson(),
+      'location': instance.location,
+      'type': instance.type,
+      'material': instance.material,
     };
 
 ClearanceCondition _$ClearanceConditionFromJson(Map<String, dynamic> json) {

@@ -127,13 +127,13 @@ Ceiling _$CeilingFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$CeilingToJson(Ceiling instance) => <String, dynamic>{
-      'photos': instance.photos,
-      'condition': instance.condition,
       'paintingCondition': instance.paintingCondition,
       'plasteringCondition': instance.plasteringCondition,
       'falseCeilingsCondition': instance.falseCeilingsCondition,
       'masonProblemCondition': instance.masonProblemCondition,
       'otherProblemCondition': instance.otherProblemCondition,
+      'photos': instance.photos,
+      'condition': instance.condition,
     };
 
 Wall _$WallFromJson(Map<String, dynamic> json) {
@@ -148,12 +148,12 @@ Wall _$WallFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$WallToJson(Wall instance) => <String, dynamic>{
-      'photos': instance.photos,
-      'condition': instance.condition,
       'paintingCondition': instance.paintingCondition,
       'plasteringCondition': instance.plasteringCondition,
       'masonProblemCondition': instance.masonProblemCondition,
       'otherProblemCondition': instance.otherProblemCondition,
+      'photos': instance.photos,
+      'condition': instance.condition,
     };
 
 ElectricalFitting _$ElectricalFittingFromJson(Map<String, dynamic> json) {
@@ -170,13 +170,25 @@ ElectricalFitting _$ElectricalFittingFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ElectricalFittingToJson(ElectricalFitting instance) =>
     <String, dynamic>{
-      'photos': instance.photos,
-      'condition': instance.condition,
       'wiringCondition': instance.wiringCondition,
       'switchesCondition': instance.switchesCondition,
       'lightsCondition': instance.lightsCondition,
       'ceilingFanCondition': instance.ceilingFanCondition,
       'otherAccessoriesCondition': instance.otherAccessoriesCondition,
+      'photos': instance.photos,
+      'condition': instance.condition,
+    };
+
+Carpentry _$CarpentryFromJson(Map<String, dynamic> json) {
+  return Carpentry(
+    photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
+    condition: json['condition'] as String,
+  );
+}
+
+Map<String, dynamic> _$CarpentryToJson(Carpentry instance) => <String, dynamic>{
+      'photos': instance.photos,
+      'condition': instance.condition,
     };
 
 PestInspection _$PestInspectionFromJson(Map<String, dynamic> json) {
@@ -192,18 +204,6 @@ Map<String, dynamic> _$PestInspectionToJson(PestInspection instance) =>
       'photos': instance.photos,
       'condition': instance.condition,
       'surroundingCondition': instance.surroundingCondition,
-    };
-
-Carpentry _$CarpentryFromJson(Map<String, dynamic> json) {
-  return Carpentry(
-    photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
-    condition: json['condition'] as String,
-  );
-}
-
-Map<String, dynamic> _$CarpentryToJson(Carpentry instance) => <String, dynamic>{
-      'photos': instance.photos,
-      'condition': instance.condition,
     };
 
 MetalAluminiumWork _$MetalAluminiumWorkFromJson(Map<String, dynamic> json) {

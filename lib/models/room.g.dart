@@ -35,7 +35,19 @@ Room _$RoomFromJson(Map<String, dynamic> json) {
     minorChecks: json['minorChecks'] == null
         ? null
         : MinorChecks.fromJson(json['minorChecks'] as Map<String, dynamic>),
-  );
+  )
+    ..kitchenInspection = json['kitchenInspection'] == null
+        ? null
+        : KitchenInspection.fromJson(
+            json['kitchenInspection'] as Map<String, dynamic>)
+    ..toiletInspection = json['toiletInspection'] == null
+        ? null
+        : ToiletInspection.fromJson(
+            json['toiletInspection'] as Map<String, dynamic>)
+    ..staircaseInspection = json['staircaseInspection'] == null
+        ? null
+        : StaircaseInspection.fromJson(
+            json['staircaseInspection'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
@@ -48,6 +60,9 @@ Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
       'seepageAnalysis':
           instance.seepageAnalysis?.map((e) => e?.toJson())?.toList(),
       'minorChecks': instance.minorChecks?.toJson(),
+      'kitchenInspection': instance.kitchenInspection?.toJson(),
+      'toiletInspection': instance.toiletInspection?.toJson(),
+      'staircaseInspection': instance.staircaseInspection?.toJson(),
       'roomId': instance.roomId,
       'storeyNo': instance.storeyNo,
       'pictures': instance.pictures,
