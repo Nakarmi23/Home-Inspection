@@ -1,10 +1,49 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'visual_inspection.dart';
+part of 'structural_inspection.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
+
+StructuralInspection _$StructuralInspectionFromJson(Map<String, dynamic> json) {
+  return StructuralInspection(
+    visualInspection: json['visualInspection'] == null
+        ? null
+        : VisualInspection.fromJson(
+            json['visualInspection'] as Map<String, dynamic>),
+    nonDestructiveTest: json['nonDestructiveTest'] == null
+        ? null
+        : NonDestructiveTest.fromJson(
+            json['nonDestructiveTest'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$StructuralInspectionToJson(
+        StructuralInspection instance) =>
+    <String, dynamic>{
+      'visualInspection': instance.visualInspection?.toJson(),
+      'nonDestructiveTest': instance.nonDestructiveTest?.toJson(),
+    };
+
+NonDestructiveTest _$NonDestructiveTestFromJson(Map<String, dynamic> json) {
+  return NonDestructiveTest(
+    structureElement: json['structureElement'] as String,
+    concreteGrade: json['concreteGrade'] as String,
+    impactDirection: json['impactDirection'] as String,
+    location: json['location'] as String,
+    readings: (json['readings'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+Map<String, dynamic> _$NonDestructiveTestToJson(NonDestructiveTest instance) =>
+    <String, dynamic>{
+      'structureElement': instance.structureElement,
+      'concreteGrade': instance.concreteGrade,
+      'impactDirection': instance.impactDirection,
+      'location': instance.location,
+      'readings': instance.readings,
+    };
 
 VisualInspection _$VisualInspectionFromJson(Map<String, dynamic> json) {
   return VisualInspection(

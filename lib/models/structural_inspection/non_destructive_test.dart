@@ -1,7 +1,4 @@
-import 'package:house_review/models/base_model.dart';
-import 'package:json_annotation/json_annotation.dart';
-
-part 'non_destructive_test.g.dart';
+part of 'structural_inspection.dart';
 
 @JsonSerializable()
 class NonDestructiveTest extends BaseModel {

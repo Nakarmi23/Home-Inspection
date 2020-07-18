@@ -1,7 +1,4 @@
-import 'package:house_review/models/base_model.dart';
-import 'package:json_annotation/json_annotation.dart';
-
-part 'visual_inspection.g.dart';
+part of 'structural_inspection.dart';
 
 @JsonSerializable(explicitToJson: true)
 class VisualInspection extends BaseModel {
