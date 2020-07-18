@@ -1,5 +1,5 @@
 import 'package:house_review/models/base_model.dart';
-import 'package:house_review/models/kitchen_inspection.dart';
+import 'package:house_review/models/kitchen_inspection/kitchen_inspection.dart';
 import 'package:house_review/models/minor_checks/minor_checks.dart';
 import 'package:house_review/models/room_purpose.dart';
 import 'package:house_review/models/seepage_analysis.dart';
