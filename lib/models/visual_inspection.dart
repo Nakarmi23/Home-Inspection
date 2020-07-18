@@ -1,5 +1,4 @@
 import 'package:house_review/models/base_model.dart';
-import 'package:house_review/models/room_inspection_base_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'visual_inspection.g.dart';
@@ -28,7 +27,7 @@ class VisualInspection extends BaseModel {
 }
 
 @JsonSerializable()
-class Spalling implements RoomInspectionBaseModel {
+class Spalling implements BaseModelWithCommentAndPhotos {
   @override
   String comment;
 
@@ -45,7 +44,7 @@ class Spalling implements RoomInspectionBaseModel {
 }
 
 @JsonSerializable()
-class Tilting implements RoomInspectionBaseModel {
+class Tilting implements BaseModelWithCommentAndPhotos {
   String tiltingReading;
   List<String> digitalLevelMeterPhotos;
 
@@ -71,7 +70,7 @@ class Tilting implements RoomInspectionBaseModel {
 }
 
 @JsonSerializable()
-class Bulging implements RoomInspectionBaseModel {
+class Bulging implements BaseModelWithCommentAndPhotos {
   double height, width;
 
   @override
@@ -91,7 +90,7 @@ class Bulging implements RoomInspectionBaseModel {
 }
 
 @JsonSerializable()
-class Cracking implements RoomInspectionBaseModel {
+class Cracking implements BaseModelWithCommentAndPhotos {
   double height, width;
 
   @override
@@ -111,7 +110,7 @@ class Cracking implements RoomInspectionBaseModel {
 }
 
 @JsonSerializable()
-class OtherProblem implements RoomInspectionBaseModel {
+class OtherProblem implements BaseModelWithCommentAndPhotos {
   String name;
 
   @override

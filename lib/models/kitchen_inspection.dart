@@ -1,13 +1,7 @@
 import 'package:house_review/models/base_model.dart';
-import 'package:house_review/models/room_inspection_base_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'kitchen_inspection.g.dart';
-
-abstract class KitchenInspectionBaseModel extends BaseModel {
-  String condition;
-  List<String> photos;
-}
 
 @JsonSerializable(explicitToJson: true)
 class KitchenInspection extends BaseModel {
@@ -35,7 +29,7 @@ class KitchenInspection extends BaseModel {
 }
 
 @JsonSerializable()
-class KitchenCabinet implements KitchenInspectionBaseModel {
+class KitchenCabinet implements BaseModelWithConditionAndPhotos {
   String material;
   @override
   String condition;
@@ -54,7 +48,7 @@ class KitchenCabinet implements KitchenInspectionBaseModel {
 }
 
 @JsonSerializable()
-class DishWasher implements KitchenInspectionBaseModel {
+class DishWasher implements BaseModelWithConditionAndPhotos {
   @override
   String condition;
 
@@ -72,7 +66,7 @@ class DishWasher implements KitchenInspectionBaseModel {
 }
 
 @JsonSerializable()
-class GarbageDisposal implements KitchenInspectionBaseModel {
+class GarbageDisposal implements BaseModelWithConditionAndPhotos {
   @override
   String condition;
 
@@ -90,7 +84,7 @@ class GarbageDisposal implements KitchenInspectionBaseModel {
 }
 
 @JsonSerializable()
-class KitchenSink implements KitchenInspectionBaseModel {
+class KitchenSink implements BaseModelWithConditionAndPhotos {
   @override
   String condition;
 
@@ -108,7 +102,7 @@ class KitchenSink implements KitchenInspectionBaseModel {
 }
 
 @JsonSerializable()
-class GasAndGasStove implements KitchenInspectionBaseModel {
+class GasAndGasStove implements BaseModelWithConditionAndPhotos {
   @override
   String condition;
 
@@ -126,7 +120,7 @@ class GasAndGasStove implements KitchenInspectionBaseModel {
 }
 
 @JsonSerializable()
-class Plumbing implements KitchenInspectionBaseModel {
+class Plumbing implements BaseModelWithConditionAndPhotos {
   @override
   String condition;
 
