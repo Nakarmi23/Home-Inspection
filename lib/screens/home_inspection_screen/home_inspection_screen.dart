@@ -22,7 +22,7 @@ class HomeInspectionScreen extends StatefulWidget {
 
 class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
   String imageFile;
-  int selectedStructuralSystem;
+  StructuralSystem selectedStructuralSystem;
   int selectedInspectionCause;
   List<String> materialUsed = ["Sand"];
   List<String> buildingRooms = ["Bedroom"];
@@ -51,9 +51,9 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
         overflow: Overflow.visible,
         children: <Widget>[
           FlexibleSpaceBar(
-            background: imageFile != null
+            background: _inspectionData.buildingData.photo != null
                 ? Image.file(
-                    File(imageFile),
+                    File(_inspectionData.buildingData.photo),
                     fit: BoxFit.cover,
                   )
                 : null,
@@ -119,12 +119,30 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                         ),
                         AppInputTextField(
                           labelText: 'No. of Storey',
+                          onChange: (value) {
+                            debounceEvent(() {
+                              _inspectionData.buildingData.storeyNo =
+                                  int.parse(value);
+                            });
+                          },
                         ),
                         AppInputTextField(
                           labelText: 'Original Purpose of Building',
+                          onChange: (value) {
+                            debounceEvent(() {
+                              _inspectionData.buildingData.originalPurpose =
+                                  value;
+                            });
+                          },
                         ),
                         AppInputTextField(
                           labelText: 'Current Purpose of Building',
+                          onChange: (value) {
+                            debounceEvent(() {
+                              _inspectionData.buildingData.currentPurpose =
+                                  value;
+                            });
+                          },
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -143,25 +161,28 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                                   decimal: true,
                                 ),
                                 labelText: 'Length',
+                                onChange: (value) {
+                                  debounceEvent(() {
+                                    _inspectionData.buildingData.length =
+                                        double.parse(value);
+                                  });
+                                },
                               ),
                             ),
-                            // SizedBox.fromSize(
-                            //   size: Size(8.0, 0),
-                            // ),
                             Expanded(
                               child: AppInputTextField(
                                 keyboardType: TextInputType.numberWithOptions(
                                   decimal: true,
                                 ),
                                 labelText: 'Breath',
+                                onChange: (value) {
+                                  debounceEvent(() {
+                                    _inspectionData.buildingData.length =
+                                        double.parse(value);
+                                  });
+                                },
                               ),
                             ),
-                            // SizedBox.fromSize(
-                            //   size: Size(8.0, 0),
-                            // ),
-                            // SizedBox.fromSize(
-                            //   size: Size(8.0, 0),
-                            // ),
                             Expanded(
                               child: AppInputTextField(
                                 enabled: false,
@@ -189,18 +210,25 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                             }
                             return Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.0),
-                              child: AppDropdownMenu(
+                              child: AppDropdownMenu<StructuralSystem>(
                                 title: 'Structural System of Building',
-                                value: selectedStructuralSystem,
+                                value: _inspectionData?.buildingData
+                                            ?.structuralSystem?.id ==
+                                        0
+                                    ? data.last
+                                    : _inspectionData
+                                            .buildingData?.structuralSystem ??
+                                        null,
                                 onChanged: (value) {
                                   setState(() {
-                                    selectedStructuralSystem = value;
+                                    _inspectionData
+                                        .buildingData?.structuralSystem = value;
                                   });
                                 },
                                 items: data
                                     .map((item) => DropdownMenuItem(
                                           child: Text(item.systemName),
-                                          value: item.id,
+                                          value: item,
                                         ))
                                     .toList(),
                               ),
@@ -208,8 +236,23 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                           },
                         ),
                         AppInputTextField(
-                          enabled: selectedStructuralSystem == 0,
+                          enabled: _inspectionData
+                                      ?.buildingData?.structuralSystem?.id ==
+                                  0 ??
+                              false,
                           labelText: 'Other Structural System of Building',
+                          onChange: (value) {
+                            debounceEvent(() {
+                              setState(() {
+                                _inspectionData.buildingData.structuralSystem =
+                                    StructuralSystem(
+                                  id: 0,
+                                  systemName: value,
+                                  isEditable: 0,
+                                );
+                              });
+                            });
+                          },
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -257,20 +300,34 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                                 );
                               },
                             ).then((value) {
-                              setState(() {
-                                materialUsed.add(value);
-                              });
+                              _materialTextFieldController.clear();
+                              if (value != null)
+                                setState(() {
+                                  _inspectionData.buildingData.materialUsed
+                                      .add(value);
+                                });
                             });
                           },
                         ),
                         AppInputTextField(
                           labelText: 'Soil/Foundation Condition of Building',
+                          onChange: (value) {
+                            _inspectionData.buildingData.foundationCondition =
+                                value;
+                          },
                         ),
                         AppInputTextField(
                           labelText: 'Supervision Status',
+                          onChange: (value) {
+                            _inspectionData.buildingData.supervisionStatus =
+                                value;
+                          },
                         ),
                         AppInputTextField(
                           labelText: 'Comment',
+                          onChange: (value) {
+                            _inspectionData.buildingData.comment = value;
+                          },
                         ),
                         CubitBuilder<InspectionCauseCubit,
                             InspectionCauseState>(
@@ -283,18 +340,21 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                             }
                             return Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.0),
-                              child: AppDropdownMenu(
+                              child: AppDropdownMenu<InspectionCause>(
                                 title: 'Cause of Inspection',
-                                value: selectedInspectionCause,
+                                value: _inspectionData
+                                        .buildingData.inspectionCause ??
+                                    null,
                                 onChanged: (value) {
                                   setState(() {
-                                    selectedInspectionCause = value;
+                                    _inspectionData
+                                        .buildingData.inspectionCause = value;
                                   });
                                 },
                                 items: data
                                     .map((item) => DropdownMenuItem(
                                           child: Text(item.inspectionCause),
-                                          value: item.id,
+                                          value: item,
                                         ))
                                     .toList(),
                               ),
@@ -303,6 +363,9 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
                         ),
                         AppInputTextField(
                           labelText: 'Comment on Existing Problems',
+                          onChange: (value) {
+                            _inspectionData.buildingData.problemComment = value;
+                          },
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -350,7 +413,7 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
         return ImagePickerBottomSheet(
           onImage: (image) {
             setState(() {
-              imageFile = image;
+              _inspectionData.buildingData.photo = image;
             });
           },
         );
@@ -358,35 +421,36 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
     );
   }
 
-  List<Widget> createMaterialUsedWidgets() => materialUsed
-      .map(
-        (item) => ListTile(
-          title: Text(item),
-          trailing: PopupMenuButton(
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.edit),
-                    Padding(padding: EdgeInsets.all(8.0)),
-                    Text('Edit'),
-                  ],
-                ),
+  List<Widget> createMaterialUsedWidgets() =>
+      _inspectionData.buildingData.materialUsed
+          .map(
+            (item) => ListTile(
+              title: Text(item),
+              trailing: PopupMenuButton(
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.edit),
+                        Padding(padding: EdgeInsets.all(8.0)),
+                        Text('Edit'),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem(
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.delete),
+                        Padding(padding: EdgeInsets.all(8.0)),
+                        Text('Delete'),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              PopupMenuItem(
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.delete),
-                    Padding(padding: EdgeInsets.all(8.0)),
-                    Text('Delete'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      )
-      .toList();
+            ),
+          )
+          .toList();
 
   List<Widget> createBuildingRooms() => buildingRooms
       .map(
