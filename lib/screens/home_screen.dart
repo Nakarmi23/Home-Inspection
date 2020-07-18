@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:house_review/models/client.dart';
+import 'package:house_review/models/inspection_data.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ScrollController _scrollController;
   bool isFABExtended = true;
-  List<Client> _clientData = [];
+  List<InspectionData> _clientData = [];
 
   @override
   void didChangeDependencies() {}
