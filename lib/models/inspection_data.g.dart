@@ -14,6 +14,9 @@ InspectionData _$InspectionDataFromJson(Map<String, dynamic> json) {
     dateOfInspection: json['dateOfInspection'] == null
         ? null
         : DateTime.parse(json['dateOfInspection'] as String),
+    buildingData: json['buildingData'] == null
+        ? null
+        : Building.fromJson(json['buildingData'] as Map<String, dynamic>),
   );
 }
 
@@ -23,4 +26,5 @@ Map<String, dynamic> _$InspectionDataToJson(InspectionData instance) =>
       'name': instance.name,
       'address': instance.address,
       'dateOfInspection': instance.dateOfInspection?.toIso8601String(),
+      'buildingData': instance.buildingData?.toJson(),
     };

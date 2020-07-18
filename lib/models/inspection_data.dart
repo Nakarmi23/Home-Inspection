@@ -1,15 +1,23 @@
 import 'package:house_review/models/base_model.dart';
+import 'package:house_review/models/building.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'inspection_data.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class InspectionData extends BaseModel {
   int id;
   String name;
   String address;
   DateTime dateOfInspection;
+  Building buildingData;
 
-  InspectionData({this.id, this.name, this.address, this.dateOfInspection});
+  InspectionData({
+    this.id,
+    this.name,
+    this.address,
+    this.dateOfInspection,
+    this.buildingData,
+  });
 
   factory InspectionData.fromJson(Map<String, dynamic> json) =>
       _$InspectionDataFromJson(json);
