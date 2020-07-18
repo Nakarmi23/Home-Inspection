@@ -26,6 +26,8 @@ class _HomeInspectionScreenState extends State<HomeInspectionScreen> {
   int selectedInspectionCause;
   List<String> materialUsed = ["Sand"];
   List<String> buildingRooms = ["Bedroom"];
+  TextEditingController _materialTextFieldController =
+      TextEditingController(text: '');
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   InspectionData _inspectionData =
       InspectionData(dateOfInspection: DateTime.now());
