@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:house_review/components/heading_text.dart';
 
-class AppDropdownMenu extends StatelessWidget {
+class AppDropdownMenu<T> extends StatelessWidget {
   const AppDropdownMenu(
       {Key key, this.title, @required this.items, this.value, this.onChanged})
       : super(key: key);
   final String title;
-  final List<DropdownMenuItem<dynamic>> items;
-  final dynamic value;
-  final void Function(dynamic) onChanged;
+  final List<DropdownMenuItem<T>> items;
+  final T value;
+  final void Function(T) onChanged;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,7 +28,7 @@ class AppDropdownMenu extends StatelessWidget {
             vertical: 4,
             horizontal: 8,
           ),
-          child: DropdownButton(
+          child: DropdownButton<T>(
             key: key,
             style: Theme.of(context).textTheme.subtitle1.copyWith(
                   color: Colors.grey.shade800,
