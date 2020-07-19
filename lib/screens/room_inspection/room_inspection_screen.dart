@@ -34,48 +34,32 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
       bottom: PreferredSize(
         child: Container(
           color: Theme.of(context).primaryColor,
-          child: Stack(
-            overflow: Overflow.visible,
-            children: <Widget>[
-              TabBar(
-                isScrollable: true,
-                tabs: [
-                  Tab(
-                    text: 'Structural Inspection',
-                  ),
-                  Tab(
-                    text: 'Water Quality',
-                  ),
-                  Tab(
-                    text: 'Luxmeter Reading',
-                  ),
-                  Tab(
-                    text: 'Seepage Analysis',
-                  ),
-                  Tab(
-                    text: 'Minor Checks',
-                  ),
-                  Tab(
-                    text: 'Kitchen Inspection',
-                  ),
-                  Tab(
-                    text: 'Toilet Inspection',
-                  ),
-                  Tab(
-                    text: 'Staircase Inspection',
-                  ),
-                ],
+          child: TabBar(
+            isScrollable: true,
+            tabs: [
+              Tab(
+                text: 'Structural Inspection',
               ),
-              Positioned(
-                bottom: -30,
-                right: 16.0,
-                child: SizedBox.fromSize(
-                  size: Size(60.0, 60.0),
-                  child: FloatingActionButton(
-                    child: Icon(Icons.camera_enhance),
-                    onPressed: () {},
-                  ),
-                ),
+              Tab(
+                text: 'Water Quality',
+              ),
+              Tab(
+                text: 'Luxmeter Reading',
+              ),
+              Tab(
+                text: 'Seepage Analysis',
+              ),
+              Tab(
+                text: 'Minor Checks',
+              ),
+              Tab(
+                text: 'Kitchen Inspection',
+              ),
+              Tab(
+                text: 'Toilet Inspection',
+              ),
+              Tab(
+                text: 'Staircase Inspection',
               ),
             ],
           ),
@@ -83,35 +67,47 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
         preferredSize: Size.fromHeight(kToolbarHeight),
       ),
       flexibleSpace: FlexibleSpaceBar(
-        background: Image.network(
-          'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-          fit: BoxFit.cover,
+        background: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Image.network(
+              'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+              fit: BoxFit.cover,
+            ),
+            Positioned(
+              bottom: 60.0,
+              right: 16.0,
+              child: SizedBox.fromSize(
+                size: Size(60.0, 60.0),
+                child: FloatingActionButton(
+                  child: Icon(Icons.camera_enhance),
+                  onPressed: () {},
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      body: DefaultTabController(
-        length: 8,
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [appBar];
-          },
-          body: Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: TabBarView(
-              children: <Widget>[
-                StructuralInspectionForm(),
-                WaterQualityForm(),
-                LuxmeterReadingForm(),
-                SeepageAnalysisFrom(),
-                MinorChecksForm(),
-                KitchenInspectionForm(),
-                ToiletInspectionForm(),
-                StaircaseInspectionForm(),
-              ],
-            ),
+    return DefaultTabController(
+      length: 8,
+      child: NestedScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [appBar];
+        },
+        body: Material(
+          child: TabBarView(
+            children: <Widget>[
+              StructuralInspectionForm(),
+              WaterQualityForm(),
+              LuxmeterReadingForm(),
+              SeepageAnalysisFrom(),
+              MinorChecksForm(),
+              KitchenInspectionForm(),
+              ToiletInspectionForm(),
+              StaircaseInspectionForm(),
+            ],
           ),
         ),
       ),

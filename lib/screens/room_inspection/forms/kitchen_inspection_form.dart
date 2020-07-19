@@ -5,9 +5,10 @@ class KitchenInspectionForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Form(
+      child: ListView(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
