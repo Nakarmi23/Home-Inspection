@@ -15,9 +15,10 @@ class InspectionData extends BaseModel {
     this.id,
     this.name,
     this.address,
-    this.dateOfInspection,
+    DateTime dateOfInspection,
     Building buildingData,
-  }) : buildingData = buildingData ?? Building();
+  })  : buildingData = buildingData ?? Building(),
+        this.dateOfInspection = dateOfInspection ?? DateTime.now();
 
   factory InspectionData.fromJson(Map<String, dynamic> json) =>
       _$InspectionDataFromJson(json);
