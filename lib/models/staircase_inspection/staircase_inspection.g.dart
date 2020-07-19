@@ -48,18 +48,6 @@ Map<String, dynamic> _$ClearanceConditionToJson(ClearanceCondition instance) =>
       'photos': instance.photos,
     };
 
-Railing _$RailingFromJson(Map<String, dynamic> json) {
-  return Railing(
-    photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
-    comment: json['comment'] as String,
-  );
-}
-
-Map<String, dynamic> _$RailingToJson(Railing instance) => <String, dynamic>{
-      'comment': instance.comment,
-      'photos': instance.photos,
-    };
-
 Functionality _$FunctionalityFromJson(Map<String, dynamic> json) {
   return Functionality(
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
@@ -69,6 +57,18 @@ Functionality _$FunctionalityFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$FunctionalityToJson(Functionality instance) =>
     <String, dynamic>{
+      'comment': instance.comment,
+      'photos': instance.photos,
+    };
+
+Railing _$RailingFromJson(Map<String, dynamic> json) {
+  return Railing(
+    photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
+    comment: json['comment'] as String,
+  );
+}
+
+Map<String, dynamic> _$RailingToJson(Railing instance) => <String, dynamic>{
       'comment': instance.comment,
       'photos': instance.photos,
     };

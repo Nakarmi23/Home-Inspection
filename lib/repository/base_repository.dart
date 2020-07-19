@@ -27,11 +27,11 @@ abstract class BaseRepository<T extends BaseModel> {
               isEditable NUMERIC
             );'''),
             db.execute('''
-            CREATE TABLE IF NOT EXISTS client_tbl(
+            CREATE TABLE IF NOT EXISTS client_file(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               name TEXT,
               address TEXT,
-              dateOfInspection TEXT
+              path Text
             );'''),
           ]);
         },
