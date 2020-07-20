@@ -31,8 +31,8 @@ abstract class BaseRepository<T extends BaseModel> {
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               name TEXT,
               address TEXT,
-              fileName Text,
-              path Text
+              fileName TEXT,
+              path TEXT
             );'''),
           ]);
         },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cubit/flutter_cubit.dart';
 import 'package:house_review/cubit/inspection_cause_cubit/inspection_cause_cubit.dart';
+import 'package:house_review/cubit/inspection_file_info_cubit/inspection_file_info_cubit.dart';
 import 'package:house_review/cubit/room_purpose_cubit/room_purpose_cubit.dart';
 import 'package:house_review/cubit/strucutural_system_cubit/structural_system_cubit.dart';
 
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void changeLoadingProgress() {
     setState(() {
-      loadingProgress = loadingProgress + (1 / 3);
+      loadingProgress = loadingProgress + (1 / 4);
     });
   }
 
@@ -37,6 +38,11 @@ class _SplashScreenState extends State<SplashScreen> {
         CubitListener<StructuralSystemCubit, StructuralSystemState>(
           listener: (context, state) {
             if (state is StructuralSystemSuccess) changeLoadingProgress();
+          },
+        ),
+        CubitListener<InspectionFileInfoCubit, InspectionFileInfoState>(
+          listener: (context, state) {
+            if (state is InspectionFileInfoSuccess) changeLoadingProgress();
           },
         )
       ],
