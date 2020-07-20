@@ -29,6 +29,7 @@ dependencies:
   flutter_cubit: ^0.1.1
   image_picker: ^0.6.7+4
   json_annotation: ^3.0.1
+  path_provider: ^1.6.11
 
 dev_dependencies:
   flutter_test:
