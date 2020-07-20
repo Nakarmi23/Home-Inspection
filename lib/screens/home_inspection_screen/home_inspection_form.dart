@@ -73,7 +73,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                         ),
                         AppInputTextField(
                           labelText: 'Client Name',
-                          onChange: (value) {
+                          onChanged: (value) {
                             debounceEvent(() {
                               _inspectionData.name = value;
                             });
@@ -81,7 +81,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                         ),
                         AppInputTextField(
                           labelText: 'Address',
-                          onChange: (value) {
+                          onChanged: (value) {
                             debounceEvent(() {
                               _inspectionData.address = value;
                             });
@@ -94,7 +94,8 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                         ),
                         AppInputTextField(
                           labelText: 'No. of Storey',
-                          onChange: (value) {
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
                             debounceEvent(() {
                               _inspectionData.buildingData.storeyNo =
                                   int.parse(value);
@@ -103,7 +104,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                         ),
                         AppInputTextField(
                           labelText: 'Original Purpose of Building',
-                          onChange: (value) {
+                          onChanged: (value) {
                             debounceEvent(() {
                               _inspectionData.buildingData.originalPurpose =
                                   value;
@@ -112,7 +113,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                         ),
                         AppInputTextField(
                           labelText: 'Current Purpose of Building',
-                          onChange: (value) {
+                          onChanged: (value) {
                             debounceEvent(() {
                               _inspectionData.buildingData.currentPurpose =
                                   value;
@@ -136,7 +137,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                                   decimal: true,
                                 ),
                                 labelText: 'Length',
-                                onChange: (value) {
+                                onChanged: (value) {
                                   debounceEvent(() {
                                     _inspectionData.buildingData.length =
                                         double.parse(value);
@@ -150,7 +151,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                                   decimal: true,
                                 ),
                                 labelText: 'Breath',
-                                onChange: (value) {
+                                onChanged: (value) {
                                   debounceEvent(() {
                                     _inspectionData.buildingData.length =
                                         double.parse(value);
@@ -216,7 +217,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                                   0 ??
                               false,
                           labelText: 'Other Structural System of Building',
-                          onChange: (value) {
+                          onChanged: (value) {
                             debounceEvent(() {
                               setState(() {
                                 _inspectionData.buildingData.structuralSystem =
@@ -286,21 +287,21 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                         ),
                         AppInputTextField(
                           labelText: 'Soil/Foundation Condition of Building',
-                          onChange: (value) {
+                          onChanged: (value) {
                             _inspectionData.buildingData.foundationCondition =
                                 value;
                           },
                         ),
                         AppInputTextField(
                           labelText: 'Supervision Status',
-                          onChange: (value) {
+                          onChanged: (value) {
                             _inspectionData.buildingData.supervisionStatus =
                                 value;
                           },
                         ),
                         AppInputTextField(
                           labelText: 'Comment',
-                          onChange: (value) {
+                          onChanged: (value) {
                             _inspectionData.buildingData.comment = value;
                           },
                         ),
@@ -338,7 +339,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                         ),
                         AppInputTextField(
                           labelText: 'Comment on Existing Problems',
-                          onChange: (value) {
+                          onChanged: (value) {
                             _inspectionData.buildingData.problemComment = value;
                           },
                         ),
