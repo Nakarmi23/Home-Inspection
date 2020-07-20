@@ -1,11 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:house_review/components/app_input_text_field.dart';
-import 'package:house_review/components/custom_list_view.dart';
-import 'package:house_review/components/heading_text.dart';
-import 'package:house_review/components/sub_heading_text.dart';
+part of './toilet_inspection_form.dart';
 
-class WaterQualityForm extends StatelessWidget {
-  const WaterQualityForm({Key key}) : super(key: key);
+class FlushView extends StatelessWidget {
+  const FlushView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,14 +9,10 @@ class WaterQualityForm extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText('Sample 1'),
+          child: HeadingText('Flush'),
         ),
         AppInputTextField(
-          labelText: 'Sample Source',
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText('Sample 1 - Upload Photo'),
+          labelText: 'Condition',
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
@@ -60,33 +52,6 @@ class WaterQualityForm extends StatelessWidget {
               },
             ),
           ),
-        ),
-        AppInputTextField(
-          labelText: ' Color',
-        ),
-        AppInputTextField(
-          labelText: ' Taste',
-        ),
-        AppInputTextField(
-          labelText: 'Odour',
-        ),
-        AppInputTextField(
-          labelText: ' PH Value',
-        ),
-        AppInputTextField(
-          labelText: ' Turbuduty',
-        ),
-        AppInputTextField(
-          labelText: ' EC Meter Reading',
-        ),
-        AppInputTextField(
-          labelText: ' Temperature',
-        ),
-        AppInputTextField(
-          labelText: ' TDS Meter Reading',
-        ),
-        AppInputTextField(
-          labelText: ' Chlorine Meter Reading',
         ),
       ],
     );

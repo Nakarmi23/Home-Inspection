@@ -1,25 +1,23 @@
-import 'package:flutter/material.dart';
-import 'package:house_review/components/app_input_text_field.dart';
-import 'package:house_review/components/custom_list_view.dart';
-import 'package:house_review/components/heading_text.dart';
-import 'package:house_review/components/sub_heading_text.dart';
+part of './structural_inspection_form.dart';
 
-class LuxmeterReadingForm extends StatelessWidget {
-  const LuxmeterReadingForm({Key key}) : super(key: key);
+class NonDestructiveTestView extends StatelessWidget {
+  const NonDestructiveTestView({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return CustomListView(
+    return ListView(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText('Sample 1'),
-        ),
-        AppInputTextField(
-          labelText: 'Sample Source',
+          child: HeadingText('Non Destructive Test'),
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText('Sample 1 - Upload Photo'),
+          child: SubHeadingText(
+            'Non Destructive Test - Photo using Schmidt Hammer',
+          ),
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
@@ -60,9 +58,23 @@ class LuxmeterReadingForm extends StatelessWidget {
             ),
           ),
         ),
+        AppInputTextField(
+          labelText: ' Element of Structure',
+        ),
+        AppInputTextField(
+          labelText: ' Concrete Grade',
+        ),
+        AppInputTextField(
+          labelText: ' Direction of Impact',
+        ),
+        AppInputTextField(
+          labelText: ' Location',
+        ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText('Sample 1 - Luxmeter Reading'),
+          child: SubHeadingText(
+            'Non Destructive Test - Reading',
+          ),
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),

@@ -1,16 +1,19 @@
-part of '../room_inspection_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:house_review/components/app_input_text_field.dart';
+import 'package:house_review/components/custom_list_view.dart';
+import 'package:house_review/components/heading_text.dart';
+import 'package:house_review/components/sub_heading_text.dart';
 
 class StaircaseInspectionForm extends StatelessWidget {
   const StaircaseInspectionForm({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+    return CustomListView(
       children: <Widget>[
-        AppInputTextField(
-          labelText: 'Staircase No.',
+        Padding(
+          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+          child: HeadingText('Staircase 1'),
         ),
         AppInputTextField(
           labelText: 'Location',
@@ -23,7 +26,7 @@ class StaircaseInspectionForm extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText('Clearance Condition'),
+          child: SubHeadingText('Clearance Condition'),
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
@@ -69,7 +72,7 @@ class StaircaseInspectionForm extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText('Railing'),
+          child: SubHeadingText('Railing'),
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
@@ -115,7 +118,7 @@ class StaircaseInspectionForm extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText(
+          child: SubHeadingText(
               'Functionality of Riser, Tread and Width of Staircase'),
         ),
         Padding(

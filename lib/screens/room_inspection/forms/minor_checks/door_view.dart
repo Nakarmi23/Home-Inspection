@@ -1,25 +1,69 @@
-import 'package:flutter/material.dart';
-import 'package:house_review/components/app_input_text_field.dart';
-import 'package:house_review/components/custom_list_view.dart';
-import 'package:house_review/components/heading_text.dart';
-import 'package:house_review/components/sub_heading_text.dart';
+part of './minor_checks_form.dart';
 
-class LuxmeterReadingForm extends StatelessWidget {
-  const LuxmeterReadingForm({Key key}) : super(key: key);
+class DoorView extends StatelessWidget {
+  const DoorView({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText('Sample 1'),
-        ),
-        AppInputTextField(
-          labelText: 'Sample Source',
+          child: HeadingText('Door'),
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText('Sample 1 - Upload Photo'),
+          child: SubHeadingText('Door 1'),
+        ),
+        AppInputTextField(
+          labelText: 'Door Material',
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+          child: SubHeadingText('Door Checklist'),
+        ),
+        CheckboxListTile(
+          value: false,
+          onChanged: (value) {},
+          title: Text(
+            'Door Frames',
+          ),
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
+        CheckboxListTile(
+          value: false,
+          onChanged: (value) {},
+          title: Text(
+            'Door Panels',
+          ),
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
+        CheckboxListTile(
+          value: false,
+          onChanged: (value) {},
+          title: Text(
+            'Hinges',
+          ),
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
+        CheckboxListTile(
+          value: false,
+          onChanged: (value) {},
+          title: Text(
+            'Holder',
+          ),
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
+        CheckboxListTile(
+          value: false,
+          onChanged: (value) {},
+          title: Text(
+            'Other Fixtures',
+          ),
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
+        AppInputTextField(
+          labelText: 'Condition',
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
@@ -58,45 +102,6 @@ class LuxmeterReadingForm extends StatelessWidget {
                 );
               },
             ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText('Sample 1 - Luxmeter Reading'),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: DataTable(
-            columns: [
-              DataColumn(label: Text('S.N.')),
-              DataColumn(label: Text('Readings')),
-            ],
-            rows: [
-              DataRow(
-                cells: [
-                  DataCell(
-                    Text('1'),
-                    placeholder: true,
-                  ),
-                  DataCell(
-                    Text('Enter Readings Here'),
-                    placeholder: true,
-                    showEditIcon: true,
-                  )
-                ],
-              ),
-              DataRow(
-                cells: [
-                  DataCell(
-                    Text('Average (1 to 10)'),
-                  ),
-                  DataCell(
-                    Text('Auto Generated'),
-                    onTap: null,
-                  )
-                ],
-              ),
-            ],
           ),
         ),
       ],

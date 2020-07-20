@@ -1,13 +1,15 @@
-part of '../room_inspection_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:house_review/components/app_input_text_field.dart';
+import 'package:house_review/components/custom_list_view.dart';
+import 'package:house_review/components/heading_text.dart';
+import 'package:house_review/components/sub_heading_text.dart';
 
 class SeepageAnalysisFrom extends StatelessWidget {
   const SeepageAnalysisFrom({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+    return CustomListView(
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),

@@ -1,16 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:house_review/components/app_input_text_field.dart';
-import 'package:house_review/components/heading_text.dart';
-import 'package:house_review/components/sub_heading_text.dart';
-
-part 'forms/structural_inspection_form.dart';
-part 'forms/water_quality_form.dart';
-part 'forms/luxmeter_reading_form.dart';
-part 'forms/seepage_analysis_form.dart';
-part 'forms/minor_checks_form.dart';
-part 'forms/kitchen_inspection_form.dart';
-part 'forms/toilet_inspection_form.dart';
-part 'forms/staircase_inspection_form.dart';
+import './forms/forms.dart';
 
 class RoomInspectionScreen extends StatefulWidget {
   final String title;

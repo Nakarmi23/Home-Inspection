@@ -1,25 +1,65 @@
-import 'package:flutter/material.dart';
-import 'package:house_review/components/app_input_text_field.dart';
-import 'package:house_review/components/custom_list_view.dart';
-import 'package:house_review/components/heading_text.dart';
-import 'package:house_review/components/sub_heading_text.dart';
+part of './minor_checks_form.dart';
 
-class LuxmeterReadingForm extends StatelessWidget {
-  const LuxmeterReadingForm({Key key}) : super(key: key);
+class ElectricalFittingView extends StatelessWidget {
+  const ElectricalFittingView({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText('Sample 1'),
+          child: HeadingText('Electrical Fittings'),
         ),
         AppInputTextField(
-          labelText: 'Sample Source',
+          labelText: 'Age of Electrical Inspection',
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText('Sample 1 - Upload Photo'),
+          child: SubHeadingText('Electrical Fittings Checklist'),
+        ),
+        CheckboxListTile(
+          value: false,
+          onChanged: (value) {},
+          title: Text(
+            'Wiring',
+          ),
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
+        CheckboxListTile(
+          value: false,
+          onChanged: (value) {},
+          title: Text(
+            'Switches',
+          ),
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
+        CheckboxListTile(
+          value: false,
+          onChanged: (value) {},
+          title: Text(
+            'Lights',
+          ),
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
+        CheckboxListTile(
+          value: false,
+          onChanged: (value) {},
+          title: Text(
+            'Ceiling Fan',
+          ),
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
+        CheckboxListTile(
+          value: false,
+          onChanged: (value) {},
+          title: Text(
+            'Other Accessories',
+          ),
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
+        AppInputTextField(
+          labelText: 'Condition',
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
@@ -58,45 +98,6 @@ class LuxmeterReadingForm extends StatelessWidget {
                 );
               },
             ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText('Sample 1 - Luxmeter Reading'),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: DataTable(
-            columns: [
-              DataColumn(label: Text('S.N.')),
-              DataColumn(label: Text('Readings')),
-            ],
-            rows: [
-              DataRow(
-                cells: [
-                  DataCell(
-                    Text('1'),
-                    placeholder: true,
-                  ),
-                  DataCell(
-                    Text('Enter Readings Here'),
-                    placeholder: true,
-                    showEditIcon: true,
-                  )
-                ],
-              ),
-              DataRow(
-                cells: [
-                  DataCell(
-                    Text('Average (1 to 10)'),
-                  ),
-                  DataCell(
-                    Text('Auto Generated'),
-                    onTap: null,
-                  )
-                ],
-              ),
-            ],
           ),
         ),
       ],
