@@ -30,6 +30,19 @@ class InspectionFileRepository {
     );
   }
 
+  Future<File> editFile(String filename, InspectionData inspectionData) async {
+    final file = await _localFile('$filename');
+
+    // Write the file.
+    return file.writeAsBytes(
+      utf8.encode(
+        json.encode(
+          inspectionData.toJson(),
+        ),
+      ),
+    );
+  }
+
   Future<InspectionData> readFile(String filename) async {
     try {
       final file = await _localFile(filename);
