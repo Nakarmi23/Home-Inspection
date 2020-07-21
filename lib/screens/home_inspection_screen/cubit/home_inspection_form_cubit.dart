@@ -27,7 +27,7 @@ class HomeInspectionFormCubit extends Cubit<HomeInspectionFormState> {
       File inspectionDataFile =
           await _inspectionFileRepository.writeFile(inspectionData);
       InspectionData data = await _inspectionFileRepository
-          .readFile(inspectionDataFile.path.split("/")[0]);
+          .readFile(inspectionDataFile.path.split("/").last);
 
       emit(HomeInspectionFormSuccess(
         inspectionData: data,
