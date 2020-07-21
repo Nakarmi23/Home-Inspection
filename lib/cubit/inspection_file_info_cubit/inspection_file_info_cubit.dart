@@ -22,4 +22,13 @@ class InspectionFileInfoCubit extends Cubit<InspectionFileInfoState> {
       emit(InspectionFileInfoFailed(error: err));
     }
   }
+
+  void saveData(InspectionFileInfo inspectionFileInfo) async {
+    try {
+      await _fileInfoRepository.insert(inspectionFileInfo);
+      loadData();
+    } catch (err) {
+      emit(InspectionFileInfoFailed(error: err));
+    }
+  }
 }
