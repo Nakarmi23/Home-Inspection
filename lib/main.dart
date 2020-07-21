@@ -4,6 +4,7 @@ import 'package:house_review/cubit/inspection_cause_cubit/inspection_cause_cubit
 import 'package:house_review/cubit/inspection_file_info_cubit/inspection_file_info_cubit.dart';
 import 'package:house_review/cubit/room_purpose_cubit/room_purpose_cubit.dart';
 import 'package:house_review/cubit/strucutural_system_cubit/structural_system_cubit.dart';
+import 'package:house_review/screens/home_inspection_screen/cubit/home_inspection_form_cubit.dart';
 import 'package:house_review/screens/home_inspection_screen/home_inspection_screen.dart';
 import 'package:house_review/screens/home_screen.dart';
 import 'package:house_review/screens/room_inspection/room_inspection_screen.dart';
@@ -36,7 +37,10 @@ class MyApp extends StatelessWidget {
       routes: {
         '/splashScreen': (context) => SplashScreen(),
         '/home': (context) => HomeScreen(),
-        '/inspectionForm': (context) => HomeInspectionScreen(),
+        '/inspectionForm': (context) => CubitProvider(
+              create: (context) => HomeInspectionFormCubit(),
+              child: HomeInspectionScreen(),
+            ),
         '/roomFrom': (context) => RoomInspectionScreen(),
       },
     );

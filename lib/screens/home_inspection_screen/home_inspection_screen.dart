@@ -8,6 +8,7 @@ import 'package:house_review/components/heading_text.dart';
 import 'package:house_review/components/image_picker_bottomsheet.dart';
 import 'package:house_review/cubit/inspection_cause_cubit/inspection_cause_cubit.dart';
 import 'package:house_review/cubit/strucutural_system_cubit/structural_system_cubit.dart';
+import 'package:house_review/models/building.dart';
 import 'package:house_review/models/insepction_cause.dart';
 import 'package:house_review/models/inspection_data.dart';
 import 'package:house_review/models/structural_system.dart';
