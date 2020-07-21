@@ -37,4 +37,19 @@ class HomeInspectionCubit extends Cubit<HomeInspectionState> {
       emit(HomeInspectionFailed(error: err));
     }
   }
+
+  void editData(String filename, InspectionData inspectionData) async {
+    try {
+      File inspectionDataFile =
+          await _inspectionFileRepository.editFile(filename, inspectionData);
+      InspectionData data = await _inspectionFileRepository.readFile(filename);
+
+      emit(HomeInspectionSuccess(
+        inspectionData: data,
+        inspectionDataFile: inspectionDataFile,
+      ));
+    } catch (err) {
+      emit(HomeInspectionFailed(error: err));
+    }
+  }
 }
