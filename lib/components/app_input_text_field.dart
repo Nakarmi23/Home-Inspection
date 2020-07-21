@@ -9,6 +9,7 @@ class AppInputTextField extends StatelessWidget {
     this.onChanged,
     this.onFieldSubmitted,
     this.onSaved,
+    this.initialValue,
   }) : super(key: key);
   final String labelText;
   final bool enabled;
@@ -16,6 +17,7 @@ class AppInputTextField extends StatelessWidget {
   final Function(String) onChanged;
   final Function(String) onFieldSubmitted;
   final Function(String) onSaved;
+  final String initialValue;
   @override
   Widget build(BuildContext context) {
     OutlineInputBorder outlineInputBorder = OutlineInputBorder(
@@ -35,6 +37,7 @@ class AppInputTextField extends StatelessWidget {
         onChanged: onChanged,
         onFieldSubmitted: onFieldSubmitted,
         onSaved: onSaved,
+        initialValue:initialValue,
         decoration: InputDecoration(
           border: outlineInputBorder,
           enabledBorder: outlineInputBorder,
