@@ -22,22 +22,22 @@ class Building extends BaseModel {
   String comment;
   String problemComment;
   List<Room> rooms;
-  Building(
-      {this.structuralSystem,
-      this.inspectionCause,
-      this.photo,
-      this.length,
-      this.breath,
-      this.storeyNo,
-      List<String> materialUsed,
-      this.originalPurpose,
-      this.currentPurpose,
-      this.foundationCondition,
-      this.supervisionStatus,
-      this.comment,
-      this.problemComment,
-      List<Room> rooms})
-      : this.materialUsed = materialUsed ?? [],
+  Building({
+    this.structuralSystem,
+    this.inspectionCause,
+    this.photo,
+    this.length,
+    this.breath,
+    this.storeyNo,
+    List<String> materialUsed,
+    this.originalPurpose,
+    this.currentPurpose,
+    this.foundationCondition,
+    this.supervisionStatus,
+    this.comment,
+    this.problemComment,
+    List<Room> rooms,
+  })  : this.materialUsed = materialUsed ?? [],
         this.rooms = rooms ?? <Room>[];
 
   factory Building.fromJson(Map<String, dynamic> json) =>
