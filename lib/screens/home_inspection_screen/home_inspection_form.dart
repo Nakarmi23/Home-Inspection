@@ -12,8 +12,14 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
       TextEditingController(text: '');
   InspectionData _inspectionData = InspectionData();
   Building _building = Building();
-
+  bool isEditing = false;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    isEditing = ModalRoute.of(context).settings.arguments ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +63,16 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
     return CubitConsumer<HomeInspectionCubit, HomeInspectionState>(
         listener: (context, state) {
       if (state is HomeInspectionSuccess) {
-        context.cubit<InspectionFileInfoCubit>().saveData(InspectionFileInfo(
-            address: state.inspectionData.address,
-            name: state.inspectionData.name,
-            fileName: state.inspectionDataFile.path.split('/').last,
-            path: state.inspectionDataFile.path));
+        if (isEditing == false) {
+          context.cubit<InspectionFileInfoCubit>().saveData(InspectionFileInfo(
+              address: state.inspectionData.address,
+              name: state.inspectionData.name,
+              fileName: state.inspectionDataFile.path.split('/').last,
+              path: state.inspectionDataFile.path));
+        }
+        isEditing = true;
       }
-    }, builder: (context, snapshot) {
+    }, builder: (context, state) {
       return Scaffold(
         body: CustomScrollView(
           slivers: <Widget>[
@@ -76,16 +85,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                     child: Form(
                       key: formKey,
                       onChanged: () {
-                        debounceEvent(() {
-                          formKey.currentState.save();
-                          _inspectionData.buildingData = _building;
-                          if (_inspectionData.name.isNotEmpty &&
-                              _inspectionData.address.isNotEmpty) {
-                            context
-                                .cubit<HomeInspectionCubit>()
-                                .saveData(_inspectionData);
-                          }
-                        });
+                        onFormChanged(context, state);
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -376,6 +376,30 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
           ],
         ),
       );
+    });
+  }
+
+  void onFormChanged(BuildContext context, HomeInspectionState state) {
+    return debounceEvent(() {
+      formKey.currentState.save();
+      _inspectionData.buildingData = _building;
+      if (isEditing == false) {
+        if (_inspectionData.name.isNotEmpty &&
+            _inspectionData.address.isNotEmpty) {
+          context.cubit<HomeInspectionCubit>().saveData(_inspectionData);
+        }
+      } else {
+        if (_inspectionData.name.isNotEmpty &&
+            _inspectionData.address.isNotEmpty) {
+          context.cubit<HomeInspectionCubit>().editData(
+              (state as HomeInspectionSuccess)
+                  .inspectionDataFile
+                  .path
+                  .split('/')
+                  .last,
+              _inspectionData);
+        }
+      }
     });
   }
 
