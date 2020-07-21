@@ -54,9 +54,9 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
       ),
     );
 
-    return CubitConsumer<HomeInspectionFormCubit, HomeInspectionFormState>(
+    return CubitConsumer<HomeInspectionCubit, HomeInspectionState>(
         listener: (context, state) {
-      if (state is HomeInspectionFormSuccess) {
+      if (state is HomeInspectionSuccess) {
         context.cubit<InspectionFileInfoCubit>().saveData(InspectionFileInfo(
             address: state.inspectionData.address,
             name: state.inspectionData.name,
@@ -82,7 +82,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                           if (_inspectionData.name.isNotEmpty &&
                               _inspectionData.address.isNotEmpty) {
                             context
-                                .cubit<HomeInspectionFormCubit>()
+                                .cubit<HomeInspectionCubit>()
                                 .saveData(_inspectionData);
                           }
                         });

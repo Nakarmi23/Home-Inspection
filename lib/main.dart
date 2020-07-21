@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cubit/flutter_cubit.dart';
+import 'package:house_review/cubit/home_inspection_cubit/home_inspection_cubit.dart';
 import 'package:house_review/cubit/inspection_cause_cubit/inspection_cause_cubit.dart';
 import 'package:house_review/cubit/inspection_file_info_cubit/inspection_file_info_cubit.dart';
 import 'package:house_review/cubit/room_purpose_cubit/room_purpose_cubit.dart';
 import 'package:house_review/cubit/strucutural_system_cubit/structural_system_cubit.dart';
-import 'package:house_review/screens/home_inspection_screen/cubit/home_inspection_form_cubit.dart';
 import 'package:house_review/screens/home_inspection_screen/home_inspection_screen.dart';
 import 'package:house_review/screens/home_screen.dart';
 import 'package:house_review/screens/room_inspection/room_inspection_screen.dart';
@@ -21,7 +21,7 @@ void main() {
       CubitProvider(
           create: (context) => StructuralSystemCubit()..initializeData()),
       CubitProvider(create: (context) => InspectionFileInfoCubit()..loadData()),
-      CubitProvider(create: (context) => HomeInspectionFormCubit())
+      CubitProvider(create: (context) => HomeInspectionCubit())
     ],
     child: MyApp(),
   ));

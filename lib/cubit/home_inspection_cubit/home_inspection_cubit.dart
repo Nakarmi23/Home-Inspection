@@ -5,20 +5,20 @@ import 'package:house_review/models/inspection_data.dart';
 import 'package:house_review/repository/inspection_file_repository.dart';
 import 'package:meta/meta.dart';
 
-part 'home_inspection_form_state.dart';
+part 'home_inspection_state.dart';
 
-class HomeInspectionFormCubit extends Cubit<HomeInspectionFormState> {
+class HomeInspectionCubit extends Cubit<HomeInspectionState> {
   InspectionFileRepository _inspectionFileRepository =
       InspectionFileRepository();
 
-  HomeInspectionFormCubit() : super(HomeInspectionFormInitial());
+  HomeInspectionCubit() : super(HomeInspectionInitial());
 
   void readData(String filename) async {
     try {
       InspectionData data = await _inspectionFileRepository.readFile(filename);
-      emit(HomeInspectionFormSuccess(inspectionData: data));
+      emit(HomeInspectionSuccess(inspectionData: data));
     } catch (err) {
-      emit(HomeInspectionFormFailed(error: err));
+      emit(HomeInspectionFailed(error: err));
     }
   }
 
@@ -29,12 +29,12 @@ class HomeInspectionFormCubit extends Cubit<HomeInspectionFormState> {
       InspectionData data = await _inspectionFileRepository
           .readFile(inspectionDataFile.path.split("/").last);
 
-      emit(HomeInspectionFormSuccess(
+      emit(HomeInspectionSuccess(
         inspectionData: data,
         inspectionDataFile: inspectionDataFile,
       ));
     } catch (err) {
-      emit(HomeInspectionFormFailed(error: err));
+      emit(HomeInspectionFailed(error: err));
     }
   }
 }
