@@ -21,6 +21,7 @@ void main() {
       CubitProvider(
           create: (context) => StructuralSystemCubit()..initializeData()),
       CubitProvider(create: (context) => InspectionFileInfoCubit()..loadData()),
+      CubitProvider(create: (context) => HomeInspectionFormCubit())
     ],
     child: MyApp(),
   ));
@@ -37,10 +38,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/splashScreen': (context) => SplashScreen(),
         '/home': (context) => HomeScreen(),
-        '/inspectionForm': (context) => CubitProvider(
-              create: (context) => HomeInspectionFormCubit(),
-              child: HomeInspectionScreen(),
-            ),
+        '/inspectionForm': (context) => HomeInspectionScreen(),
         '/roomFrom': (context) => RoomInspectionScreen(),
       },
     );
