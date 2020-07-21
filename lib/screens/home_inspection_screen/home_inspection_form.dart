@@ -54,311 +54,329 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
       ),
     );
 
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          appBar,
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0 * 2),
-                  child: Form(
-                    key: formKey,
-                    onChanged: () {
-                      debounceEvent(() {
-                        formKey.currentState.save();
-                        _inspectionData.buildingData = _building;
-                        print(_inspectionData.toJson());
-                      });
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 16.0, left: 16.0, right: 16.0),
-                          child: HeadingText('Client Detail'),
-                        ),
-                        AppInputTextField(
-                          labelText: 'Client Name',
-                          onSaved: (value) {
-                            _inspectionData.name = value;
-                          },
-                        ),
-                        AppInputTextField(
-                          labelText: 'Address',
-                          onSaved: (value) {
-                            _inspectionData.address = value;
-                          },
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 16.0, left: 16.0, right: 16.0),
-                          child: HeadingText('Building Deatils'),
-                        ),
-                        AppInputTextField(
-                          labelText: 'No. of Storey',
-                          keyboardType: TextInputType.number,
-                          initialValue: '0',
-                          onSaved: (value) {
-                            _building.storeyNo = int.parse(value);
-                          },
-                        ),
-                        AppInputTextField(
-                          labelText: 'Original Purpose of Building',
-                          onSaved: (value) {
-                            _building.originalPurpose = value;
-                          },
-                        ),
-                        AppInputTextField(
-                          labelText: 'Current Purpose of Building',
-                          onSaved: (value) {
-                            _building.currentPurpose = value;
-                          },
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 16.0, left: 16.0, right: 16.0),
-                          child: HeadingText(
-                            'Area of Building',
+    return CubitConsumer<HomeInspectionFormCubit, HomeInspectionFormState>(
+        listener: (context, state) {
+      if (state is HomeInspectionFormSuccess) {
+        context.cubit<InspectionFileInfoCubit>().saveData(InspectionFileInfo(
+            address: state.inspectionData.address,
+            name: state.inspectionData.name,
+            fileName: state.inspectionDataFile.path.split('/').last,
+            path: state.inspectionDataFile.path));
+      }
+    }, builder: (context, snapshot) {
+      return Scaffold(
+        body: CustomScrollView(
+          slivers: <Widget>[
+            appBar,
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0 * 2),
+                    child: Form(
+                      key: formKey,
+                      onChanged: () {
+                        debounceEvent(() {
+                          formKey.currentState.save();
+                          _inspectionData.buildingData = _building;
+                          if (_inspectionData.name.isNotEmpty &&
+                              _inspectionData.address.isNotEmpty) {
+                            context
+                                .cubit<HomeInspectionFormCubit>()
+                                .saveData(_inspectionData);
+                          }
+                        });
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 16.0, left: 16.0, right: 16.0),
+                            child: HeadingText('Client Detail'),
                           ),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Expanded(
-                              child: AppInputTextField(
-                                keyboardType: TextInputType.numberWithOptions(
-                                  decimal: true,
-                                ),
-                                labelText: 'Length',
-                                initialValue: '0',
-                                onSaved: (value) {
-                                  _building.length = double.parse(value);
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              child: AppInputTextField(
-                                keyboardType: TextInputType.numberWithOptions(
-                                  decimal: true,
-                                ),
-                                labelText: 'Breath',
-                                initialValue: '0',
-                                onSaved: (value) {
-                                  _building.length = double.parse(value);
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              child: AppInputTextField(
-                                enabled: false,
-                                keyboardType: TextInputType.numberWithOptions(
-                                  decimal: true,
-                                ),
-                                labelText: 'Area',
-                              ),
-                            ),
-                          ],
-                        ),
-                        CubitBuilder<StructuralSystemCubit,
-                            StructuralSystemState>(
-                          builder: (context, state) {
-                            List<StructuralSystem> data;
-                            if (state is StructuralSystemSuccess) {
-                              data = [...state.structuralSystem]
-                                ..add(StructuralSystem(
-                                  id: 0,
-                                  isEditable: 0,
-                                  systemName: 'Other',
-                                ));
-                            } else {
-                              data = [];
-                            }
-                            return Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
-                              child: AppDropdownMenu<StructuralSystem>(
-                                title: 'Structural System of Building',
-                                value: _building?.structuralSystem?.id == 0
-                                    ? data.last
-                                    : _building?.structuralSystem ?? null,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _building?.structuralSystem = value;
-                                  });
-                                },
-                                items: data
-                                    .map((item) => DropdownMenuItem(
-                                          child: Text(item.systemName),
-                                          value: item,
-                                        ))
-                                    .toList(),
-                              ),
-                            );
-                          },
-                        ),
-                        AppInputTextField(
-                          enabled:
-                              _building?.structuralSystem?.id == 0 ?? false,
-                          labelText: 'Other Structural System of Building',
-                          onSaved: (value) {
-                            if (_building?.structuralSystem?.id == 0)
-                              setState(() {
-                                _building.structuralSystem = StructuralSystem(
-                                  id: 0,
-                                  systemName: value,
-                                  isEditable: 0,
-                                );
-                              });
-                          },
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 16.0, left: 16.0, right: 16.0),
-                          child: HeadingText('Materials Used'),
-                        ),
-                        ...createMaterialUsedWidgets(),
-                        InkWell(
-                          child: Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text('Add Materials Used'),
-                                ),
-                                Icon(
-                                  Icons.add_circle,
-                                  color: Theme.of(context).accentColor,
-                                ),
-                              ],
+                          AppInputTextField(
+                            labelText: 'Client Name',
+                            onSaved: (value) {
+                              _inspectionData.name = value;
+                            },
+                          ),
+                          AppInputTextField(
+                            labelText: 'Address',
+                            onSaved: (value) {
+                              _inspectionData.address = value;
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 16.0, left: 16.0, right: 16.0),
+                            child: HeadingText('Building Deatils'),
+                          ),
+                          AppInputTextField(
+                            labelText: 'No. of Storey',
+                            keyboardType: TextInputType.number,
+                            initialValue: '0',
+                            onSaved: (value) {
+                              _building.storeyNo = int.parse(value);
+                            },
+                          ),
+                          AppInputTextField(
+                            labelText: 'Original Purpose of Building',
+                            onSaved: (value) {
+                              _building.originalPurpose = value;
+                            },
+                          ),
+                          AppInputTextField(
+                            labelText: 'Current Purpose of Building',
+                            onSaved: (value) {
+                              _building.currentPurpose = value;
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 16.0, left: 16.0, right: 16.0),
+                            child: HeadingText(
+                              'Area of Building',
                             ),
                           ),
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text('Material Used'),
-                                  content: TextField(
-                                    controller: _materialTextFieldController,
-                                    autofocus: true,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              Expanded(
+                                child: AppInputTextField(
+                                  keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true,
                                   ),
-                                  actions: <Widget>[
-                                    RaisedButton(
-                                      color: Theme.of(context).primaryColor,
-                                      child: Text('Add'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop(
-                                            _materialTextFieldController
-                                                .value.text);
-                                      },
-                                    )
-                                  ],
-                                );
-                              },
-                            ).then((value) {
-                              _materialTextFieldController.clear();
-                              if (value != null)
-                                setState(() {
-                                  _building.materialUsed.add(value);
-                                });
-                            });
-                          },
-                        ),
-                        AppInputTextField(
-                          labelText: 'Soil/Foundation Condition of Building',
-                          onSaved: (value) {
-                            _building.foundationCondition = value;
-                          },
-                        ),
-                        AppInputTextField(
-                          labelText: 'Supervision Status',
-                          onSaved: (value) {
-                            _building.supervisionStatus = value;
-                          },
-                        ),
-                        AppInputTextField(
-                          labelText: 'Comment',
-                          onSaved: (value) {
-                            _building.comment = value;
-                          },
-                        ),
-                        CubitBuilder<InspectionCauseCubit,
-                            InspectionCauseState>(
-                          builder: (context, state) {
-                            List<InspectionCause> data;
-                            if (state is InspectionCauseSuccess) {
-                              data = state.inspectionCause;
-                            } else {
-                              data = [];
-                            }
-                            return Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
-                              child: AppDropdownMenu<InspectionCause>(
-                                title: 'Cause of Inspection',
-                                value: _building.inspectionCause ?? null,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _building.inspectionCause = value;
-                                  });
-                                },
-                                items: data
-                                    .map((item) => DropdownMenuItem(
-                                          child: Text(item.inspectionCause),
-                                          value: item,
-                                        ))
-                                    .toList(),
+                                  labelText: 'Length',
+                                  initialValue: '0',
+                                  onSaved: (value) {
+                                    _building.length = double.parse(value);
+                                  },
+                                ),
                               ),
-                            );
-                          },
-                        ),
-                        AppInputTextField(
-                          labelText: 'Comment on Existing Problems',
-                          onSaved: (value) {
-                            _building.problemComment = value;
-                          },
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 16.0, left: 16.0, right: 16.0),
-                          child: HeadingText('Rooms'),
-                        ),
-                        ...createBuildingRooms(),
-                        InkWell(
-                          child: Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text('Add New Room'),
+                              Expanded(
+                                child: AppInputTextField(
+                                  keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true,
+                                  ),
+                                  labelText: 'Breath',
+                                  initialValue: '0',
+                                  onSaved: (value) {
+                                    _building.length = double.parse(value);
+                                  },
                                 ),
-                                Icon(
-                                  Icons.add_circle,
-                                  color: Theme.of(context).accentColor,
+                              ),
+                              Expanded(
+                                child: AppInputTextField(
+                                  enabled: false,
+                                  keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true,
+                                  ),
+                                  labelText: 'Area',
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          onTap: () {
-                            Navigator.of(context).pushNamed('/roomFrom',
-                                arguments: 'F2 - Kitchen');
-                          },
-                        ),
-                      ],
+                          CubitBuilder<StructuralSystemCubit,
+                              StructuralSystemState>(
+                            builder: (context, state) {
+                              List<StructuralSystem> data;
+                              if (state is StructuralSystemSuccess) {
+                                data = [...state.structuralSystem]
+                                  ..add(StructuralSystem(
+                                    id: 0,
+                                    isEditable: 0,
+                                    systemName: 'Other',
+                                  ));
+                              } else {
+                                data = [];
+                              }
+                              return Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                child: AppDropdownMenu<StructuralSystem>(
+                                  title: 'Structural System of Building',
+                                  value: _building?.structuralSystem?.id == 0
+                                      ? data.last
+                                      : _building?.structuralSystem ?? null,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _building?.structuralSystem = value;
+                                    });
+                                  },
+                                  items: data
+                                      .map((item) => DropdownMenuItem(
+                                            child: Text(item.systemName),
+                                            value: item,
+                                          ))
+                                      .toList(),
+                                ),
+                              );
+                            },
+                          ),
+                          AppInputTextField(
+                            enabled:
+                                _building?.structuralSystem?.id == 0 ?? false,
+                            labelText: 'Other Structural System of Building',
+                            onSaved: (value) {
+                              if (_building?.structuralSystem?.id == 0)
+                                setState(() {
+                                  _building.structuralSystem = StructuralSystem(
+                                    id: 0,
+                                    systemName: value,
+                                    isEditable: 0,
+                                  );
+                                });
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 16.0, left: 16.0, right: 16.0),
+                            child: HeadingText('Materials Used'),
+                          ),
+                          ...createMaterialUsedWidgets(),
+                          InkWell(
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Text('Add Materials Used'),
+                                  ),
+                                  Icon(
+                                    Icons.add_circle,
+                                    color: Theme.of(context).accentColor,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Material Used'),
+                                    content: TextField(
+                                      controller: _materialTextFieldController,
+                                      autofocus: true,
+                                    ),
+                                    actions: <Widget>[
+                                      RaisedButton(
+                                        color: Theme.of(context).primaryColor,
+                                        child: Text('Add'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop(
+                                              _materialTextFieldController
+                                                  .value.text);
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              ).then((value) {
+                                _materialTextFieldController.clear();
+                                if (value != null)
+                                  setState(() {
+                                    _building.materialUsed.add(value);
+                                  });
+                              });
+                            },
+                          ),
+                          AppInputTextField(
+                            labelText: 'Soil/Foundation Condition of Building',
+                            onSaved: (value) {
+                              _building.foundationCondition = value;
+                            },
+                          ),
+                          AppInputTextField(
+                            labelText: 'Supervision Status',
+                            onSaved: (value) {
+                              _building.supervisionStatus = value;
+                            },
+                          ),
+                          AppInputTextField(
+                            labelText: 'Comment',
+                            onSaved: (value) {
+                              _building.comment = value;
+                            },
+                          ),
+                          CubitBuilder<InspectionCauseCubit,
+                              InspectionCauseState>(
+                            builder: (context, state) {
+                              List<InspectionCause> data;
+                              if (state is InspectionCauseSuccess) {
+                                data = state.inspectionCause;
+                              } else {
+                                data = [];
+                              }
+                              return Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                child: AppDropdownMenu<InspectionCause>(
+                                  title: 'Cause of Inspection',
+                                  value: _building.inspectionCause ?? null,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _building.inspectionCause = value;
+                                    });
+                                  },
+                                  items: data
+                                      .map((item) => DropdownMenuItem(
+                                            child: Text(item.inspectionCause),
+                                            value: item,
+                                          ))
+                                      .toList(),
+                                ),
+                              );
+                            },
+                          ),
+                          AppInputTextField(
+                            labelText: 'Comment on Existing Problems',
+                            onSaved: (value) {
+                              _building.problemComment = value;
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 16.0, left: 16.0, right: 16.0),
+                            child: HeadingText('Rooms'),
+                          ),
+                          ...createBuildingRooms(),
+                          InkWell(
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Text('Add New Room'),
+                                  ),
+                                  Icon(
+                                    Icons.add_circle,
+                                    color: Theme.of(context).accentColor,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/roomFrom',
+                                  arguments: 'F2 - Kitchen');
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 
   Future buildShowModalBottomSheet(BuildContext context) async {
