@@ -379,6 +379,32 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
     });
   }
 
+  void showAddMaterialDialog(BuildContext context, [int index]) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: Text('Material Used'),
+          children: <Widget>[
+            MaterialModelForm(
+              toEditValue: index != null ? _building.materialUsed[index] : null,
+              onFormSave: (value) {
+                setState(() {
+                  if (index != null) {
+                    _building.materialUsed[index] = value;
+                  } else {
+                    _building.materialUsed.add(value);
+                  }
+                  Navigator.of(context).pop();
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void onFormChanged(BuildContext context, HomeInspectionState state) {
     return debounceEvent(() {
       formKey.currentState.save();
@@ -423,8 +449,23 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
         (item) => ListTile(
           title: Text(item),
           trailing: PopupMenuButton(
+            onSelected: (value) {
+              switch (value) {
+                case 0:
+                  showAddMaterialDialog(
+                      context, _building.materialUsed.indexOf(item));
+                  break;
+                case 1:
+                  setState(() {
+                    _building.materialUsed.remove(item);
+                  });
+                  break;
+                default:
+              }
+            },
             itemBuilder: (context) => [
               PopupMenuItem(
+                value: 0,
                 child: Row(
                   children: <Widget>[
                     Icon(Icons.edit),
@@ -434,6 +475,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                 ),
               ),
               PopupMenuItem(
+                value: 1,
                 child: Row(
                   children: <Widget>[
                     Icon(Icons.delete),
