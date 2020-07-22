@@ -25,18 +25,20 @@ class Room extends BaseModel {
   StaircaseInspection staircaseInspection;
   String roomId;
   int storeyNo;
+  int roomNo;
   List<String> pictures;
-  Room(
-      {this.roomPurpose,
-      this.structuralInspection,
-      this.roomId,
-      this.storeyNo,
-      List<String> pictures,
-      List<WaterQuality> waterQualities,
-      List<LuxmeterReading> luxmeterReadings,
-      List<SeepageAnalysis> seepageAnalysis,
-      this.minorChecks})
-      : this.pictures = pictures ?? [],
+  Room({
+    this.roomPurpose,
+    this.structuralInspection,
+    this.roomId,
+    this.storeyNo,
+    List<String> pictures,
+    List<WaterQuality> waterQualities,
+    List<LuxmeterReading> luxmeterReadings,
+    List<SeepageAnalysis> seepageAnalysis,
+    this.minorChecks,
+    this.roomNo,
+  })  : this.pictures = pictures ?? [],
         this.waterQualities = waterQualities ?? [],
         this.luxmeterReadings = luxmeterReadings ?? [],
         this.seepageAnalysis = seepageAnalysis ?? [];

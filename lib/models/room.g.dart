@@ -35,6 +35,7 @@ Room _$RoomFromJson(Map<String, dynamic> json) {
     minorChecks: json['minorChecks'] == null
         ? null
         : MinorChecks.fromJson(json['minorChecks'] as Map<String, dynamic>),
+    roomNo: json['roomNo'] as int,
   )
     ..kitchenInspection = json['kitchenInspection'] == null
         ? null
@@ -65,5 +66,6 @@ Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
       'staircaseInspection': instance.staircaseInspection?.toJson(),
       'roomId': instance.roomId,
       'storeyNo': instance.storeyNo,
+      'roomNo': instance.roomNo,
       'pictures': instance.pictures,
     };
