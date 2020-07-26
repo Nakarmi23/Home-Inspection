@@ -47,6 +47,7 @@ Map<String, dynamic> _$NonDestructiveTestToJson(NonDestructiveTest instance) =>
 
 VisualInspection _$VisualInspectionFromJson(Map<String, dynamic> json) {
   return VisualInspection(
+    location: json['location'] as String,
     spalling: json['spalling'] == null
         ? null
         : Spalling.fromJson(json['spalling'] as Map<String, dynamic>),
@@ -68,6 +69,7 @@ VisualInspection _$VisualInspectionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$VisualInspectionToJson(VisualInspection instance) =>
     <String, dynamic>{
+      'location': instance.location,
       'spalling': instance.spalling?.toJson(),
       'tilting': instance.tilting?.toJson(),
       'bulging': instance.bulging?.toJson(),
@@ -111,13 +113,13 @@ Bulging _$BulgingFromJson(Map<String, dynamic> json) {
     comment: json['comment'] as String,
     height: (json['height'] as num)?.toDouble(),
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
-    width: (json['width'] as num)?.toDouble(),
+    depth: (json['depth'] as num)?.toDouble(),
   );
 }
 
 Map<String, dynamic> _$BulgingToJson(Bulging instance) => <String, dynamic>{
       'height': instance.height,
-      'width': instance.width,
+      'depth': instance.depth,
       'comment': instance.comment,
       'photos': instance.photos,
     };
@@ -125,14 +127,14 @@ Map<String, dynamic> _$BulgingToJson(Bulging instance) => <String, dynamic>{
 Cracking _$CrackingFromJson(Map<String, dynamic> json) {
   return Cracking(
     comment: json['comment'] as String,
-    height: (json['height'] as num)?.toDouble(),
+    depth: (json['depth'] as num)?.toDouble(),
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
     width: (json['width'] as num)?.toDouble(),
   );
 }
 
 Map<String, dynamic> _$CrackingToJson(Cracking instance) => <String, dynamic>{
-      'height': instance.height,
+      'depth': instance.depth,
       'width': instance.width,
       'comment': instance.comment,
       'photos': instance.photos,

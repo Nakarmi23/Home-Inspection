@@ -2,19 +2,21 @@ part of 'structural_inspection.dart';
 
 @JsonSerializable(explicitToJson: true)
 class VisualInspection extends BaseModel {
+  String location;
   Spalling spalling;
   Tilting tilting;
   Bulging bulging;
   Cracking cracking;
   List<OtherProblem> otherProblems;
 
-  VisualInspection(
-      {this.spalling,
-      this.tilting,
-      this.bulging,
-      this.cracking,
-      List<OtherProblem> otherProblems})
-      : this.otherProblems = otherProblems ?? [];
+  VisualInspection({
+    this.location,
+    this.spalling,
+    this.tilting,
+    this.bulging,
+    this.cracking,
+    List<OtherProblem> otherProblems,
+  }) : this.otherProblems = otherProblems ?? [];
 
   factory VisualInspection.fromJson(Map<String, dynamic> json) =>
       _$VisualInspectionFromJson(json);
@@ -68,7 +70,7 @@ class Tilting implements BaseModelWithCommentAndPhotos {
 
 @JsonSerializable()
 class Bulging implements BaseModelWithCommentAndPhotos {
-  double height, width;
+  double height, depth;
 
   @override
   String comment;
@@ -76,7 +78,7 @@ class Bulging implements BaseModelWithCommentAndPhotos {
   @override
   List<String> photos;
 
-  Bulging({this.comment, this.height, List<String> photos, this.width})
+  Bulging({this.comment, this.height, List<String> photos, this.depth})
       : this.photos = photos ?? [];
 
   factory Bulging.fromJson(Map<String, dynamic> json) =>
@@ -88,7 +90,7 @@ class Bulging implements BaseModelWithCommentAndPhotos {
 
 @JsonSerializable()
 class Cracking implements BaseModelWithCommentAndPhotos {
-  double height, width;
+  double depth, width;
 
   @override
   String comment;
@@ -96,7 +98,7 @@ class Cracking implements BaseModelWithCommentAndPhotos {
   @override
   List<String> photos;
 
-  Cracking({this.comment, this.height, List<String> photos, this.width})
+  Cracking({this.comment, this.depth, List<String> photos, this.width})
       : this.photos = photos ?? [];
 
   factory Cracking.fromJson(Map<String, dynamic> json) =>
