@@ -11,7 +11,9 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
   TextEditingController _materialTextFieldController =
       TextEditingController(text: '');
   InspectionData _inspectionData = InspectionData();
-  Building _building = Building();
+  Building _building = Building(
+    storeyNo: 1,
+  );
   bool isEditing = false;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -116,9 +118,10 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                           AppInputTextField(
                             labelText: 'No. of Storey',
                             keyboardType: TextInputType.number,
-                            initialValue: '0',
+                            initialValue: '1',
                             onSaved: (value) {
-                              _building.storeyNo = int.parse(value);
+                              _building.storeyNo =
+                                  value.isNotEmpty ? int.parse(value) : 1;
                             },
                           ),
                           AppInputTextField(
@@ -255,17 +258,6 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                             ),
                             onTap: () {
                               showAddMaterialDialog(context);
-                                      )
-                                    ],
-                                  );
-                                },
-                              ).then((value) {
-                                _materialTextFieldController.clear();
-                                if (value != null)
-                                  setState(() {
-                                    _building.materialUsed.add(value);
-                                  });
-                              });
                             },
                           ),
                           AppInputTextField(
