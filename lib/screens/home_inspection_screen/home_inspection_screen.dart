@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cubit/flutter_cubit.dart';
 import 'package:house_review/components/app_dropdown_menu.dart';
 import 'package:house_review/components/app_input_text_field.dart';
-import 'package:house_review/components/dismissable_background.dart';
+import 'package:house_review/components/dismissible_background.dart';
 import 'package:house_review/components/heading_text.dart';
 import 'package:house_review/components/image_picker_bottomsheet.dart';
 import 'package:house_review/cubit/home_inspection_cubit/home_inspection_cubit.dart';
