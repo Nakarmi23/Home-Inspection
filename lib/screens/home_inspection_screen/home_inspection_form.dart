@@ -254,24 +254,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                               ),
                             ),
                             onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text('Material Used'),
-                                    content: TextField(
-                                      controller: _materialTextFieldController,
-                                      autofocus: true,
-                                    ),
-                                    actions: <Widget>[
-                                      RaisedButton(
-                                        color: Theme.of(context).primaryColor,
-                                        child: Text('Add'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop(
-                                              _materialTextFieldController
-                                                  .value.text);
-                                        },
+                              showAddMaterialDialog(context);
                                       )
                                     ],
                                   );
@@ -362,8 +345,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                               ),
                             ),
                             onTap: () {
-                              Navigator.of(context).pushNamed('/roomFrom',
-                                  arguments: 'F2 - Kitchen');
+                              showAddRoom(context);
                             },
                           ),
                         ],
@@ -379,8 +361,41 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
     });
   }
 
-  void showAddMaterialDialog(BuildContext context, [int index]) {
-    showDialog(
+  Future showAddRoom(BuildContext context, [int index]) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: Text('Room Detail'),
+          children: <Widget>[
+            RoomDetailModelForm(
+              buildingStorey: _building.storeyNo,
+              onFormSave: (value) {
+                if (index == null) {
+                  this.setState(() {
+                    _building.rooms.add(value);
+                  });
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed('/roomFrom',
+                      arguments:
+                          '${value.storeyNo}/${value.roomNo}/${value.roomPurpose.purpose}');
+                } else {
+                  this.setState(() {
+                    _building.rooms[index] = value;
+                  });
+                  Navigator.of(context).pop();
+                }
+              },
+              toEditValue: index != null ? _building.rooms[index] : null,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future showAddMaterialDialog(BuildContext context, [int index]) {
+    return showDialog(
       context: context,
       builder: (context) {
         return SimpleDialog(
