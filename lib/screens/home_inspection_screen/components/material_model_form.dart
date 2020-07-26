@@ -37,7 +37,7 @@ class MaterialModelForm extends StatelessWidget {
                 RaisedButton(
                   textColor: Colors.white,
                   color: Theme.of(context).primaryColor,
-                  child: Text('Add'),
+                  child: Text(toEditValue == null ? 'Add' : 'Edit'),
                   onPressed: () {
                     if (formKey.currentState.validate()) {
                       formKey.currentState.save();
