@@ -36,7 +36,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
     var appBarFAB = FloatingActionButton(
       child: Icon(Icons.camera_enhance),
       onPressed: () {
-        buildShowModalBottomSheet(context);
+        showPickImageOptionBottomSheet(context);
       },
     );
     var appBar = SliverAppBar(
@@ -436,7 +436,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
     });
   }
 
-  Future buildShowModalBottomSheet(BuildContext context) async {
+  Future showPickImageOptionBottomSheet(BuildContext context) async {
     return await showModalBottomSheet(
       context: context,
       builder: (context) {
