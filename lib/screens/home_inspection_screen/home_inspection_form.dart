@@ -498,25 +498,32 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
           (item) => ListTile(
             title: Text(item.roomPurpose.purpose),
             trailing: PopupMenuButton(
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.edit),
-                      Padding(padding: EdgeInsets.all(8.0)),
-                      Text('Edit'),
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.delete),
-                      Padding(padding: EdgeInsets.all(8.0)),
-                      Text('Delete'),
-                    ],
-                  ),
-                ),
+
+  List<PopupMenuItem<int>> popupMenuButtonItems() {
+    return [
+      PopupMenuItem<int>(
+        value: 0,
+        child: Row(
+          children: <Widget>[
+            Icon(Icons.edit),
+            Padding(padding: EdgeInsets.all(8.0)),
+            Text('Edit'),
+          ],
+        ),
+      ),
+      PopupMenuItem<int>(
+        value: 1,
+        child: Row(
+          children: <Widget>[
+            Icon(Icons.delete),
+            Padding(padding: EdgeInsets.all(8.0)),
+            Text('Delete'),
+          ],
+        ),
+      ),
+    ];
+  }
+
   Future<bool> deleteItemAlertModel(BuildContext context) {
     return showDialog(
       barrierDismissible: true,
