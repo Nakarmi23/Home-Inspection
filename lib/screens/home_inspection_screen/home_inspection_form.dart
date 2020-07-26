@@ -453,45 +453,75 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
 
   List<Widget> createMaterialUsedWidgets() => _building.materialUsed
       .map(
-        (item) => ListTile(
-          title: Text(item),
-          trailing: PopupMenuButton(
-            onSelected: (value) {
-              switch (value) {
-                case 0:
-                  showAddMaterialDialog(
-                      context, _building.materialUsed.indexOf(item));
-                  break;
-                case 1:
-                  setState(() {
-                    _building.materialUsed.remove(item);
-                  });
-                  break;
-                default:
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 0,
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.edit),
-                    Padding(padding: EdgeInsets.all(8.0)),
-                    Text('Edit'),
-                  ],
-                ),
+        (item) => Dismissible(
+          key: UniqueKey(),
+          onDismissed: (direction) {
+            setState(() {
+              _building.materialUsed
+                  .removeAt(_building.materialUsed.indexOf(item));
+            });
+          },
+          confirmDismiss: (direction) async {
+            if (direction == DismissDirection.endToStart) {
+              bool isUserSure = await deleteItemAlertModel(context);
+              return isUserSure ?? false;
+            } else if (direction == DismissDirection.startToEnd) {
+              await showAddMaterialDialog(
+                  context, _building.materialUsed.indexOf(item));
+              return false;
+            } else {
+              return false;
+            }
+          },
+          secondaryBackground: DismissibleBackground(
+            color: Theme.of(context).errorColor,
+            forDirection: DismissDirection.endToStart,
+            child: Text(
+              'Delete',
+              style: TextStyle(
+                color: Colors.white,
               ),
-              PopupMenuItem(
-                value: 1,
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.delete),
-                    Padding(padding: EdgeInsets.all(8.0)),
-                    Text('Delete'),
-                  ],
-                ),
+            ),
+            icon: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+          ),
+          background: DismissibleBackground(
+            color: Theme.of(context).accentColor,
+            forDirection: DismissDirection.startToEnd,
+            child: Text(
+              'Edit',
+              style: TextStyle(
+                color: Colors.white,
               ),
-            ],
+            ),
+            icon: Icon(
+              Icons.edit,
+              color: Colors.white,
+            ),
+          ),
+          child: ListTile(
+            title: Text(item),
+            trailing: PopupMenuButton(
+              onSelected: (value) async {
+                switch (value) {
+                  case 0:
+                    showAddMaterialDialog(
+                        context, _building.materialUsed.indexOf(item));
+                    break;
+                  case 1:
+                    bool isUserSure = await deleteItemAlertModel(context);
+                    if (isUserSure)
+                      setState(() {
+                        _building.materialUsed.remove(item);
+                      });
+                    break;
+                  default:
+                }
+              },
+              itemBuilder: (context) => popupMenuButtonItems(),
+            ),
           ),
         ),
       )
@@ -502,9 +532,83 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
 
     return _building.rooms
         .map(
-          (item) => ListTile(
-            title: Text(item.roomPurpose.purpose),
-            trailing: PopupMenuButton(
+          (item) => Dismissible(
+            key: UniqueKey(),
+            onDismissed: (direction) {
+              setState(() {
+                _building.rooms.removeAt(_building.rooms.indexOf(item));
+              });
+            },
+            confirmDismiss: (direction) async {
+              if (direction == DismissDirection.endToStart) {
+                bool isUserSure = await deleteItemAlertModel(context);
+                return isUserSure ?? false;
+              } else if (direction == DismissDirection.startToEnd) {
+                await showAddRoom(context, _building.rooms.indexOf(item));
+                return false;
+              } else {
+                return false;
+              }
+            },
+            secondaryBackground: DismissibleBackground(
+              color: Theme.of(context).errorColor,
+              forDirection: DismissDirection.endToStart,
+              child: Text(
+                'Delete',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              icon: Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+            ),
+            background: DismissibleBackground(
+              color: Theme.of(context).accentColor,
+              forDirection: DismissDirection.startToEnd,
+              child: Text(
+                'Edit',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              icon: Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
+            ),
+            child: ListTile(
+              title: Text(
+                  '${item.storeyNo}/${item.roomNo}/${item.roomPurpose.purpose}'),
+              onTap: () {
+                Navigator.of(context).pushNamed('/roomFrom',
+                    arguments:
+                        '${item.storeyNo}/${item.roomNo}/${item.roomPurpose.purpose}');
+              },
+              trailing: PopupMenuButton(
+                onSelected: (value) async {
+                  switch (value) {
+                    case 0:
+                      showAddRoom(context, _building.rooms.indexOf(item));
+                      break;
+                    case 1:
+                      bool isUserSure = await deleteItemAlertModel(context);
+                      if (isUserSure)
+                        setState(() {
+                          _building.rooms.remove(item);
+                        });
+                      break;
+                    default:
+                  }
+                },
+                itemBuilder: (context) => popupMenuButtonItems(),
+              ),
+            ),
+          ),
+        )
+        .toList();
+  }
 
   List<PopupMenuItem<int>> popupMenuButtonItems() {
     return [
