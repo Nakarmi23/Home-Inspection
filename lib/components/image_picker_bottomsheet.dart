@@ -6,11 +6,13 @@ typedef OnImage = Function(String image);
 
 class ImagePickerBottomSheet extends StatelessWidget {
   final OnImage onImage;
-  const ImagePickerBottomSheet({Key key, this.onImage}) : super(key: key);
+  const ImagePickerBottomSheet({Key key, this.onImage})
+      : assert(onImage != null),
+        super(key: key);
 
   Future<String> _getImage(ImageSource source) async {
     PickedFile pickedFile = await ImagePicker().getImage(source: source);
-    return pickedFile != null ? pickedFile.path : null;
+    if (pickedFile.path != null) onImage(pickedFile.path);
   }
 
   @override
@@ -32,18 +34,12 @@ class ImagePickerBottomSheet extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 ImagePickerBottomSheetButton(
-                  onTap: () async {
-                    String image = await _getImage(ImageSource.gallery);
-                    if (onImage != null && image != null) onImage(image);
-                  },
+                  onTap: () async => await _getImage(ImageSource.gallery),
                   icon: Icon(Icons.image),
                   label: 'Choose from Gallery',
                 ),
                 ImagePickerBottomSheetButton(
-                  onTap: () async {
-                    String image = await _getImage(ImageSource.camera);
-                    if (onImage != null && image != null) onImage(image);
-                  },
+                  onTap: () async => await _getImage(ImageSource.camera),
                   icon: Icon(Icons.camera_alt),
                   label: 'Take a Picture',
                 ),
