@@ -12,7 +12,7 @@ class AppInputTextField extends StatelessWidget {
     this.initialValue,
     this.validator,
     this.controller,
-    this.autofocus = true,
+    this.autofocus = false,
   }) : super(key: key);
 
   final String labelText;
