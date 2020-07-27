@@ -11,12 +11,16 @@ class VisualInspection extends BaseModel {
 
   VisualInspection({
     this.location,
-    this.spalling,
-    this.tilting,
-    this.bulging,
-    this.cracking,
+    Spalling spalling,
+    Tilting tilting,
+    Bulging bulging,
+    Cracking cracking,
     List<OtherProblem> otherProblems,
-  }) : this.otherProblems = otherProblems ?? [];
+  })  : this.otherProblems = otherProblems ?? [],
+        this.spalling = spalling ?? Spalling(),
+        this.tilting = tilting ?? Tilting(),
+        this.bulging = bulging ?? Bulging(),
+        this.cracking = cracking ?? Cracking();
 
   factory VisualInspection.fromJson(Map<String, dynamic> json) =>
       _$VisualInspectionFromJson(json);
