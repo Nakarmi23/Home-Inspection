@@ -2,6 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:house_review/components/heading_text.dart';
 import 'package:image_picker/image_picker.dart';
 
+typedef void ImagePickerBottomSheetOnImage(String path);
+
+Future<String> showImagePickerBottomSheet(BuildContext context,
+    {ImagePickerBottomSheetOnImage onImage}) {
+  return showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return ImagePickerBottomSheet(
+        onImage: (image) {
+          onImage(image);
+          Navigator.of(context).pop();
+        },
+      );
+    },
+  );
+}
+
 typedef OnImage = Function(String image);
 
 class ImagePickerBottomSheet extends StatelessWidget {
