@@ -8,11 +8,14 @@ class CustomListView extends StatelessWidget {
   final bool applyBottomPaddingOfKeyboard;
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return SingleChildScrollView(
       padding: applyBottomPaddingOfKeyboard
           ? EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)
           : null,
-      children: children,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      ),
     );
   }
 }
