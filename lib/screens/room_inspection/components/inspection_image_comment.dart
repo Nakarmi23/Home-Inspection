@@ -9,10 +9,11 @@ class InspectionImageComment extends StatelessWidget {
     @required this.images,
     @required this.comment,
     this.commentValidator,
-    @required this.onCommentChange,
+    @required this.onCommentSaved,
     @required this.onImageAdd,
     @required this.onImageTap,
-  })  : assert(onCommentChange != null),
+    this.isInFrom = true,
+  })  : assert(onCommentSaved != null),
         assert(onImageAdd != null),
         assert(images != null),
         super(key: key);
@@ -20,42 +21,34 @@ class InspectionImageComment extends StatelessWidget {
   final List<String> images;
   final String comment;
   final FormFieldValidator<String> commentValidator;
-  final ValueChanged<String> onCommentChange;
+  final ValueChanged<String> onCommentSaved;
   final OnImageAdd onImageAdd;
   final OnImageTap onImageTap;
+  final bool isInFrom;
 
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> _formKey = GlobalKey();
-    return Form(
-      key: _formKey,
-      autovalidate: true,
-      onChanged: () {
-        debounceEvent(() {
-          if (_formKey.currentState.validate()) {
-            _formKey.currentState.save();
-          }
-        });
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 16.0, right: 16.0),
-            child: SizedBox(
-              height: 80,
-              child: ImageListViewBuilder(
-                onImageAdd: onImageAdd,
-                onImageTap: onImageTap,
-                images: images,
-              ),
+    var formFields = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+          child: SizedBox(
+            height: 80,
+            child: ImageListViewBuilder(
+              onImageAdd: onImageAdd,
+              onImageTap: onImageTap,
+              images: images,
             ),
           ),
-          AppInputTextField(
-            labelText: 'Comment',
-            initialValue: comment ?? '',
-            validator: commentValidator ??
-                (value) {
+        ),
+        AppInputTextField(
+          labelText: 'Comment',
+          initialValue: comment ?? '',
+          validator: commentValidator != null
+              ? commentValidator
+              : (value) {
                   switch (value) {
                     case '':
                       return 'Comment cannot be empty';
@@ -63,12 +56,25 @@ class InspectionImageComment extends StatelessWidget {
                     default:
                   }
                 },
-            onSaved: (newValue) {
-              onCommentChange(newValue);
-            },
-          )
-        ],
-      ),
+          onSaved: (newValue) {
+            onCommentSaved(newValue);
+          },
+        )
+      ],
     );
+    return this.isInFrom
+        ? formFields
+        : Form(
+            key: _formKey,
+            autovalidate: true,
+            onChanged: () {
+              debounceEvent(() {
+                if (_formKey.currentState.validate()) {
+                  _formKey.currentState.save();
+                }
+              });
+            },
+            child: formFields,
+          );
   }
 }
