@@ -14,9 +14,13 @@ part 'visual_inspection_sheet_view.dart';
 part 'non_distructive_test_view.dart';
 
 class StructuralInspectionForm extends StatelessWidget {
-  const StructuralInspectionForm({Key key}) : super(key: key);
+  const StructuralInspectionForm({Key key, @required this.onDataChange})
+      : assert(onDataChange != null),
+        super(key: key);
+  final ValueChanged<StructuralInspection> onDataChange;
   @override
   Widget build(BuildContext context) {
+    StructuralInspection structuralInspection = StructuralInspection();
     return DefaultTabController(
       length: 2,
       child: Column(
@@ -39,12 +43,14 @@ class StructuralInspectionForm extends StatelessWidget {
               children: [
                 VisualInspectionSheetView(
                   onFormSave: (value) {
-                    print(value.toJson());
+                    structuralInspection.visualInspection = value;
+                    onDataChange(structuralInspection);
                   },
                 ),
                 NonDestructiveTestView(
                   onFormSave: (value) {
-                    print(value.toJson());
+                    structuralInspection.nonDestructiveTest = value;
+                    onDataChange(structuralInspection);
                   },
                 ),
               ],

@@ -88,7 +88,11 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
         body: Material(
           child: TabBarView(
             children: <Widget>[
-              StructuralInspectionForm(),
+              StructuralInspectionForm(
+                onDataChange: (value) {
+                  print(value.toJson());
+                },
+              ),
               WaterQualityForm(),
               LuxmeterReadingForm(),
               SeepageAnalysisFrom(),
