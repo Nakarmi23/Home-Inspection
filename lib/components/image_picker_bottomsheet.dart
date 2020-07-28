@@ -29,7 +29,10 @@ class ImagePickerBottomSheet extends StatelessWidget {
 
   Future<String> _getImage(ImageSource source) async {
     PickedFile pickedFile = await ImagePicker().getImage(source: source);
-    if (pickedFile.path != null) onImage(pickedFile.path);
+    if (pickedFile != null)
+      onImage(pickedFile.path);
+    else
+      onImage(null);
   }
 
   @override
