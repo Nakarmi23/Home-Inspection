@@ -6,6 +6,7 @@ import 'package:house_review/components/image_listview_builder.dart';
 import 'package:house_review/components/sub_heading_text.dart';
 import 'package:house_review/models/structural_inspection/structural_inspection.dart';
 import 'package:house_review/screens/room_inspection/components/inspection_image_comment.dart';
+import 'package:house_review/screens/room_inspection/forms/structural_inspection/components/add_non_destructive_test_reading_form.dart';
 import 'package:house_review/screens/room_inspection/forms/structural_inspection/components/add_other_problem_form.dart';
 import 'package:house_review/utility/debounce.dart';
 
@@ -41,7 +42,11 @@ class StructuralInspectionForm extends StatelessWidget {
                     print(value.toJson());
                   },
                 ),
-                NonDestructiveTestView(),
+                NonDestructiveTestView(
+                  onFormSave: (value) {
+                    print(value.toJson());
+                  },
+                ),
               ],
             ),
           ),

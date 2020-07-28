@@ -1,112 +1,152 @@
 part of './structural_inspection_form.dart';
 
-class NonDestructiveTestView extends StatelessWidget {
-  const NonDestructiveTestView({Key key}) : super(key: key);
+class NonDestructiveTestView extends StatefulWidget {
+  const NonDestructiveTestView({
+    Key key,
+    this.onFormSave,
+  }) : super(key: key);
+  final ValueChanged<NonDestructiveTest> onFormSave;
+  @override
+  _NonDestructiveTestViewState createState() => _NonDestructiveTestViewState();
+}
 
+class _NonDestructiveTestViewState extends State<NonDestructiveTestView> {
+  NonDestructiveTest nonDestructiveTest = NonDestructiveTest();
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText('Non Destructive Test'),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText(
-            'Non Destructive Test - Photo using Schmidt Hammer',
+    GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    return Form(
+      key: _formKey,
+      onChanged: () {
+        debounceEvent(() {
+          _formKey.currentState.save();
+          widget.onFormSave(nonDestructiveTest);
+        });
+      },
+      child: CustomListView(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            child: HeadingText('Non Destructive Test'),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SizedBox(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Colors.grey.shade300,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(7.0),
-                      onTap: () {},
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: Colors.grey.shade600,
-                            ),
-                            Text(
-                              'Add Photo',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
+          Padding(
+            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            child: SubHeadingText(
+              'Non Destructive Test - Photo using Schmidt Hammer',
             ),
           ),
-        ),
-        AppInputTextField(
-          labelText: ' Element of Structure',
-        ),
-        AppInputTextField(
-          labelText: ' Concrete Grade',
-        ),
-        AppInputTextField(
-          labelText: ' Direction of Impact',
-        ),
-        AppInputTextField(
-          labelText: ' Location',
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText(
-            'Non Destructive Test - Reading',
+          Padding(
+            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            child: SizedBox(
+                height: 80,
+                child: ImageListViewBuilder(
+                  onImageAdd: (path) {
+                    setState(() {
+                      nonDestructiveTest.photoSchmidtHammer.add(path);
+                    });
+                    widget.onFormSave(nonDestructiveTest);
+                  },
+                  onImageTap: (index) {},
+                  images: nonDestructiveTest.photoSchmidtHammer,
+                )),
           ),
+          AppInputTextField(
+            labelText: 'Element of Structure',
+            onSaved: (newValue) {
+              nonDestructiveTest.structureElement = newValue;
+            },
+          ),
+          AppInputTextField(
+            labelText: 'Concrete Grade',
+            onSaved: (newValue) {
+              nonDestructiveTest.concreteGrade = newValue;
+            },
+          ),
+          AppInputTextField(
+            labelText: 'Direction of Impact',
+            onSaved: (newValue) {
+              nonDestructiveTest.impactDirection = newValue;
+            },
+          ),
+          AppInputTextField(
+            labelText: 'Location',
+            onSaved: (newValue) {
+              nonDestructiveTest.location = newValue;
+            },
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            child: SubHeadingText(
+              'Non Destructive Test - Reading',
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            child: DataTable(
+              columns: [
+                DataColumn(label: Text('S.N.')),
+                DataColumn(label: Text('Readings')),
+              ],
+              rows: [
+                ...createDataRow(),
+                DataRow(
+                  cells: [
+                    DataCell(
+                      Text('Average (1 to 10)'),
+                    ),
+                    DataCell(
+                      Text('Auto Generated'),
+                      onTap: null,
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<DataRow> createDataRow() => nonDestructiveTest.readings
+      .map(
+        (e) => DataRow(
+          cells: [
+            DataCell(
+              Text((nonDestructiveTest.readings.indexOf(e) + 1).toString()),
+              placeholder: true,
+            ),
+            DataCell(
+              Text(e.toString()),
+              placeholder: true,
+              showEditIcon: true,
+              onTap: () {
+                showAddReadingDialog(e.toString());
+              },
+            )
+          ],
         ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: DataTable(
-            columns: [
-              DataColumn(label: Text('S.N.')),
-              DataColumn(label: Text('Readings')),
-            ],
-            rows: [
-              DataRow(
-                cells: [
-                  DataCell(
-                    Text('1'),
-                    placeholder: true,
-                  ),
-                  DataCell(
-                    Text('Enter Readings Here'),
-                    placeholder: true,
-                    showEditIcon: true,
-                  )
-                ],
+      )
+      .toList()
+        ..add(DataRow(
+          cells: [
+            DataCell(
+              Text((nonDestructiveTest.readings.length + 1).toString()),
+              placeholder: true,
+            ),
+            DataCell(
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Text('Enter Readings Here'),
               ),
-              DataRow(
-                cells: [
-                  DataCell(
-                    Text('Average (1 to 10)'),
-                  ),
-                  DataCell(
-                    Text('Auto Generated'),
-                    onTap: null,
-                  )
-                ],
+              onTap: () {
+                showAddReadingDialog();
+              },
+              placeholder: true,
+              showEditIcon: true,
+            )
+          ],
+        ));
 
   Future showAddReadingDialog([String reading]) {
     return showDialog(
