@@ -1,11 +1,30 @@
 part of './structural_inspection_form.dart';
 
-class VisualInspectionSheetView extends StatelessWidget {
-  const VisualInspectionSheetView({Key key}) : super(key: key);
+typedef VisualInspectionSheetOnSave = Function(VisualInspection value);
+
+class VisualInspectionSheetView extends StatefulWidget {
+  const VisualInspectionSheetView({Key key, @required this.onFormSave})
+      : super(key: key);
+  final VisualInspectionSheetOnSave onFormSave;
 
   @override
+  _VisualInspectionSheetViewState createState() =>
+      _VisualInspectionSheetViewState();
+}
+
+class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
+  VisualInspection visualInspection = VisualInspection();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  @override
   Widget build(BuildContext context) {
-    return Container(
+    return Form(
+      key: _formKey,
+      onChanged: () {
+        debounceEvent(() {
+          _formKey.currentState.save();
+          widget.onFormSave(visualInspection);
+        });
+      },
       child: CustomListView(
         children: <Widget>[
           Padding(
@@ -13,103 +32,57 @@ class VisualInspectionSheetView extends StatelessWidget {
             child: HeadingText('Visual Inspection Sheet'),
           ),
           AppInputTextField(
-            labelText: ' Location of Visual Inspection',
+            labelText: 'Location of Visual Inspection',
+            validator: (value) {
+              switch (value) {
+                case '':
+                  return 'Location of Visual Inspection cannot be empty';
+                default:
+              }
+            },
+            onSaved: (value) {
+              visualInspection.location = value;
+            },
           ),
           Padding(
-            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            padding: EdgeInsets.all(16.0),
             child: SubHeadingText(
               'Spalling',
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-            child: SizedBox(
-              height: 80,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 80,
-                    width: 80,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(7.0),
-                      color: Colors.grey.shade300,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(7.0),
-                        onTap: () {},
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.add,
-                                color: Colors.grey.shade600,
-                              ),
-                              Text(
-                                'Add Photo',
-                                style: TextStyle(color: Colors.grey.shade600),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          AppInputTextField(
-            labelText: ' Comment',
+          InspectionImageComment(
+            images: visualInspection.spalling.photos,
+            comment: visualInspection.spalling.comment,
+            onCommentSaved: (value) {
+              visualInspection.spalling.comment = value;
+            },
+            onImageAdd: (path) {
+              setState(() {
+                visualInspection.spalling.photos.add(path);
+              });
+              widget.onFormSave(visualInspection);
+            },
+            onImageTap: (index) {},
           ),
           Padding(
-            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            padding: EdgeInsets.all(16.0),
             child: SubHeadingText(
               'Cracking',
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-            child: SizedBox(
-              height: 80,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 80,
-                    width: 80,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(7.0),
-                      color: Colors.grey.shade300,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(7.0),
-                        onTap: () {},
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.add,
-                                color: Colors.grey.shade600,
-                              ),
-                              Text(
-                                'Add Photo',
-                                style: TextStyle(color: Colors.grey.shade600),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          AppInputTextField(
-            labelText: ' Comment',
+          InspectionImageComment(
+            images: visualInspection.cracking.photos,
+            comment: visualInspection.cracking.comment,
+            onCommentSaved: (value) {
+              visualInspection.cracking.comment = value;
+            },
+            onImageAdd: (path) {
+              setState(() {
+                visualInspection.cracking.photos.add(path);
+              });
+              widget.onFormSave(visualInspection);
+            },
+            onImageTap: (index) {},
           ),
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
@@ -122,63 +95,61 @@ class VisualInspectionSheetView extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: AppInputTextField(
-                  labelText: ' Depth',
+                  labelText: 'Depth',
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    switch (value) {
+                      case '':
+                        return 'Cannot be empty';
+                      case '0':
+                        return 'Cannot be 0';
+                      default:
+                    }
+                  },
+                  onSaved: (newValue) {
+                    visualInspection.cracking.depth = double.tryParse(newValue);
+                  },
                 ),
               ),
               Expanded(
                 child: AppInputTextField(
-                  labelText: ' Width',
+                  labelText: 'Width',
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    switch (value) {
+                      case '':
+                        return 'Cannot be empty';
+                      case '0':
+                        return 'Cannot be 0';
+                      default:
+                    }
+                  },
+                  onSaved: (newValue) {
+                    visualInspection.cracking.width = double.tryParse(newValue);
+                  },
                 ),
               ),
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            padding: EdgeInsets.all(16.0),
             child: SubHeadingText(
               'Bulging',
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-            child: SizedBox(
-              height: 80,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 80,
-                    width: 80,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(7.0),
-                      color: Colors.grey.shade300,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(7.0),
-                        onTap: () {},
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.add,
-                                color: Colors.grey.shade600,
-                              ),
-                              Text(
-                                'Add Photo',
-                                style: TextStyle(color: Colors.grey.shade600),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          AppInputTextField(
-            labelText: ' Comment',
+          InspectionImageComment(
+            images: visualInspection.bulging.photos,
+            comment: visualInspection.bulging.comment,
+            onCommentSaved: (value) {
+              visualInspection.bulging.comment = value;
+            },
+            onImageAdd: (path) {
+              setState(() {
+                visualInspection.bulging.photos.add(path);
+              });
+              widget.onFormSave(visualInspection);
+            },
+            onImageTap: (index) {},
           ),
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
@@ -191,66 +162,61 @@ class VisualInspectionSheetView extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: AppInputTextField(
-                  labelText: ' Depth',
+                  labelText: 'Depth',
+                  validator: (value) {
+                    switch (value) {
+                      case '':
+                        return 'Cannot be empty';
+                      case '0':
+                        return 'Cannot be 0';
+                      default:
+                    }
+                  },
+                  onSaved: (newValue) {
+                    visualInspection.bulging.depth = double.tryParse(newValue);
+                  },
                 ),
               ),
               Expanded(
                 child: AppInputTextField(
-                  labelText: ' Width',
+                  labelText: 'Width',
+                  validator: (value) {
+                    switch (value) {
+                      case '':
+                        return 'Cannot be empty';
+                      case '0':
+                        return 'Cannot be 0';
+                      default:
+                    }
+                  },
+                  onSaved: (newValue) {
+                    visualInspection.bulging.depth = double.tryParse(newValue);
+                  },
                 ),
               ),
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            padding: EdgeInsets.all(16.0),
             child: SubHeadingText(
               'Tilting',
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-            child: SizedBox(
-              height: 80,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 80,
-                    width: 80,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(7.0),
-                      color: Colors.grey.shade300,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(7.0),
-                        onTap: () {},
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.add,
-                                color: Colors.grey.shade600,
-                              ),
-                              Text(
-                                'Add Photo',
-                                style: TextStyle(color: Colors.grey.shade600),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+          InspectionImageComment(
+            images: visualInspection.tilting.photos,
+            comment: visualInspection.tilting.comment,
+            onCommentSaved: (value) {
+              visualInspection.tilting.comment = value;
+            },
+            onImageAdd: (path) {
+              setState(() {
+                visualInspection.tilting.photos.add(path);
+              });
+            },
+            onImageTap: (index) {},
           ),
           AppInputTextField(
-            labelText: ' Comment',
-          ),
-          AppInputTextField(
-            labelText: ' Tilting Reading',
+            labelText: 'Tilting Reading',
           ),
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
@@ -263,38 +229,15 @@ class VisualInspectionSheetView extends StatelessWidget {
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
             child: SizedBox(
               height: 80,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 80,
-                    width: 80,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(7.0),
-                      color: Colors.grey.shade300,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(7.0),
-                        onTap: () {},
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.add,
-                                color: Colors.grey.shade600,
-                              ),
-                              Text(
-                                'Add Photo',
-                                style: TextStyle(color: Colors.grey.shade600),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
+              child: ImageListViewBuilder(
+                onImageAdd: (path) {
+                  setState(() {
+                    visualInspection.tilting.digitalLevelMeterPhotos.add(path);
+                  });
+                  widget.onFormSave(visualInspection);
                 },
+                onImageTap: (index) {},
+                images: visualInspection.tilting.digitalLevelMeterPhotos,
               ),
             ),
           ),
@@ -304,7 +247,7 @@ class VisualInspectionSheetView extends StatelessWidget {
               'Other Problems',
             ),
           ),
-          // ...createMaterialUsedWidgets(),
+          ...createOtherProblems(),
           InkWell(
             child: Padding(
               padding: EdgeInsets.all(16.0),
