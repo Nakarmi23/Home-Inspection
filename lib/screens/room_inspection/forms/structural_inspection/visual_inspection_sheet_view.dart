@@ -321,10 +321,34 @@ class VisualInspectionSheetView extends StatelessWidget {
                 ],
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              buildAddOtherProblemDialog(context);
+            },
           ),
         ],
       ),
+    );
+  }
+
+  Future buildAddOtherProblemDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: Text('Other Problem'),
+          children: <Widget>[
+            AddOtherProblemsForm(
+              onFormSave: (problem) {
+                setState(() {
+                  visualInspection.otherProblems.add(problem);
+                });
+                widget.onFormSave(visualInspection);
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
     );
   }
 
