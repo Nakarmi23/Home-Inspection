@@ -6,15 +6,18 @@ class NonDestructiveTest extends BaseModel {
   String concreteGrade;
   String impactDirection;
   String location;
-  List<String> readings;
+  List<double> readings;
+  List<String> photoSchmidtHammer;
 
-  NonDestructiveTest(
-      {this.structureElement,
-      this.concreteGrade,
-      this.impactDirection,
-      this.location,
-      List<String> readings})
-      : this.readings = readings ?? [];
+  NonDestructiveTest({
+    this.structureElement,
+    this.concreteGrade,
+    this.impactDirection,
+    this.location,
+    List<double> readings,
+    List<String> photoSchmidtHammer,
+  })  : this.readings = readings ?? [],
+        this.photoSchmidtHammer = photoSchmidtHammer ?? [];
 
   factory NonDestructiveTest.fromJson(Map<String, dynamic> json) =>
       _$NonDestructiveTestFromJson(json);

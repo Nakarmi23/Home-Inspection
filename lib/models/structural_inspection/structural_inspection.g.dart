@@ -32,7 +32,11 @@ NonDestructiveTest _$NonDestructiveTestFromJson(Map<String, dynamic> json) {
     concreteGrade: json['concreteGrade'] as String,
     impactDirection: json['impactDirection'] as String,
     location: json['location'] as String,
-    readings: (json['readings'] as List)?.map((e) => e as String)?.toList(),
+    readings: (json['readings'] as List)
+        ?.map((e) => (e as num)?.toDouble())
+        ?.toList(),
+    photoSchmidtHammer:
+        (json['photoSchmidtHammer'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
@@ -43,6 +47,7 @@ Map<String, dynamic> _$NonDestructiveTestToJson(NonDestructiveTest instance) =>
       'impactDirection': instance.impactDirection,
       'location': instance.location,
       'readings': instance.readings,
+      'photoSchmidtHammer': instance.photoSchmidtHammer,
     };
 
 VisualInspection _$VisualInspectionFromJson(Map<String, dynamic> json) {
