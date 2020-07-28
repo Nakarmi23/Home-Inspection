@@ -107,11 +107,36 @@ class NonDestructiveTestView extends StatelessWidget {
                     onTap: null,
                   )
                 ],
-              ),
-            ],
-          ),
-        ),
-      ],
+
+  Future showAddReadingDialog([String reading]) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: Text('Non Destructive Test Reading'),
+          children: <Widget>[
+            AddNonDestructiveTestReadingForm(
+              onFormSave: (value) {
+                if (reading == null) {
+                  setState(() {
+                    nonDestructiveTest.readings.add(double.tryParse(value));
+                  });
+                  Navigator.of(context).pop();
+                } else {
+                  setState(() {
+                    nonDestructiveTest.readings[nonDestructiveTest.readings
+                            .indexOf(double.parse(reading))] =
+                        double.tryParse(value);
+                  });
+                  Navigator.of(context).pop();
+                }
+                widget.onFormSave(nonDestructiveTest);
+              },
+              toEditValue: reading,
+            ),
+          ],
+        );
+      },
     );
   }
 }
