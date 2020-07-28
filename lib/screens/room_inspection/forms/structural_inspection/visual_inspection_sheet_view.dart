@@ -327,4 +327,36 @@ class VisualInspectionSheetView extends StatelessWidget {
       ),
     );
   }
+
+  createOtherProblems() => visualInspection.otherProblems.map(
+        (item) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ListTile(
+                title: SubHeadingText(
+                  item.name,
+                  subHeading: SubHeading.sub2,
+                ),
+                trailing:
+                    IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+              ),
+              InspectionImageComment(
+                images: item.photos,
+                comment: item.comment,
+                onCommentSaved: (newValue) {
+                  item.comment = newValue;
+                },
+                onImageAdd: (path) {
+                  setState(() {
+                    item.photos.add(path);
+                  });
+                  widget.onFormSave(visualInspection);
+                },
+                onImageTap: (index) {},
+              )
+            ],
+          );
+        },
+      ).toList();
 }
