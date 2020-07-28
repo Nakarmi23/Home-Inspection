@@ -11,8 +11,10 @@ Future<String> showImagePickerBottomSheet(BuildContext context,
     builder: (context) {
       return ImagePickerBottomSheet(
         onImage: (image) {
-          onImage(image);
-          Navigator.of(context).pop();
+          if (image != null) {
+            onImage(image);
+            Navigator.of(context).pop();
+          }
         },
       );
     },
