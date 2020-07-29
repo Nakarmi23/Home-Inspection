@@ -16,12 +16,16 @@ class ToiletInspection extends BaseModel {
   Flush flush;
   Plumbing plumbing;
   ToiletInspection({
-    this.washBasin,
-    this.mirror,
-    this.waterCloset,
-    this.flush,
-    this.plumbing,
-  });
+    WashBasin washBasin,
+    Mirror mirror,
+    WaterCloset waterCloset,
+    Flush flush,
+    Plumbing plumbing,
+  })  : this.washBasin = washBasin ?? WashBasin(),
+        this.mirror = mirror ?? Mirror(),
+        this.waterCloset = WaterCloset(),
+        this.flush = Flush(),
+        this.plumbing = Plumbing();
   factory ToiletInspection.fromJson(Map<String, dynamic> json) =>
       _$ToiletInspectionFromJson(json);
 
