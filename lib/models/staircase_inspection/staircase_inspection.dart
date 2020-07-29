@@ -16,13 +16,15 @@ class StaircaseInspection extends BaseModel {
   String material;
 
   StaircaseInspection({
-    this.clearanceCondition,
-    this.railing,
-    this.functionality,
+    ClearanceCondition clearanceCondition,
+    Railing railing,
+    Functionality functionality,
     this.location,
     this.type,
     this.material,
-  });
+  })  : this.clearanceCondition = clearanceCondition ?? ClearanceCondition(),
+        this.railing = railing ?? Railing(),
+        this.functionality = functionality ?? Functionality();
 
   factory StaircaseInspection.fromJson(Map<String, dynamic> json) =>
       _$StaircaseInspectionFromJson(json);
