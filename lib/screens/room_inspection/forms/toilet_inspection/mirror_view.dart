@@ -1,8 +1,16 @@
 part of './toilet_inspection_form.dart';
 
-class MirrorView extends StatelessWidget {
-  const MirrorView({Key key}) : super(key: key);
+class MirrorView extends StatefulWidget {
+  const MirrorView({Key key, @required this.onDataChange})
+      : assert(onDataChange != null),
+        super(key: key);
+  final ValueChanged<Mirror> onDataChange;
+  @override
+  _MirrorViewState createState() => _MirrorViewState();
+}
 
+class _MirrorViewState extends State<MirrorView> {
+  Mirror mirror = Mirror();
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -11,47 +19,21 @@ class MirrorView extends StatelessWidget {
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
           child: HeadingText('Mirror'),
         ),
-        AppInputTextField(
-          labelText: 'Condition',
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SizedBox(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Colors.grey.shade300,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(7.0),
-                      onTap: () {},
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: Colors.grey.shade600,
-                            ),
-                            Text(
-                              'Add Photo',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
+        InspectionImageComment(
+          isInFrom: false,
+          images: mirror.photos,
+          comment: mirror.condition,
+          onCommentSaved: (value) {
+            mirror.condition = value;
+            widget.onDataChange(mirror);
+          },
+          onImageAdd: (path) {
+            setState(() {
+              mirror.photos.add(path);
+            });
+            widget.onDataChange(mirror);
+          },
+          onImageTap: (index) {},
         ),
       ],
     );

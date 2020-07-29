@@ -1,8 +1,16 @@
 part of './toilet_inspection_form.dart';
 
-class FlushView extends StatelessWidget {
-  const FlushView({Key key}) : super(key: key);
+class FlushView extends StatefulWidget {
+  const FlushView({Key key, @required this.onDataChange})
+      : assert(onDataChange != null),
+        super(key: key);
+  final ValueChanged<Flush> onDataChange;
+  @override
+  _FlushViewState createState() => _FlushViewState();
+}
 
+class _FlushViewState extends State<FlushView> {
+  Flush flush = Flush();
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -11,47 +19,21 @@ class FlushView extends StatelessWidget {
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
           child: HeadingText('Flush'),
         ),
-        AppInputTextField(
-          labelText: 'Condition',
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SizedBox(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Colors.grey.shade300,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(7.0),
-                      onTap: () {},
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: Colors.grey.shade600,
-                            ),
-                            Text(
-                              'Add Photo',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
+        InspectionImageComment(
+          isInFrom: false,
+          images: flush.photos,
+          comment: flush.condition,
+          onCommentSaved: (value) {
+            flush.condition = value;
+            widget.onDataChange(flush);
+          },
+          onImageAdd: (path) {
+            setState(() {
+              flush.photos.add(path);
+            });
+            widget.onDataChange(flush);
+          },
+          onImageTap: (index) {},
         ),
       ],
     );

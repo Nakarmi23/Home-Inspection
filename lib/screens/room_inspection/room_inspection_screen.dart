@@ -104,10 +104,16 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
               SeepageAnalysisFrom(),
               MinorChecksForm(),
               KitchenInspectionForm(),
-              ToiletInspectionForm(),
+              ToiletInspectionForm(
+                onDateChange: (value) {
+                  print(value.toJson());
+                },
+              ),
               StaircaseInspectionForm(
                 onDataChanged: (value) {
-                  print(value.toJson());
+                  value.forEach((element) {
+                    print(element.toJson());
+                  });
                 },
               ),
             ],

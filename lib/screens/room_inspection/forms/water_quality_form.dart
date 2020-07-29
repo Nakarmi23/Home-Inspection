@@ -33,7 +33,7 @@ class _WaterQualityFormState extends State<WaterQualityForm> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Expanded(
-                  child: Text('Add Other Problems'),
+                  child: Text('Add Water Quality Sample'),
                 ),
                 Icon(
                   Icons.add_circle,
@@ -44,7 +44,9 @@ class _WaterQualityFormState extends State<WaterQualityForm> {
           ),
           onTap: () {
             formKeys.add(GlobalKey());
-            waterQualityList.add(WaterQuality());
+            setState(() {
+              waterQualityList.add(WaterQuality());
+            });
           },
         ),
       ],
@@ -64,10 +66,11 @@ class _WaterQualityFormState extends State<WaterQualityForm> {
             });
           },
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-                child: HeadingText('Sample ${key}'),
+                child: HeadingText('Sample ${key + 1}'),
               ),
               AppInputTextField(
                 labelText: 'Sample Source',
@@ -77,7 +80,7 @@ class _WaterQualityFormState extends State<WaterQualityForm> {
               ),
               Padding(
                 padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-                child: SubHeadingText('Sample ${key} - Upload Photo'),
+                child: SubHeadingText('Sample ${key + 1} - Upload Photo'),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
@@ -85,7 +88,9 @@ class _WaterQualityFormState extends State<WaterQualityForm> {
                   height: 80,
                   child: ImageListViewBuilder(
                     onImageAdd: (path) {
-                      waterQualityList[key].photos.add(path);
+                      setState(() {
+                        waterQualityList[key].photos.add(path);
+                      });
                       widget.onDataChanged(waterQualityList);
                     },
                     onImageTap: (index) {},
