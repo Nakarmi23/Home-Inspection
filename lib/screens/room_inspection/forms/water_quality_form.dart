@@ -10,10 +10,10 @@ import 'package:house_review/utility/debounce.dart';
 class WaterQualityForm extends StatefulWidget {
   const WaterQualityForm({
     Key key,
-    @required this.onDataChanged,
-  })  : assert(onDataChanged != null),
+    @required this.onDataChange,
+  })  : assert(onDataChange != null),
         super(key: key);
-  final ValueChanged<List<WaterQuality>> onDataChanged;
+  final ValueChanged<List<WaterQuality>> onDataChange;
   @override
   _WaterQualityFormState createState() => _WaterQualityFormState();
 }
@@ -62,7 +62,7 @@ class _WaterQualityFormState extends State<WaterQualityForm> {
           onChanged: () {
             debounceEvent(() {
               formKeys[key].currentState.save();
-              widget.onDataChanged(waterQualityList);
+              widget.onDataChange(waterQualityList);
             });
           },
           child: Column(
@@ -91,7 +91,7 @@ class _WaterQualityFormState extends State<WaterQualityForm> {
                       setState(() {
                         waterQualityList[key].photos.add(path);
                       });
-                      widget.onDataChanged(waterQualityList);
+                      widget.onDataChange(waterQualityList);
                     },
                     onImageTap: (index) {},
                     images: waterQualityList[key].photos,

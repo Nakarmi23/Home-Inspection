@@ -1,7 +1,17 @@
 part of './kitchen_inspection_form.dart';
 
-class GasAndGasStoveView extends StatelessWidget {
-  const GasAndGasStoveView({Key key}) : super(key: key);
+class GasAndGasStoveView extends StatefulWidget {
+  const GasAndGasStoveView({Key key, @required this.onDataChange})
+      : assert(onDataChange != null),
+        super(key: key);
+  final ValueChanged<GasAndGasStove> onDataChange;
+
+  @override
+  _GasAndGasStoveViewState createState() => _GasAndGasStoveViewState();
+}
+
+class _GasAndGasStoveViewState extends State<GasAndGasStoveView> {
+  GasAndGasStove gasAndGasStove = GasAndGasStove();
 
   @override
   Widget build(BuildContext context) {
@@ -9,50 +19,23 @@ class GasAndGasStoveView extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText('Gas & Gas Stove'),
+          child: HeadingText('Dish Washer'),
         ),
-        AppInputTextField(
-          labelText: 'Condition',
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SizedBox(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Colors.grey.shade300,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(7.0),
-                      onTap: () {},
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: Colors.grey.shade600,
-                            ),
-                            Text(
-                              'Add Photo',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
+        InspectionImageComment(
+          images: gasAndGasStove.photos,
+          comment: gasAndGasStove.condition,
+          onCommentSaved: (value) {
+            gasAndGasStove.condition = value;
+            widget.onDataChange(gasAndGasStove);
+          },
+          onImageAdd: (path) {
+            setState(() {
+              gasAndGasStove.photos.add(path);
+              widget.onDataChange(gasAndGasStove);
+            });
+          },
+          onImageTap: (index) {},
+        )
       ],
     );
   }

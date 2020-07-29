@@ -94,7 +94,7 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
                 },
               ),
               WaterQualityForm(
-                onDataChanged: (value) {
+                onDataChange: (value) {
                   value.forEach((element) {
                     print(element.toJson());
                   });
@@ -103,14 +103,18 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
               LuxmeterReadingForm(),
               SeepageAnalysisFrom(),
               MinorChecksForm(),
-              KitchenInspectionForm(),
+              KitchenInspectionForm(
+                onDataChange: (value) {
+                  print(value.toJson());
+                },
+              ),
               ToiletInspectionForm(
                 onDateChange: (value) {
                   print(value.toJson());
                 },
               ),
               StaircaseInspectionForm(
-                onDataChanged: (value) {
+                onDataChange: (value) {
                   value.forEach((element) {
                     print(element.toJson());
                   });

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:house_review/components/app_input_text_field.dart';
 import 'package:house_review/components/custom_list_view.dart';
 import 'package:house_review/components/heading_text.dart';
+import 'package:house_review/models/kitchen_inspection/kitchen_inspection.dart';
+import 'package:house_review/screens/room_inspection/components/inspection_image_comment.dart';
+import 'package:house_review/utility/debounce.dart';
 
 part 'kitchen_cabinet_view.dart';
 part 'dish_washer_view.dart';
@@ -11,10 +14,14 @@ part 'gas_gas_stove_view.dart';
 part 'kitchen_plumbing_view.dart';
 
 class KitchenInspectionForm extends StatelessWidget {
-  const KitchenInspectionForm({Key key}) : super(key: key);
+  const KitchenInspectionForm({Key key, @required this.onDataChange})
+      : assert(onDataChange != null),
+        super(key: key);
+  final ValueChanged<KitchenInspection> onDataChange;
 
   @override
   Widget build(BuildContext context) {
+    KitchenInspection kitchenInspection = KitchenInspection();
     return DefaultTabController(
       length: 6,
       child: Column(
@@ -49,12 +56,42 @@ class KitchenInspectionForm extends StatelessWidget {
             child: TabBarView(
               physics: NeverScrollableScrollPhysics(),
               children: [
-                KitchenCabinetView(),
-                DishWasherView(),
-                GarbageDisposalView(),
-                KitchenSinkView(),
-                GasAndGasStoveView(),
-                KitchenPlumbingView(),
+                KitchenCabinetView(
+                  onDataChange: (value) {
+                    kitchenInspection.kitchenCabinet = value;
+                    onDataChange(kitchenInspection);
+                  },
+                ),
+                DishWasherView(
+                  onDataChange: (value) {
+                    kitchenInspection.dishWasher = value;
+                    onDataChange(kitchenInspection);
+                  },
+                ),
+                GarbageDisposalView(
+                  onDataChange: (value) {
+                    kitchenInspection.garbageDisposal = value;
+                    onDataChange(kitchenInspection);
+                  },
+                ),
+                KitchenSinkView(
+                  onDataChange: (value) {
+                    kitchenInspection.kitchenSink = value;
+                    onDataChange(kitchenInspection);
+                  },
+                ),
+                GasAndGasStoveView(
+                  onDataChange: (value) {
+                    kitchenInspection.gasAndGasStove = value;
+                    onDataChange(kitchenInspection);
+                  },
+                ),
+                KitchenPlumbingView(
+                  onDataChange: (value) {
+                    kitchenInspection.plumbing = value;
+                    onDataChange(kitchenInspection);
+                  },
+                ),
               ],
             ),
           ),

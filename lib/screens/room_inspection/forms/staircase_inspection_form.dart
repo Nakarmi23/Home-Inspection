@@ -9,10 +9,10 @@ import 'package:house_review/screens/room_inspection/components/inspection_image
 import 'package:house_review/utility/debounce.dart';
 
 class StaircaseInspectionForm extends StatefulWidget {
-  const StaircaseInspectionForm({Key key, @required this.onDataChanged})
-      : assert(onDataChanged != null),
+  const StaircaseInspectionForm({Key key, @required this.onDataChange})
+      : assert(onDataChange != null),
         super(key: key);
-  final ValueChanged<List<StaircaseInspection>> onDataChanged;
+  final ValueChanged<List<StaircaseInspection>> onDataChange;
 
   @override
   _StaircaseInspectionFormState createState() =>
@@ -64,7 +64,7 @@ class _StaircaseInspectionFormState extends State<StaircaseInspectionForm> {
             onChanged: () {
               debounceEvent(() {
                 _formKeys[key].currentState.save();
-                widget.onDataChanged(staircaseInspectionList);
+                widget.onDataChange(staircaseInspectionList);
               });
             },
             child: Column(
@@ -112,7 +112,7 @@ class _StaircaseInspectionFormState extends State<StaircaseInspectionForm> {
                           .photos
                           .add(path);
                     });
-                    widget.onDataChanged(staircaseInspectionList);
+                    widget.onDataChange(staircaseInspectionList);
                   },
                   onImageTap: (index) {},
                 ),
@@ -130,7 +130,7 @@ class _StaircaseInspectionFormState extends State<StaircaseInspectionForm> {
                     setState(() {
                       staircaseInspectionList[key].railing.photos.add(path);
                     });
-                    widget.onDataChanged(staircaseInspectionList);
+                    widget.onDataChange(staircaseInspectionList);
                   },
                   onImageTap: (index) {},
                 ),
@@ -152,7 +152,7 @@ class _StaircaseInspectionFormState extends State<StaircaseInspectionForm> {
                           .photos
                           .add(path);
                     });
-                    widget.onDataChanged(staircaseInspectionList);
+                    widget.onDataChange(staircaseInspectionList);
                   },
                   onImageTap: (index) {},
                 ),
