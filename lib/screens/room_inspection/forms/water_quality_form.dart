@@ -2,93 +2,154 @@ import 'package:flutter/material.dart';
 import 'package:house_review/components/app_input_text_field.dart';
 import 'package:house_review/components/custom_list_view.dart';
 import 'package:house_review/components/heading_text.dart';
+import 'package:house_review/components/image_listview_builder.dart';
 import 'package:house_review/components/sub_heading_text.dart';
+import 'package:house_review/models/water_quality.dart';
+import 'package:house_review/utility/debounce.dart';
 
-class WaterQualityForm extends StatelessWidget {
-  const WaterQualityForm({Key key}) : super(key: key);
+class WaterQualityForm extends StatefulWidget {
+  const WaterQualityForm({
+    Key key,
+    @required this.onDataChanged,
+  })  : assert(onDataChanged != null),
+        super(key: key);
+  final ValueChanged<List<WaterQuality>> onDataChanged;
+  @override
+  _WaterQualityFormState createState() => _WaterQualityFormState();
+}
 
+class _WaterQualityFormState extends State<WaterQualityForm> {
+  List<GlobalKey<FormState>> formKeys = [GlobalKey()];
+  List<WaterQuality> waterQualityList = [WaterQuality()];
   @override
   Widget build(BuildContext context) {
     return CustomListView(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText('Sample 1'),
-        ),
-        AppInputTextField(
-          labelText: 'Sample Source',
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText('Sample 1 - Upload Photo'),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SizedBox(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Colors.grey.shade300,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(7.0),
-                      onTap: () {},
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: Colors.grey.shade600,
-                            ),
-                            Text(
-                              'Add Photo',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
+        ...createWaterQualitySample(),
+        InkWell(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: Text('Add Other Problems'),
+                ),
+                Icon(
+                  Icons.add_circle,
+                  color: Theme.of(context).accentColor,
+                ),
+              ],
             ),
           ),
-        ),
-        AppInputTextField(
-          labelText: ' Color',
-        ),
-        AppInputTextField(
-          labelText: ' Taste',
-        ),
-        AppInputTextField(
-          labelText: 'Odour',
-        ),
-        AppInputTextField(
-          labelText: ' PH Value',
-        ),
-        AppInputTextField(
-          labelText: ' Turbuduty',
-        ),
-        AppInputTextField(
-          labelText: ' EC Meter Reading',
-        ),
-        AppInputTextField(
-          labelText: ' Temperature',
-        ),
-        AppInputTextField(
-          labelText: ' TDS Meter Reading',
-        ),
-        AppInputTextField(
-          labelText: ' Chlorine Meter Reading',
+          onTap: () {
+            formKeys.add(GlobalKey());
+            waterQualityList.add(WaterQuality());
+          },
         ),
       ],
     );
   }
+
+  List<Form> createWaterQualitySample() => waterQualityList
+      .asMap()
+      .keys
+      .map(
+        (key) => Form(
+          key: formKeys[key],
+          onChanged: () {
+            debounceEvent(() {
+              formKeys[key].currentState.save();
+              widget.onDataChanged(waterQualityList);
+            });
+          },
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                child: HeadingText('Sample ${key}'),
+              ),
+              AppInputTextField(
+                labelText: 'Sample Source',
+                onSaved: (newValue) {
+                  waterQualityList[key].source = newValue;
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                child: SubHeadingText('Sample ${key} - Upload Photo'),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                child: SizedBox(
+                  height: 80,
+                  child: ImageListViewBuilder(
+                    onImageAdd: (path) {
+                      waterQualityList[key].photos.add(path);
+                      widget.onDataChanged(waterQualityList);
+                    },
+                    onImageTap: (index) {},
+                    images: waterQualityList[key].photos,
+                  ),
+                ),
+              ),
+              AppInputTextField(
+                labelText: 'Color',
+                onSaved: (newValue) {
+                  waterQualityList[key].color = newValue;
+                },
+              ),
+              AppInputTextField(
+                labelText: 'Taste',
+                onSaved: (newValue) {
+                  waterQualityList[key].taste = newValue;
+                },
+              ),
+              AppInputTextField(
+                labelText: 'Odour',
+                onSaved: (newValue) {
+                  waterQualityList[key].odour = newValue;
+                },
+              ),
+              AppInputTextField(
+                labelText: 'PH Value',
+                onSaved: (newValue) {
+                  waterQualityList[key].phValue = newValue;
+                },
+              ),
+              AppInputTextField(
+                labelText: 'Turbuduty',
+                onSaved: (newValue) {
+                  waterQualityList[key].turbidty = newValue;
+                },
+              ),
+              AppInputTextField(
+                labelText: 'EC Meter Reading',
+                onSaved: (newValue) {
+                  waterQualityList[key].ecMeterReading = newValue;
+                },
+              ),
+              AppInputTextField(
+                labelText: 'Temperature',
+                onSaved: (newValue) {
+                  waterQualityList[key].temperature = newValue;
+                },
+              ),
+              AppInputTextField(
+                labelText: 'TDS Meter Reading',
+                onSaved: (newValue) {
+                  waterQualityList[key].tdsMeterReading = newValue;
+                },
+              ),
+              AppInputTextField(
+                labelText: 'Chlorine Meter Reading',
+                onSaved: (newValue) {
+                  waterQualityList[key].chlorineMeterReading = newValue;
+                },
+              ),
+            ],
+          ),
+        ),
+      )
+      .toList();
 }
