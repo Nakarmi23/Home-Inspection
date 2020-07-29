@@ -19,13 +19,18 @@ class KitchenInspection extends BaseModel {
   Plumbing plumbing;
 
   KitchenInspection({
-    this.kitchenCabinet,
-    this.dishWasher,
-    this.garbageDisposal,
-    this.kitchenSink,
-    this.gasAndGasStove,
-    this.plumbing,
-  });
+    KitchenCabinet kitchenCabinet,
+    DishWasher dishWasher,
+    GarbageDisposal garbageDisposal,
+    KitchenSink kitchenSink,
+    GasAndGasStove gasAndGasStove,
+    Plumbing plumbing,
+  })  : this.kitchenCabinet = kitchenCabinet ?? KitchenCabinet(),
+        this.dishWasher = dishWasher ?? DishWasher(),
+        this.garbageDisposal = garbageDisposal ?? GarbageDisposal(),
+        this.kitchenSink = kitchenSink ?? KitchenSink(),
+        this.gasAndGasStove = gasAndGasStove ?? GasAndGasStove(),
+        this.plumbing = plumbing ?? Plumbing();
 
   factory KitchenInspection.fromJson(Map<String, dynamic> json) =>
       _$KitchenInspectionFromJson(json);
