@@ -100,7 +100,13 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
                   });
                 },
               ),
-              LuxmeterReadingForm(),
+              LuxmeterReadingForm(
+                onDataChanged: (value) {
+                  value.forEach((element) {
+                    print(element.toJson());
+                  });
+                },
+              ),
               SeepageAnalysisFrom(),
               MinorChecksForm(),
               KitchenInspectionForm(
