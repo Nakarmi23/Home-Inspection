@@ -24,6 +24,29 @@ class _LuxmeterReadingFormState extends State<LuxmeterReadingForm> {
     return CustomListView(
       children: <Widget>[
         ...createLuxmeterReadingSample(),
+        InkWell(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: Text('Add Water Quality Sample'),
+                ),
+                Icon(
+                  Icons.add_circle,
+                  color: Theme.of(context).accentColor,
+                ),
+              ],
+            ),
+          ),
+          onTap: () {
+            formKeys.add(GlobalKey());
+            setState(() {
+              luxmeterReadings.add(LuxmeterReading());
+            });
+          },
+        ),
       ],
     );
   }
