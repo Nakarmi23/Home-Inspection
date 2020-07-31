@@ -11,7 +11,7 @@ LuxmeterReading _$LuxmeterReadingFromJson(Map<String, dynamic> json) {
     sampleNo: json['sampleNo'] as int,
     source: json['source'] as String,
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
-    reading: (json['reading'] as List)?.map((e) => e as String)?.toList(),
+    readings: (json['readings'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
@@ -20,5 +20,5 @@ Map<String, dynamic> _$LuxmeterReadingToJson(LuxmeterReading instance) =>
       'sampleNo': instance.sampleNo,
       'source': instance.source,
       'photos': instance.photos,
-      'reading': instance.reading,
+      'readings': instance.readings,
     };

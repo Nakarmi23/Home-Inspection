@@ -17,6 +17,9 @@ SeepageAnalysis _$SeepageAnalysisFromJson(Map<String, dynamic> json) {
     readings: (json['readings'] as List)?.map((e) => e as String)?.toList(),
     photosDigitalLevel:
         (json['photosDigitalLevel'] as List)?.map((e) => e as String)?.toList(),
+    photosMoistureMeter: (json['photosMoistureMeter'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
     commentsDigitalLevel: json['commentsDigitalLevel'] as String,
   );
 }
@@ -29,5 +32,6 @@ Map<String, dynamic> _$SeepageAnalysisToJson(SeepageAnalysis instance) =>
       'photosThermal': instance.photosThermal,
       'readings': instance.readings,
       'photosDigitalLevel': instance.photosDigitalLevel,
+      'photosMoistureMeter': instance.photosMoistureMeter,
       'commentsDigitalLevel': instance.commentsDigitalLevel,
     };

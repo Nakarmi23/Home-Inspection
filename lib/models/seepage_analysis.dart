@@ -11,6 +11,7 @@ class SeepageAnalysis extends BaseModel {
   List<String> photosThermal;
   List<String> readings;
   List<String> photosDigitalLevel;
+  List<String> photosMoistureMeter;
   String commentsDigitalLevel;
 
   SeepageAnalysis(
@@ -20,11 +21,13 @@ class SeepageAnalysis extends BaseModel {
       List<String> photosThermal,
       List<String> readings,
       List<String> photosDigitalLevel,
+      List<String> photosMoistureMeter,
       this.commentsDigitalLevel})
       : this.photosNormal = photosNormal ?? [],
         this.photosThermal = photosThermal ?? [],
         this.readings = readings ?? [],
-        this.photosDigitalLevel = photosDigitalLevel ?? [];
+        this.photosDigitalLevel = photosDigitalLevel ?? [],
+        this.photosMoistureMeter = photosMoistureMeter ?? [];
 
   factory SeepageAnalysis.fromJson(Map<String, dynamic> json) =>
       _$SeepageAnalysisFromJson(json);

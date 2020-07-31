@@ -9,15 +9,15 @@ class LuxmeterReading extends BaseModel {
   int sampleNo;
   String source;
   List<String> photos;
-  List<String> reading;
+  List<String> readings;
 
   LuxmeterReading({
     this.sampleNo,
     this.source,
     List<String> photos,
-    List<String> reading,
+    List<String> readings,
   })  : this.photos = photos ?? [],
-        this.reading = reading ?? [];
+        this.readings = readings ?? [];
 
   factory LuxmeterReading.fromJson(Map<String, dynamic> json) =>
       _$LuxmeterReadingFromJson(json);
