@@ -7,6 +7,7 @@ class ElectricalFitting implements ImageAndComment {
   MinorChecksCondition lightsCondition;
   MinorChecksCondition ceilingFanCondition;
   MinorChecksCondition otherAccessoriesCondition;
+  int age;
   @override
   List<String> photos;
   @override
@@ -15,6 +16,7 @@ class ElectricalFitting implements ImageAndComment {
   ElectricalFitting({
     List<String> photos,
     this.comment,
+    this.age,
     MinorChecksCondition wiringCondition,
     MinorChecksCondition switchesCondition,
     MinorChecksCondition lightsCondition,

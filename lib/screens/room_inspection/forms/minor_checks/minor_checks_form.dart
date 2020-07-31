@@ -4,6 +4,11 @@ import 'package:house_review/components/custom_list_view.dart';
 import 'package:house_review/components/heading_text.dart';
 import 'package:house_review/components/sub_heading_text.dart';
 import 'package:house_review/models/minor_checks/minor_checks.dart';
+import 'package:house_review/screens/room_inspection/components/inspection_image_comment.dart';
+import 'package:house_review/screens/room_inspection/forms/minor_checks/components/inspection_minor_check_condition.dart';
+import 'package:house_review/screens/room_inspection/forms/minor_checks/components/minor_checks_form.dart';
+import 'package:house_review/screens/room_inspection/forms/minor_checks/components/radio_list.dart';
+import 'package:house_review/utility/debounce.dart';
 
 part 'door_view.dart';
 part 'window_view.dart';
@@ -63,15 +68,72 @@ class MinorChecksForm extends StatelessWidget {
             child: TabBarView(
               physics: NeverScrollableScrollPhysics(),
               children: [
-                DoorView(),
-                WindowView(),
-                CellingView(),
-                WallsView(),
-                ElectricalFittingView(),
-                PestInspectionView(),
-                CarpentryView(),
-                MetalAndAlumuniumWorksView(),
-                CleaningView(),
+                DoorView(
+                  onDataChanged: (value) {
+                    value.forEach((element) {
+                      print(element.toJson());
+                    });
+                  },
+                ),
+                WindowView(
+                  onDataChanged: (value) {
+                    value.forEach((element) {
+                      print(element.toJson());
+                    });
+                  },
+                ),
+                CellingView(
+                  onDataChanged: (value) {
+                    value.forEach((element) {
+                      print(element.toJson());
+                    });
+                  },
+                ),
+                WallsView(
+                  onDataChanged: (value) {
+                    value.forEach((element) {
+                      print(element.toJson());
+                    });
+                  },
+                ),
+                ElectricalFittingView(
+                  onDataChanged: (value) {
+                    value.forEach((element) {
+                      print(element.toJson());
+                    });
+                  },
+                ),
+                PestInspectionView(
+                  onDataChanged: (value) {
+                    value.forEach((element) {
+                      print(element.toJson());
+                    });
+                  },
+                ),
+                MinorChecksImageCommentForm(
+                  title: 'Carpentry',
+                  onDataChanged: (value) {
+                    value.forEach((element) {
+                      print(element.toJson());
+                    });
+                  },
+                ),
+                MinorChecksImageCommentForm(
+                  title: 'Metal and Alumunium Works',
+                  onDataChanged: (value) {
+                    value.forEach((element) {
+                      print(element.toJson());
+                    });
+                  },
+                ),
+                MinorChecksImageCommentForm(
+                  title: 'Cleaning',
+                  onDataChanged: (value) {
+                    value.forEach((element) {
+                      print(element.toJson());
+                    });
+                  },
+                ),
               ],
             ),
           ),

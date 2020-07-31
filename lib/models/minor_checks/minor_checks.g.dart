@@ -110,14 +110,6 @@ Map<String, dynamic> _$DoorToJson(Door instance) => <String, dynamic>{
 Window _$WindowFromJson(Map<String, dynamic> json) {
   return Window(
     material: json['material'] as String,
-    doorFramesCondition: json['doorFramesCondition'] == null
-        ? null
-        : MinorChecksCondition.fromJson(
-            json['doorFramesCondition'] as Map<String, dynamic>),
-    doorPanelsCondition: json['doorPanelsCondition'] == null
-        ? null
-        : MinorChecksCondition.fromJson(
-            json['doorPanelsCondition'] as Map<String, dynamic>),
     hingesCondition: json['hingesCondition'] == null
         ? null
         : MinorChecksCondition.fromJson(
@@ -132,13 +124,21 @@ Window _$WindowFromJson(Map<String, dynamic> json) {
             json['otherFixturesCondition'] as Map<String, dynamic>),
     comment: json['comment'] as String,
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
-  );
+  )
+    ..windowFramesCondition = json['windowFramesCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['windowFramesCondition'] as Map<String, dynamic>)
+    ..windowPanelsCondition = json['windowPanelsCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['windowPanelsCondition'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$WindowToJson(Window instance) => <String, dynamic>{
       'material': instance.material,
-      'doorFramesCondition': instance.doorFramesCondition?.toJson(),
-      'doorPanelsCondition': instance.doorPanelsCondition?.toJson(),
+      'windowFramesCondition': instance.windowFramesCondition?.toJson(),
+      'windowPanelsCondition': instance.windowPanelsCondition?.toJson(),
       'hingesCondition': instance.hingesCondition?.toJson(),
       'holderCondition': instance.holderCondition?.toJson(),
       'otherFixturesCondition': instance.otherFixturesCondition?.toJson(),
@@ -146,7 +146,7 @@ Map<String, dynamic> _$WindowToJson(Window instance) => <String, dynamic>{
       'photos': instance.photos,
     };
 
-Ceiling _$CeilingFromJson(Map<String, dynamic> json) {
+Ceiling _$CellingFromJson(Map<String, dynamic> json) {
   return Ceiling(
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
     comment: json['comment'] as String,
@@ -173,7 +173,7 @@ Ceiling _$CeilingFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$CeilingToJson(Ceiling instance) => <String, dynamic>{
+Map<String, dynamic> _$CellingToJson(Ceiling instance) => <String, dynamic>{
       'paintingCondition': instance.paintingCondition?.toJson(),
       'plasteringCondition': instance.plasteringCondition?.toJson(),
       'falseCeilingsCondition': instance.falseCeilingsCondition?.toJson(),
@@ -219,6 +219,7 @@ ElectricalFitting _$ElectricalFittingFromJson(Map<String, dynamic> json) {
   return ElectricalFitting(
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
     comment: json['comment'] as String,
+    age: json['age'] as int,
     wiringCondition: json['wiringCondition'] == null
         ? null
         : MinorChecksCondition.fromJson(
@@ -249,6 +250,7 @@ Map<String, dynamic> _$ElectricalFittingToJson(ElectricalFitting instance) =>
       'lightsCondition': instance.lightsCondition?.toJson(),
       'ceilingFanCondition': instance.ceilingFanCondition?.toJson(),
       'otherAccessoriesCondition': instance.otherAccessoriesCondition?.toJson(),
+      'age': instance.age,
       'photos': instance.photos,
       'comment': instance.comment,
     };

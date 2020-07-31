@@ -1,110 +1,176 @@
 part of './minor_checks_form.dart';
 
-class WindowView extends StatelessWidget {
-  const WindowView({Key key}) : super(key: key);
+class WindowView extends StatefulWidget {
+  const WindowView({Key key, @required this.onDataChanged})
+      : assert(onDataChanged != null),
+        super(key: key);
+  final ValueChanged<List<Window>> onDataChanged;
+  @override
+  _WindowViewState createState() => _WindowViewState();
+}
 
+class _WindowViewState extends State<WindowView> {
+  List<Window> windowList = [Window()];
+  List<GlobalKey<FormState>> formKeys = [GlobalKey()];
   @override
   Widget build(BuildContext context) {
     return CustomListView(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText('Windows'),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText('Window 1'),
-        ),
-        AppInputTextField(
-          labelText: 'Door Material',
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText('Window Checklist'),
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Door Frames',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Door Panels',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Hinges',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Holder',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Other Fixture',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        AppInputTextField(
-          labelText: 'Condition',
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SizedBox(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Colors.grey.shade300,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(7.0),
-                      onTap: () {},
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: Colors.grey.shade600,
-                            ),
-                            Text(
-                              'Add Photo',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
+        ...createWindowForm(),
+        InkWell(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: Text('Add Window'),
+                ),
+                Icon(
+                  Icons.add_circle,
+                  color: Theme.of(context).accentColor,
+                ),
+              ],
             ),
           ),
+          onTap: () {
+            formKeys.add(GlobalKey());
+            setState(() {
+              windowList.add(Window());
+            });
+          },
         ),
       ],
     );
+  }
+
+  List<Form> createWindowForm() => windowList
+      .asMap()
+      .keys
+      .map(
+        (windowIndex) => Form(
+          key: formKeys[windowIndex],
+          onChanged: () {
+            debounceEvent(() {
+              formKeys[windowIndex].currentState.save();
+              widget.onDataChanged(windowList);
+            });
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                child: HeadingText('Window ${windowIndex + 1}'),
+              ),
+              AppInputTextField(
+                labelText: 'Window Material',
+                onSaved: (newValue) {
+                  windowList[windowIndex].material = newValue;
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                child: SubHeadingText(
+                  'Checklist',
+                ),
+              ),
+              ...[
+                'Window Frames',
+                'Window Panels',
+                'Hinges',
+                'Holder',
+                'Other Fixtures'
+              ]
+                  .map(
+                    (item) => InspectionMinorChecksCondition(
+                      title: SubHeadingText(
+                        item,
+                        subHeading: SubHeading.sub2,
+                      ),
+                      onDataChanged: (value) {
+                        switch (item) {
+                          case 'Window Frames':
+                            setState(() {
+                              windowList[windowIndex].windowFramesCondition =
+                                  value;
+                            });
+                            widget.onDataChanged(windowList);
+                            break;
+                          case 'Window Panels':
+                            setState(() {
+                              windowList[windowIndex].windowPanelsCondition =
+                                  value;
+                            });
+                            widget.onDataChanged(windowList);
+                            break;
+                          case 'Hinges':
+                            setState(() {
+                              windowList[windowIndex].hingesCondition = value;
+                            });
+                            widget.onDataChanged(windowList);
+                            break;
+                          case 'Holder':
+                            setState(() {
+                              windowList[windowIndex].holderCondition = value;
+                            });
+                            widget.onDataChanged(windowList);
+                            break;
+                          case 'Other Fixtures':
+                            setState(() {
+                              windowList[windowIndex].otherFixturesCondition =
+                                  value;
+                            });
+                            widget.onDataChanged(windowList);
+                            break;
+                          default:
+                        }
+                      },
+                      value: getCheckListConditionValue(item, windowIndex),
+                    ),
+                  )
+                  .toList(),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: InspectionImageComment(
+                  images: windowList[windowIndex].photos,
+                  comment: windowList[windowIndex].comment,
+                  onCommentSaved: (value) {
+                    windowList[windowIndex].comment = value;
+                  },
+                  onImageAdd: (path) {
+                    setState(() {
+                      windowList[windowIndex].photos.add(path);
+                    });
+                    widget.onDataChanged(windowList);
+                  },
+                  onImageTap: (index) {},
+                ),
+              ),
+            ],
+          ),
+        ),
+      )
+      .toList();
+
+  getCheckListConditionValue(String checkListItem, int windowIndex) {
+    switch (checkListItem) {
+      case 'Window Frames':
+        return windowList[windowIndex].windowFramesCondition;
+        break;
+      case 'Window Panels':
+        return windowList[windowIndex].windowPanelsCondition;
+        break;
+      case 'Hinges':
+        return windowList[windowIndex].hingesCondition;
+        break;
+      case 'Holder':
+        return windowList[windowIndex].holderCondition;
+        break;
+      case 'Other Fixtures':
+        return windowList[windowIndex].otherFixturesCondition;
+        break;
+      default:
+    }
   }
 }

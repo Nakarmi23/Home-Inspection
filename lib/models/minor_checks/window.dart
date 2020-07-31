@@ -3,8 +3,8 @@ part of 'minor_checks.dart';
 @JsonSerializable(explicitToJson: true)
 class Window implements ImageAndComment {
   String material;
-  MinorChecksCondition doorFramesCondition;
-  MinorChecksCondition doorPanelsCondition;
+  MinorChecksCondition windowFramesCondition;
+  MinorChecksCondition windowPanelsCondition;
   MinorChecksCondition hingesCondition;
   MinorChecksCondition holderCondition;
   MinorChecksCondition otherFixturesCondition;
@@ -23,8 +23,8 @@ class Window implements ImageAndComment {
     this.comment,
     List<String> photos,
   })  : this.photos = photos ?? [],
-        doorFramesCondition = doorFramesCondition ?? MinorChecksCondition(),
-        doorPanelsCondition = doorFramesCondition ?? MinorChecksCondition(),
+        windowFramesCondition = doorFramesCondition ?? MinorChecksCondition(),
+        windowPanelsCondition = doorFramesCondition ?? MinorChecksCondition(),
         hingesCondition = doorFramesCondition ?? MinorChecksCondition(),
         holderCondition = doorFramesCondition ?? MinorChecksCondition(),
         otherFixturesCondition = doorFramesCondition ?? MinorChecksCondition();

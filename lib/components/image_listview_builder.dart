@@ -12,6 +12,7 @@ class ImageListViewBuilder extends StatelessWidget {
     @required this.onImageAdd,
     @required this.onImageTap,
     @required this.images,
+    this.enabled = true,
   })  : assert(onImageAdd != null),
         assert(onImageTap != null),
         assert(images != null),
@@ -19,6 +20,7 @@ class ImageListViewBuilder extends StatelessWidget {
   final OnImageAdd onImageAdd;
   final List<String> images;
   final OnImageTap onImageTap;
+  final bool enabled;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -54,28 +56,36 @@ class ImageListViewBuilder extends StatelessWidget {
             width: 80,
             child: Material(
               borderRadius: BorderRadius.circular(7.0),
-              color: Colors.grey.shade300,
+              color: enabled ? Colors.grey.shade300 : Colors.grey.shade200,
               child: InkWell(
                 borderRadius: BorderRadius.circular(7.0),
-                onTap: () {
-                  showImagePickerBottomSheet(
-                    context,
-                    onImage: (path) {
-                      onImageAdd(path);
-                    },
-                  );
-                },
+                onTap: enabled
+                    ? () {
+                        showImagePickerBottomSheet(
+                          context,
+                          onImage: (path) {
+                            onImageAdd(path);
+                          },
+                        );
+                      }
+                    : null,
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Icon(
                         Icons.add,
-                        color: Colors.grey.shade600,
+                        color: enabled
+                            ? Colors.grey.shade600
+                            : Colors.grey.shade400,
                       ),
                       Text(
                         'Add Photo',
-                        style: TextStyle(color: Colors.grey.shade600),
+                        style: TextStyle(
+                          color: enabled
+                              ? Colors.grey.shade600
+                              : Colors.grey.shade400,
+                        ),
                       ),
                     ],
                   ),

@@ -1,106 +1,181 @@
 part of './minor_checks_form.dart';
 
-class ElectricalFittingView extends StatelessWidget {
-  const ElectricalFittingView({Key key}) : super(key: key);
+class ElectricalFittingView extends StatefulWidget {
+  const ElectricalFittingView({Key key, @required this.onDataChanged})
+      : assert(onDataChanged != null),
+        super(key: key);
+  final ValueChanged<List<ElectricalFitting>> onDataChanged;
+  @override
+  _ElectricalFittingViewState createState() => _ElectricalFittingViewState();
+}
 
+class _ElectricalFittingViewState extends State<ElectricalFittingView> {
+  List<ElectricalFitting> elecFittingList = [ElectricalFitting()];
+  List<GlobalKey<FormState>> formKeys = [GlobalKey()];
   @override
   Widget build(BuildContext context) {
     return CustomListView(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText('Electrical Fittings'),
-        ),
-        AppInputTextField(
-          labelText: 'Age of Electrical Inspection',
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText('Electrical Fittings Checklist'),
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Wiring',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Switches',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Lights',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Ceiling Fan',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Other Accessories',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        AppInputTextField(
-          labelText: 'Condition',
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SizedBox(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Colors.grey.shade300,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(7.0),
-                      onTap: () {},
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: Colors.grey.shade600,
-                            ),
-                            Text(
-                              'Add Photo',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
+        ...createElectricalFittingForm(),
+        InkWell(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: Text('Add Electrical Fitting'),
+                ),
+                Icon(
+                  Icons.add_circle,
+                  color: Theme.of(context).accentColor,
+                ),
+              ],
             ),
           ),
+          onTap: () {
+            formKeys.add(GlobalKey());
+            setState(() {
+              elecFittingList.add(ElectricalFitting());
+            });
+          },
         ),
       ],
     );
+  }
+
+  List<Form> createElectricalFittingForm() => elecFittingList
+      .asMap()
+      .keys
+      .map(
+        (elecFittingIndex) => Form(
+          key: formKeys[elecFittingIndex],
+          onChanged: () {
+            debounceEvent(() {
+              formKeys[elecFittingIndex].currentState.save();
+              widget.onDataChanged(elecFittingList);
+            });
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                child:
+                    HeadingText('Electrical Fitting ${elecFittingIndex + 1}'),
+              ),
+              AppInputTextField(
+                labelText: 'Age of Electrical Fitting',
+                keyboardType: TextInputType.numberWithOptions(decimal: false),
+                onSaved: (newValue) {
+                  elecFittingList[elecFittingIndex].age =
+                      int.tryParse(newValue);
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                child: SubHeadingText(
+                  'Checklist',
+                ),
+              ),
+              ...[
+                'Wiring',
+                'Switches',
+                'Lights',
+                'Ceiling Fan',
+                'Other Accessories'
+              ]
+                  .map(
+                    (item) => InspectionMinorChecksCondition(
+                      title: SubHeadingText(
+                        item,
+                        subHeading: SubHeading.sub2,
+                      ),
+                      onDataChanged: (value) {
+                        switch (item) {
+                          case 'Wiring':
+                            setState(() {
+                              elecFittingList[elecFittingIndex]
+                                  .wiringCondition = value;
+                            });
+                            widget.onDataChanged(elecFittingList);
+                            break;
+                          case 'Switches':
+                            setState(() {
+                              elecFittingList[elecFittingIndex]
+                                  .switchesCondition = value;
+                            });
+                            widget.onDataChanged(elecFittingList);
+                            break;
+                          case 'Lights':
+                            setState(() {
+                              elecFittingList[elecFittingIndex]
+                                  .lightsCondition = value;
+                            });
+                            widget.onDataChanged(elecFittingList);
+                            break;
+                          case 'Ceiling Fan':
+                            setState(() {
+                              elecFittingList[elecFittingIndex]
+                                  .ceilingFanCondition = value;
+                            });
+                            widget.onDataChanged(elecFittingList);
+                            break;
+                          case 'Other Accessories':
+                            setState(() {
+                              elecFittingList[elecFittingIndex]
+                                  .otherAccessoriesCondition = value;
+                            });
+                            widget.onDataChanged(elecFittingList);
+                            break;
+                          default:
+                        }
+                      },
+                      value: getCheckListConditionValue(item, elecFittingIndex),
+                    ),
+                  )
+                  .toList(),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: InspectionImageComment(
+                  images: elecFittingList[elecFittingIndex].photos,
+                  comment: elecFittingList[elecFittingIndex].comment,
+                  onCommentSaved: (value) {
+                    elecFittingList[elecFittingIndex].comment = value;
+                  },
+                  onImageAdd: (path) {
+                    setState(() {
+                      elecFittingList[elecFittingIndex].photos.add(path);
+                    });
+                    widget.onDataChanged(elecFittingList);
+                  },
+                  onImageTap: (index) {},
+                ),
+              ),
+            ],
+          ),
+        ),
+      )
+      .toList();
+
+  getCheckListConditionValue(String checkListItem, int elecFittingIndex) {
+    switch (checkListItem) {
+      case 'Wiring':
+        return elecFittingList[elecFittingIndex].wiringCondition;
+        break;
+      case 'Switches':
+        return elecFittingList[elecFittingIndex].switchesCondition;
+        break;
+      case 'Lights':
+        return elecFittingList[elecFittingIndex].lightsCondition;
+        break;
+      case 'Ceiling Fan':
+        return elecFittingList[elecFittingIndex].ceilingFanCondition;
+        break;
+      case 'Other Accessories':
+        return elecFittingList[elecFittingIndex].otherAccessoriesCondition;
+        break;
+      default:
+    }
   }
 }

@@ -1,95 +1,153 @@
 part of './minor_checks_form.dart';
 
-class WallsView extends StatelessWidget {
-  const WallsView({Key key}) : super(key: key);
+class WallsView extends StatefulWidget {
+  const WallsView({Key key, @required this.onDataChanged})
+      : assert(onDataChanged != null),
+        super(key: key);
+  final ValueChanged<List<Wall>> onDataChanged;
 
+  @override
+  _WallsViewState createState() => _WallsViewState();
+}
+
+class _WallsViewState extends State<WallsView> {
+  List<Wall> wallList = [Wall()];
+  List<GlobalKey<FormState>> formKeys = [GlobalKey()];
   @override
   Widget build(BuildContext context) {
     return CustomListView(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText('Walls'),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText('Walls Checklist'),
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Painting',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Plastering',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Mason Problems',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            'Other Problems',
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-        AppInputTextField(
-          labelText: 'Condition',
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SizedBox(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Colors.grey.shade300,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(7.0),
-                      onTap: () {},
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: Colors.grey.shade600,
-                            ),
-                            Text(
-                              'Add Photo',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
+        ...createCellingForm(),
+        InkWell(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: Text('Add Wall'),
+                ),
+                Icon(
+                  Icons.add_circle,
+                  color: Theme.of(context).accentColor,
+                ),
+              ],
             ),
           ),
+          onTap: () {
+            formKeys.add(GlobalKey());
+            setState(() {
+              wallList.add(Wall());
+            });
+          },
         ),
       ],
     );
+  }
+
+  List<Form> createCellingForm() => wallList
+      .asMap()
+      .keys
+      .map(
+        (wallIndex) => Form(
+          key: formKeys[wallIndex],
+          onChanged: () {
+            debounceEvent(() {
+              formKeys[wallIndex].currentState.save();
+              widget.onDataChanged(wallList);
+            });
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                child: HeadingText('Wall ${wallIndex + 1}'),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                child: SubHeadingText(
+                  'Checklist',
+                ),
+              ),
+              ...['Painting', 'Plastering', 'Mason Problems', 'Other Problems']
+                  .map(
+                    (item) => InspectionMinorChecksCondition(
+                      title: SubHeadingText(
+                        item,
+                        subHeading: SubHeading.sub2,
+                      ),
+                      onDataChanged: (value) {
+                        switch (item) {
+                          case 'Painting':
+                            setState(() {
+                              wallList[wallIndex].paintingCondition = value;
+                            });
+                            widget.onDataChanged(wallList);
+                            break;
+                          case 'Plastering':
+                            setState(() {
+                              wallList[wallIndex].plasteringCondition = value;
+                            });
+                            widget.onDataChanged(wallList);
+                            break;
+                          case 'Mason Problems':
+                            setState(() {
+                              wallList[wallIndex].masonProblemCondition = value;
+                            });
+                            widget.onDataChanged(wallList);
+                            break;
+                          case 'Other Problems':
+                            setState(() {
+                              wallList[wallIndex].otherProblemCondition = value;
+                            });
+                            widget.onDataChanged(wallList);
+                            break;
+                          default:
+                        }
+                      },
+                      value: getCheckListConditionValue(item, wallIndex),
+                    ),
+                  )
+                  .toList(),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: InspectionImageComment(
+                  images: wallList[wallIndex].photos,
+                  comment: wallList[wallIndex].comment,
+                  onCommentSaved: (value) {
+                    wallList[wallIndex].comment = value;
+                  },
+                  onImageAdd: (path) {
+                    setState(() {
+                      wallList[wallIndex].photos.add(path);
+                    });
+                    widget.onDataChanged(wallList);
+                  },
+                  onImageTap: (index) {},
+                ),
+              ),
+            ],
+          ),
+        ),
+      )
+      .toList();
+
+  getCheckListConditionValue(String checkListItem, int wallIndex) {
+    switch (checkListItem) {
+      case 'Painting':
+        return wallList[wallIndex].paintingCondition;
+        break;
+      case 'Plastering':
+        return wallList[wallIndex].plasteringCondition;
+        break;
+      case 'Mason Problems':
+        return wallList[wallIndex].masonProblemCondition;
+        break;
+      case 'Other Problems':
+        return wallList[wallIndex].otherProblemCondition;
+        break;
+      default:
+    }
   }
 }

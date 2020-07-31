@@ -13,6 +13,7 @@ class InspectionImageComment extends StatelessWidget {
     @required this.onImageAdd,
     @required this.onImageTap,
     this.isInFrom = true,
+    this.enabled = true,
   })  : assert(onCommentSaved != null),
         assert(onImageAdd != null),
         assert(images != null),
@@ -25,6 +26,7 @@ class InspectionImageComment extends StatelessWidget {
   final OnImageAdd onImageAdd;
   final OnImageTap onImageTap;
   final bool isInFrom;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +42,13 @@ class InspectionImageComment extends StatelessWidget {
               onImageAdd: onImageAdd,
               onImageTap: onImageTap,
               images: images,
+              enabled: enabled,
             ),
           ),
         ),
         AppInputTextField(
           labelText: 'Comment',
+          enabled: enabled,
           initialValue: comment ?? '',
           validator: commentValidator != null
               ? commentValidator
