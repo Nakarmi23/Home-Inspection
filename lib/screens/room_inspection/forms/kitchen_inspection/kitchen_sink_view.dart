@@ -4,14 +4,14 @@ class KitchenSinkView extends StatefulWidget {
   const KitchenSinkView({Key key, @required this.onDataChange})
       : assert(onDataChange != null),
         super(key: key);
-  final ValueChanged<KitchenSink> onDataChange;
+  final ValueChanged<ImageAndComment> onDataChange;
 
   @override
   _KitchenSinkViewState createState() => _KitchenSinkViewState();
 }
 
 class _KitchenSinkViewState extends State<KitchenSinkView> {
-  KitchenSink kitchenSink = KitchenSink();
+  ImageAndComment kitchenSink = ImageAndComment();
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,9 @@ class _KitchenSinkViewState extends State<KitchenSinkView> {
         ),
         InspectionImageComment(
           images: kitchenSink.photos,
-          comment: kitchenSink.condition,
+          comment: kitchenSink.comment,
           onCommentSaved: (value) {
-            kitchenSink.condition = value;
+            kitchenSink.comment = value;
             widget.onDataChange(kitchenSink);
           },
           onImageAdd: (path) {

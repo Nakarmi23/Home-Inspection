@@ -1,14 +1,16 @@
 part of 'minor_checks.dart';
 
 @JsonSerializable()
-class PestInspection extends BaseModel {
-  List<String> photos;
-  String condition;
+class PestInspection implements ImageAndComment {
   String surroundingCondition;
+  @override
+  String comment;
+  @override
+  List<String> photos;
 
   PestInspection({
     List<String> photos,
-    this.condition,
+    this.comment,
     this.surroundingCondition,
   }) : this.photos = photos ?? [];
 

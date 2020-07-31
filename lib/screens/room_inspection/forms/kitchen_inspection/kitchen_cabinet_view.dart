@@ -42,9 +42,9 @@ class _KitchenCabinetViewState extends State<KitchenCabinetView> {
                 padding: const EdgeInsets.only(top: 16.0),
                 child: InspectionImageComment(
                   images: kitchenCabinet.photos,
-                  comment: kitchenCabinet.condition,
+                  comment: kitchenCabinet.comment,
                   onCommentSaved: (value) {
-                    kitchenCabinet.condition = value;
+                    kitchenCabinet.comment = value;
                   },
                   onImageAdd: (path) {
                     setState(() {

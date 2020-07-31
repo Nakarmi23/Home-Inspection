@@ -4,14 +4,14 @@ class WashBasinView extends StatefulWidget {
   const WashBasinView({Key key, @required this.onDataChange})
       : assert(onDataChange != null),
         super(key: key);
-  final ValueChanged<WashBasin> onDataChange;
+  final ValueChanged<ImageAndComment> onDataChange;
 
   @override
   _WashBasinViewState createState() => _WashBasinViewState();
 }
 
 class _WashBasinViewState extends State<WashBasinView> {
-  WashBasin washBasin = WashBasin();
+  ImageAndComment washBasin = ImageAndComment();
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -23,9 +23,9 @@ class _WashBasinViewState extends State<WashBasinView> {
         InspectionImageComment(
           isInFrom: false,
           images: washBasin.photos,
-          comment: washBasin.condition,
+          comment: washBasin.comment,
           onCommentSaved: (value) {
-            washBasin.condition = value;
+            washBasin.comment = value;
             widget.onDataChange(washBasin);
           },
           onImageAdd: (path) {

@@ -1,24 +1,31 @@
 part of 'minor_checks.dart';
 
-@JsonSerializable()
-class Wall extends BaseModelWithConditionAndPhotos {
-  bool paintingCondition;
-  bool plasteringCondition;
-  bool masonProblemCondition;
-  bool otherProblemCondition;
+@JsonSerializable(explicitToJson: true)
+class Wall implements ImageAndComment {
+  MinorChecksCondition paintingCondition;
+  MinorChecksCondition plasteringCondition;
+  MinorChecksCondition masonProblemCondition;
+  MinorChecksCondition otherProblemCondition;
   @override
   List<String> photos;
   @override
-  String condition;
+  String comment;
 
   Wall({
     List<String> photos,
-    this.condition,
-    this.paintingCondition,
-    this.plasteringCondition,
-    this.masonProblemCondition,
-    this.otherProblemCondition,
-  }) : this.photos = photos ?? [];
+    this.comment,
+    MinorChecksCondition paintingCondition,
+    MinorChecksCondition plasteringCondition,
+    MinorChecksCondition masonProblemCondition,
+    MinorChecksCondition otherProblemCondition,
+  })  : this.photos = photos ?? [],
+        this.paintingCondition = paintingCondition ?? MinorChecksCondition(),
+        this.plasteringCondition =
+            plasteringCondition ?? MinorChecksCondition(),
+        this.masonProblemCondition =
+            masonProblemCondition ?? MinorChecksCondition(),
+        this.otherProblemCondition =
+            otherProblemCondition ?? MinorChecksCondition();
 
   factory Wall.fromJson(Map<String, dynamic> json) => _$WallFromJson(json);
 

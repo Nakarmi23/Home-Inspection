@@ -1,4 +1,6 @@
 import 'package:house_review/models/base_model.dart';
+import 'package:house_review/models/image_comment.dart';
+import 'package:house_review/models/minor_checks/minor_check_condition.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'minor_checks.g.dart';
@@ -7,10 +9,7 @@ part 'window.dart';
 part 'ceiling.dart';
 part 'wall.dart';
 part 'electrical_fitting.dart';
-part 'carpentry.dart';
 part 'pest_inspection.dart';
-part 'metal_aluminium_work.dart';
-part 'cleaning.dart';
 
 @JsonSerializable(explicitToJson: true)
 class MinorChecks {
@@ -20,9 +19,9 @@ class MinorChecks {
   List<Wall> wall;
   List<ElectricalFitting> electricalFitting;
   List<PestInspection> pestInspection;
-  List<Carpentry> carpentry;
-  List<MetalAluminiumWork> metalAluminiumWork;
-  List<Cleaning> cleaning;
+  List<ImageAndComment> carpentry;
+  List<ImageAndComment> metalAluminiumWork;
+  List<ImageAndComment> cleaning;
 
   MinorChecks({
     List<Door> doors,
@@ -31,9 +30,9 @@ class MinorChecks {
     List<Wall> wall,
     List<ElectricalFitting> electricalFitting,
     List<PestInspection> pestInspection,
-    List<Carpentry> carpentry,
-    List<MetalAluminiumWork> metalAluminiumWork,
-    List<Cleaning> cleaning,
+    List<ImageAndComment> carpentry,
+    List<ImageAndComment> metalAluminiumWork,
+    List<ImageAndComment> cleaning,
   })  : this.doors = doors ?? [],
         this.window = window ?? [],
         this.ceiling = ceiling ?? [],

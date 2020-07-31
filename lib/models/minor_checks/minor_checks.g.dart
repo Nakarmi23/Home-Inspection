@@ -35,17 +35,19 @@ MinorChecks _$MinorChecksFromJson(Map<String, dynamic> json) {
             : PestInspection.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     carpentry: (json['carpentry'] as List)
-        ?.map((e) =>
-            e == null ? null : Carpentry.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => e == null
+            ? null
+            : ImageAndComment.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     metalAluminiumWork: (json['metalAluminiumWork'] as List)
         ?.map((e) => e == null
             ? null
-            : MetalAluminiumWork.fromJson(e as Map<String, dynamic>))
+            : ImageAndComment.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     cleaning: (json['cleaning'] as List)
-        ?.map((e) =>
-            e == null ? null : Cleaning.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => e == null
+            ? null
+            : ImageAndComment.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -69,164 +71,199 @@ Map<String, dynamic> _$MinorChecksToJson(MinorChecks instance) =>
 Door _$DoorFromJson(Map<String, dynamic> json) {
   return Door(
     material: json['material'] as String,
-    doorFramesCondition: json['doorFramesCondition'] as bool,
-    doorPanelsCondition: json['doorPanelsCondition'] as bool,
-    hingesCondition: json['hingesCondition'] as bool,
-    holderCondition: json['holderCondition'] as bool,
-    otherFixturesCondition: json['otherFixturesCondition'] as bool,
-    condition: json['condition'] as String,
+    doorFramesCondition: json['doorFramesCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['doorFramesCondition'] as Map<String, dynamic>),
+    doorPanelsCondition: json['doorPanelsCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['doorPanelsCondition'] as Map<String, dynamic>),
+    hingesCondition: json['hingesCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['hingesCondition'] as Map<String, dynamic>),
+    holderCondition: json['holderCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['holderCondition'] as Map<String, dynamic>),
+    otherFixturesCondition: json['otherFixturesCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['otherFixturesCondition'] as Map<String, dynamic>),
+    comment: json['comment'] as String,
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
 Map<String, dynamic> _$DoorToJson(Door instance) => <String, dynamic>{
       'material': instance.material,
-      'doorFramesCondition': instance.doorFramesCondition,
-      'doorPanelsCondition': instance.doorPanelsCondition,
-      'hingesCondition': instance.hingesCondition,
-      'holderCondition': instance.holderCondition,
-      'otherFixturesCondition': instance.otherFixturesCondition,
-      'condition': instance.condition,
+      'doorFramesCondition': instance.doorFramesCondition?.toJson(),
+      'doorPanelsCondition': instance.doorPanelsCondition?.toJson(),
+      'hingesCondition': instance.hingesCondition?.toJson(),
+      'holderCondition': instance.holderCondition?.toJson(),
+      'otherFixturesCondition': instance.otherFixturesCondition?.toJson(),
       'photos': instance.photos,
+      'comment': instance.comment,
     };
 
 Window _$WindowFromJson(Map<String, dynamic> json) {
   return Window(
     material: json['material'] as String,
-    doorFramesCondition: json['doorFramesCondition'] as bool,
-    doorPanelsCondition: json['doorPanelsCondition'] as bool,
-    hingesCondition: json['hingesCondition'] as bool,
-    holderCondition: json['holderCondition'] as bool,
-    otherFixturesCondition: json['otherFixturesCondition'] as bool,
-    condition: json['condition'] as String,
+    doorFramesCondition: json['doorFramesCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['doorFramesCondition'] as Map<String, dynamic>),
+    doorPanelsCondition: json['doorPanelsCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['doorPanelsCondition'] as Map<String, dynamic>),
+    hingesCondition: json['hingesCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['hingesCondition'] as Map<String, dynamic>),
+    holderCondition: json['holderCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['holderCondition'] as Map<String, dynamic>),
+    otherFixturesCondition: json['otherFixturesCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['otherFixturesCondition'] as Map<String, dynamic>),
+    comment: json['comment'] as String,
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
 Map<String, dynamic> _$WindowToJson(Window instance) => <String, dynamic>{
       'material': instance.material,
-      'doorFramesCondition': instance.doorFramesCondition,
-      'doorPanelsCondition': instance.doorPanelsCondition,
-      'hingesCondition': instance.hingesCondition,
-      'holderCondition': instance.holderCondition,
-      'otherFixturesCondition': instance.otherFixturesCondition,
-      'condition': instance.condition,
+      'doorFramesCondition': instance.doorFramesCondition?.toJson(),
+      'doorPanelsCondition': instance.doorPanelsCondition?.toJson(),
+      'hingesCondition': instance.hingesCondition?.toJson(),
+      'holderCondition': instance.holderCondition?.toJson(),
+      'otherFixturesCondition': instance.otherFixturesCondition?.toJson(),
+      'comment': instance.comment,
       'photos': instance.photos,
     };
 
 Ceiling _$CeilingFromJson(Map<String, dynamic> json) {
   return Ceiling(
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
-    condition: json['condition'] as String,
-    paintingCondition: json['paintingCondition'] as bool,
-    plasteringCondition: json['plasteringCondition'] as bool,
-    falseCeilingsCondition: json['falseCeilingsCondition'] as bool,
-    masonProblemCondition: json['masonProblemCondition'] as bool,
-    otherProblemCondition: json['otherProblemCondition'] as bool,
+    comment: json['comment'] as String,
+    paintingCondition: json['paintingCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['paintingCondition'] as Map<String, dynamic>),
+    plasteringCondition: json['plasteringCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['plasteringCondition'] as Map<String, dynamic>),
+    falseCeilingsCondition: json['falseCeilingsCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['falseCeilingsCondition'] as Map<String, dynamic>),
+    masonProblemCondition: json['masonProblemCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['masonProblemCondition'] as Map<String, dynamic>),
+    otherProblemCondition: json['otherProblemCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['otherProblemCondition'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$CeilingToJson(Ceiling instance) => <String, dynamic>{
-      'paintingCondition': instance.paintingCondition,
-      'plasteringCondition': instance.plasteringCondition,
-      'falseCeilingsCondition': instance.falseCeilingsCondition,
-      'masonProblemCondition': instance.masonProblemCondition,
-      'otherProblemCondition': instance.otherProblemCondition,
+      'paintingCondition': instance.paintingCondition?.toJson(),
+      'plasteringCondition': instance.plasteringCondition?.toJson(),
+      'falseCeilingsCondition': instance.falseCeilingsCondition?.toJson(),
+      'masonProblemCondition': instance.masonProblemCondition?.toJson(),
+      'otherProblemCondition': instance.otherProblemCondition?.toJson(),
       'photos': instance.photos,
-      'condition': instance.condition,
+      'comment': instance.comment,
     };
 
 Wall _$WallFromJson(Map<String, dynamic> json) {
   return Wall(
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
-    condition: json['condition'] as String,
-    paintingCondition: json['paintingCondition'] as bool,
-    plasteringCondition: json['plasteringCondition'] as bool,
-    masonProblemCondition: json['masonProblemCondition'] as bool,
-    otherProblemCondition: json['otherProblemCondition'] as bool,
+    comment: json['comment'] as String,
+    paintingCondition: json['paintingCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['paintingCondition'] as Map<String, dynamic>),
+    plasteringCondition: json['plasteringCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['plasteringCondition'] as Map<String, dynamic>),
+    masonProblemCondition: json['masonProblemCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['masonProblemCondition'] as Map<String, dynamic>),
+    otherProblemCondition: json['otherProblemCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['otherProblemCondition'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$WallToJson(Wall instance) => <String, dynamic>{
-      'paintingCondition': instance.paintingCondition,
-      'plasteringCondition': instance.plasteringCondition,
-      'masonProblemCondition': instance.masonProblemCondition,
-      'otherProblemCondition': instance.otherProblemCondition,
+      'paintingCondition': instance.paintingCondition?.toJson(),
+      'plasteringCondition': instance.plasteringCondition?.toJson(),
+      'masonProblemCondition': instance.masonProblemCondition?.toJson(),
+      'otherProblemCondition': instance.otherProblemCondition?.toJson(),
       'photos': instance.photos,
-      'condition': instance.condition,
+      'comment': instance.comment,
     };
 
 ElectricalFitting _$ElectricalFittingFromJson(Map<String, dynamic> json) {
   return ElectricalFitting(
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
-    condition: json['condition'] as String,
-    wiringCondition: json['wiringCondition'] as bool,
-    switchesCondition: json['switchesCondition'] as bool,
-    lightsCondition: json['lightsCondition'] as bool,
-    ceilingFanCondition: json['ceilingFanCondition'] as bool,
-    otherAccessoriesCondition: json['otherAccessoriesCondition'] as bool,
+    comment: json['comment'] as String,
+    wiringCondition: json['wiringCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['wiringCondition'] as Map<String, dynamic>),
+    switchesCondition: json['switchesCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['switchesCondition'] as Map<String, dynamic>),
+    lightsCondition: json['lightsCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['lightsCondition'] as Map<String, dynamic>),
+    ceilingFanCondition: json['ceilingFanCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['ceilingFanCondition'] as Map<String, dynamic>),
+    otherAccessoriesCondition: json['otherAccessoriesCondition'] == null
+        ? null
+        : MinorChecksCondition.fromJson(
+            json['otherAccessoriesCondition'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$ElectricalFittingToJson(ElectricalFitting instance) =>
     <String, dynamic>{
-      'wiringCondition': instance.wiringCondition,
-      'switchesCondition': instance.switchesCondition,
-      'lightsCondition': instance.lightsCondition,
-      'ceilingFanCondition': instance.ceilingFanCondition,
-      'otherAccessoriesCondition': instance.otherAccessoriesCondition,
+      'wiringCondition': instance.wiringCondition?.toJson(),
+      'switchesCondition': instance.switchesCondition?.toJson(),
+      'lightsCondition': instance.lightsCondition?.toJson(),
+      'ceilingFanCondition': instance.ceilingFanCondition?.toJson(),
+      'otherAccessoriesCondition': instance.otherAccessoriesCondition?.toJson(),
       'photos': instance.photos,
-      'condition': instance.condition,
-    };
-
-Carpentry _$CarpentryFromJson(Map<String, dynamic> json) {
-  return Carpentry(
-    photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
-    condition: json['condition'] as String,
-  );
-}
-
-Map<String, dynamic> _$CarpentryToJson(Carpentry instance) => <String, dynamic>{
-      'photos': instance.photos,
-      'condition': instance.condition,
+      'comment': instance.comment,
     };
 
 PestInspection _$PestInspectionFromJson(Map<String, dynamic> json) {
   return PestInspection(
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
-    condition: json['condition'] as String,
+    comment: json['comment'] as String,
     surroundingCondition: json['surroundingCondition'] as String,
   );
 }
 
 Map<String, dynamic> _$PestInspectionToJson(PestInspection instance) =>
     <String, dynamic>{
-      'photos': instance.photos,
-      'condition': instance.condition,
       'surroundingCondition': instance.surroundingCondition,
-    };
-
-MetalAluminiumWork _$MetalAluminiumWorkFromJson(Map<String, dynamic> json) {
-  return MetalAluminiumWork(
-    photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
-    condition: json['condition'] as String,
-  );
-}
-
-Map<String, dynamic> _$MetalAluminiumWorkToJson(MetalAluminiumWork instance) =>
-    <String, dynamic>{
+      'comment': instance.comment,
       'photos': instance.photos,
-      'condition': instance.condition,
-    };
-
-Cleaning _$CleaningFromJson(Map<String, dynamic> json) {
-  return Cleaning(
-    photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
-    condition: json['condition'] as String,
-  );
-}
-
-Map<String, dynamic> _$CleaningToJson(Cleaning instance) => <String, dynamic>{
-      'photos': instance.photos,
-      'condition': instance.condition,
     };

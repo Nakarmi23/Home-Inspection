@@ -4,14 +4,14 @@ class GasAndGasStoveView extends StatefulWidget {
   const GasAndGasStoveView({Key key, @required this.onDataChange})
       : assert(onDataChange != null),
         super(key: key);
-  final ValueChanged<GasAndGasStove> onDataChange;
+  final ValueChanged<ImageAndComment> onDataChange;
 
   @override
   _GasAndGasStoveViewState createState() => _GasAndGasStoveViewState();
 }
 
 class _GasAndGasStoveViewState extends State<GasAndGasStoveView> {
-  GasAndGasStove gasAndGasStove = GasAndGasStove();
+  ImageAndComment gasAndGasStove = ImageAndComment();
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,9 @@ class _GasAndGasStoveViewState extends State<GasAndGasStoveView> {
         ),
         InspectionImageComment(
           images: gasAndGasStove.photos,
-          comment: gasAndGasStove.condition,
+          comment: gasAndGasStove.comment,
           onCommentSaved: (value) {
-            gasAndGasStove.condition = value;
+            gasAndGasStove.comment = value;
             widget.onDataChange(gasAndGasStove);
           },
           onImageAdd: (path) {

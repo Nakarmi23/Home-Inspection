@@ -4,14 +4,14 @@ class ToiletPlumbingView extends StatefulWidget {
   const ToiletPlumbingView({Key key, @required this.onDataChange})
       : assert(onDataChange != null),
         super(key: key);
-  final ValueChanged<Plumbing> onDataChange;
+  final ValueChanged<ImageAndComment> onDataChange;
 
   @override
   _ToiletPlumbingViewState createState() => _ToiletPlumbingViewState();
 }
 
 class _ToiletPlumbingViewState extends State<ToiletPlumbingView> {
-  Plumbing plumbing = Plumbing();
+  ImageAndComment plumbing = ImageAndComment();
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -23,9 +23,9 @@ class _ToiletPlumbingViewState extends State<ToiletPlumbingView> {
         InspectionImageComment(
           isInFrom: false,
           images: plumbing.photos,
-          comment: plumbing.condition,
+          comment: plumbing.comment,
           onCommentSaved: (value) {
-            plumbing.condition = value;
+            plumbing.comment = value;
             widget.onDataChange(plumbing);
           },
           onImageAdd: (path) {

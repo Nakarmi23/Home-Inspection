@@ -30,7 +30,7 @@ class VisualInspection extends BaseModel {
 }
 
 @JsonSerializable()
-class Spalling implements BaseModelWithCommentAndPhotos {
+class Spalling implements ImageAndComment {
   @override
   String comment;
 
@@ -47,7 +47,7 @@ class Spalling implements BaseModelWithCommentAndPhotos {
 }
 
 @JsonSerializable()
-class Tilting implements BaseModelWithCommentAndPhotos {
+class Tilting implements ImageAndComment {
   String tiltingReading;
   List<String> digitalLevelMeterPhotos;
 
@@ -73,7 +73,7 @@ class Tilting implements BaseModelWithCommentAndPhotos {
 }
 
 @JsonSerializable()
-class Bulging implements BaseModelWithCommentAndPhotos {
+class Bulging implements ImageAndComment {
   double height, depth;
 
   @override
@@ -93,7 +93,7 @@ class Bulging implements BaseModelWithCommentAndPhotos {
 }
 
 @JsonSerializable()
-class Cracking implements BaseModelWithCommentAndPhotos {
+class Cracking implements ImageAndComment {
   double depth, width;
 
   @override
@@ -113,7 +113,7 @@ class Cracking implements BaseModelWithCommentAndPhotos {
 }
 
 @JsonSerializable()
-class OtherProblem implements BaseModelWithCommentAndPhotos {
+class OtherProblem implements ImageAndComment {
   String name;
 
   @override

@@ -4,13 +4,13 @@ class DishWasherView extends StatefulWidget {
   const DishWasherView({Key key, @required this.onDataChange})
       : assert(onDataChange != null),
         super(key: key);
-  final ValueChanged<DishWasher> onDataChange;
+  final ValueChanged<ImageAndComment> onDataChange;
   @override
   _DishWasherViewState createState() => _DishWasherViewState();
 }
 
 class _DishWasherViewState extends State<DishWasherView> {
-  DishWasher dishWasher = DishWasher();
+  ImageAndComment dishWasher = ImageAndComment();
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -21,9 +21,9 @@ class _DishWasherViewState extends State<DishWasherView> {
         ),
         InspectionImageComment(
           images: dishWasher.photos,
-          comment: dishWasher.condition,
+          comment: dishWasher.comment,
           onCommentSaved: (value) {
-            dishWasher.condition = value;
+            dishWasher.comment = value;
             widget.onDataChange(dishWasher);
           },
           onImageAdd: (path) {

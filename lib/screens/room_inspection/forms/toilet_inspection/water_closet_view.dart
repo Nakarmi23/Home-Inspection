@@ -4,14 +4,14 @@ class WaterClosetView extends StatefulWidget {
   const WaterClosetView({Key key, @required this.onDataChange})
       : assert(onDataChange != null),
         super(key: key);
-  final ValueChanged<WaterCloset> onDataChange;
+  final ValueChanged<ImageAndComment> onDataChange;
 
   @override
   _WaterClosetViewState createState() => _WaterClosetViewState();
 }
 
 class _WaterClosetViewState extends State<WaterClosetView> {
-  WaterCloset waterCloset = WaterCloset();
+  ImageAndComment waterCloset = ImageAndComment();
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -23,9 +23,9 @@ class _WaterClosetViewState extends State<WaterClosetView> {
         InspectionImageComment(
           isInFrom: false,
           images: waterCloset.photos,
-          comment: waterCloset.condition,
+          comment: waterCloset.comment,
           onCommentSaved: (value) {
-            waterCloset.condition = value;
+            waterCloset.comment = value;
             widget.onDataChange(waterCloset);
           },
           onImageAdd: (path) {

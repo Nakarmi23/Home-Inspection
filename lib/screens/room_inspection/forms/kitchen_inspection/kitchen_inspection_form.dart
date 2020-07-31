@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:house_review/components/app_input_text_field.dart';
 import 'package:house_review/components/custom_list_view.dart';
 import 'package:house_review/components/heading_text.dart';
+import 'package:house_review/models/image_comment.dart';
 import 'package:house_review/models/kitchen_inspection/kitchen_inspection.dart';
 import 'package:house_review/screens/room_inspection/components/inspection_image_comment.dart';
 import 'package:house_review/utility/debounce.dart';

@@ -4,14 +4,14 @@ class GarbageDisposalView extends StatefulWidget {
   const GarbageDisposalView({Key key, @required this.onDataChange})
       : assert(onDataChange != null),
         super(key: key);
-  final ValueChanged<GarbageDisposal> onDataChange;
+  final ValueChanged<ImageAndComment> onDataChange;
 
   @override
   _GarbageDisposalViewState createState() => _GarbageDisposalViewState();
 }
 
 class _GarbageDisposalViewState extends State<GarbageDisposalView> {
-  GarbageDisposal garbageDisposal = GarbageDisposal();
+  ImageAndComment garbageDisposal = ImageAndComment();
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,9 @@ class _GarbageDisposalViewState extends State<GarbageDisposalView> {
         ),
         InspectionImageComment(
           images: garbageDisposal.photos,
-          comment: garbageDisposal.condition,
+          comment: garbageDisposal.comment,
           onCommentSaved: (value) {
-            garbageDisposal.condition = value;
+            garbageDisposal.comment = value;
             widget.onDataChange(garbageDisposal);
           },
           onImageAdd: (path) {

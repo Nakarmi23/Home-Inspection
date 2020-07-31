@@ -1,4 +1,5 @@
 import 'package:house_review/models/base_model.dart';
+import 'package:house_review/models/image_comment.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'structural_inspection.g.dart';

@@ -4,13 +4,13 @@ class MirrorView extends StatefulWidget {
   const MirrorView({Key key, @required this.onDataChange})
       : assert(onDataChange != null),
         super(key: key);
-  final ValueChanged<Mirror> onDataChange;
+  final ValueChanged<ImageAndComment> onDataChange;
   @override
   _MirrorViewState createState() => _MirrorViewState();
 }
 
 class _MirrorViewState extends State<MirrorView> {
-  Mirror mirror = Mirror();
+  ImageAndComment mirror = ImageAndComment();
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -22,9 +22,9 @@ class _MirrorViewState extends State<MirrorView> {
         InspectionImageComment(
           isInFrom: false,
           images: mirror.photos,
-          comment: mirror.condition,
+          comment: mirror.comment,
           onCommentSaved: (value) {
-            mirror.condition = value;
+            mirror.comment = value;
             widget.onDataChange(mirror);
           },
           onImageAdd: (path) {

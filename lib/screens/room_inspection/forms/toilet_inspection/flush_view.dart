@@ -4,13 +4,13 @@ class FlushView extends StatefulWidget {
   const FlushView({Key key, @required this.onDataChange})
       : assert(onDataChange != null),
         super(key: key);
-  final ValueChanged<Flush> onDataChange;
+  final ValueChanged<ImageAndComment> onDataChange;
   @override
   _FlushViewState createState() => _FlushViewState();
 }
 
 class _FlushViewState extends State<FlushView> {
-  Flush flush = Flush();
+  ImageAndComment flush = ImageAndComment();
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -22,9 +22,9 @@ class _FlushViewState extends State<FlushView> {
         InspectionImageComment(
           isInFrom: false,
           images: flush.photos,
-          comment: flush.condition,
+          comment: flush.comment,
           onCommentSaved: (value) {
-            flush.condition = value;
+            flush.comment = value;
             widget.onDataChange(flush);
           },
           onImageAdd: (path) {

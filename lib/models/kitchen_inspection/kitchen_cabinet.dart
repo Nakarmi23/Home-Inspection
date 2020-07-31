@@ -1,15 +1,15 @@
 part of 'kitchen_inspection.dart';
 
 @JsonSerializable()
-class KitchenCabinet implements BaseModelWithConditionAndPhotos {
+class KitchenCabinet implements ImageAndComment {
   String material;
   @override
-  String condition;
+  String comment;
 
   @override
   List<String> photos;
 
-  KitchenCabinet({List<String> photos, this.condition, this.material})
+  KitchenCabinet({List<String> photos, this.comment, this.material})
       : this.photos = photos ?? [];
 
   factory KitchenCabinet.fromJson(Map<String, dynamic> json) =>
