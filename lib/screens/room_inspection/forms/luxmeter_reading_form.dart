@@ -6,6 +6,7 @@ import 'package:house_review/components/image_listview_builder.dart';
 import 'package:house_review/components/simple_add_dialog.dart';
 import 'package:house_review/components/sub_heading_text.dart';
 import 'package:house_review/models/luxmeter_reading.dart';
+import 'package:house_review/utility/debounce.dart';
 
 class LuxmeterReadingForm extends StatefulWidget {
   const LuxmeterReadingForm({Key key, @required this.onDataChanged})
@@ -31,7 +32,7 @@ class _LuxmeterReadingFormState extends State<LuxmeterReadingForm> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Expanded(
-                  child: Text('Add Water Quality Sample'),
+                  child: Text('Add Luxmeter Reading Sample'),
                 ),
                 Icon(
                   Icons.add_circle,
@@ -59,8 +60,10 @@ class _LuxmeterReadingFormState extends State<LuxmeterReadingForm> {
           (sampleIndex) => Form(
             key: formKeys[sampleIndex],
             onChanged: () {
-              formKeys[sampleIndex].currentState.save();
-              widget.onDataChanged(luxmeterReadings);
+              debounceEvent(() {
+                formKeys[sampleIndex].currentState.save();
+                widget.onDataChanged(luxmeterReadings);
+              });
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +135,7 @@ class _LuxmeterReadingFormState extends State<LuxmeterReadingForm> {
 
   List<DataRow> createLuxmeterReadingDataRow(int sampleIndex) =>
       luxmeterReadings[sampleIndex]
-          .reading
+          .readings
           .asMap()
           .keys
           .map(
@@ -143,21 +146,21 @@ class _LuxmeterReadingFormState extends State<LuxmeterReadingForm> {
                   placeholder: true,
                 ),
                 DataCell(
-                  Text(luxmeterReadings[sampleIndex].reading[readingIndex]),
+                  Text(luxmeterReadings[sampleIndex].readings[readingIndex]),
                   onTap: () {
                     showSimpleAddDialog(
                       context,
                       title: 'Add Luxmeter Reading',
                       onFormSave: (value) {
                         setState(() {
-                          luxmeterReadings[sampleIndex].reading[readingIndex] =
+                          luxmeterReadings[sampleIndex].readings[readingIndex] =
                               value;
                         });
                         Navigator.of(context).pop();
                         widget.onDataChanged(luxmeterReadings);
                       },
                       toEditValue:
-                          luxmeterReadings[sampleIndex].reading[readingIndex],
+                          luxmeterReadings[sampleIndex].readings[readingIndex],
                     );
                   },
                   placeholder: true,
@@ -171,7 +174,8 @@ class _LuxmeterReadingFormState extends State<LuxmeterReadingForm> {
               DataRow(
                 cells: [
                   DataCell(
-                    Text('${luxmeterReadings[sampleIndex].reading.length + 1}'),
+                    Text(
+                        '${luxmeterReadings[sampleIndex].readings.length + 1}'),
                     placeholder: true,
                   ),
                   DataCell(
@@ -182,7 +186,7 @@ class _LuxmeterReadingFormState extends State<LuxmeterReadingForm> {
                         title: 'Add Luxmeter Reading',
                         onFormSave: (value) {
                           setState(() {
-                            luxmeterReadings[sampleIndex].reading.add(value);
+                            luxmeterReadings[sampleIndex].readings.add(value);
                           });
                           Navigator.of(context).pop();
                           widget.onDataChanged(luxmeterReadings);

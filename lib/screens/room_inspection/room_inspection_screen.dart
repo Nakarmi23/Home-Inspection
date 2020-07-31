@@ -107,7 +107,13 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
                   });
                 },
               ),
-              SeepageAnalysisFrom(),
+              SeepageAnalysisFrom(
+                onDataChanged: (value) {
+                  value.forEach((element) {
+                    print(element.toJson());
+                  });
+                },
+              ),
               MinorChecksForm(),
               KitchenInspectionForm(
                 onDataChange: (value) {

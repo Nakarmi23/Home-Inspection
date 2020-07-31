@@ -2,249 +2,267 @@ import 'package:flutter/material.dart';
 import 'package:house_review/components/app_input_text_field.dart';
 import 'package:house_review/components/custom_list_view.dart';
 import 'package:house_review/components/heading_text.dart';
+import 'package:house_review/components/image_listview_builder.dart';
+import 'package:house_review/components/simple_add_dialog.dart';
 import 'package:house_review/components/sub_heading_text.dart';
+import 'package:house_review/models/seepage_analysis.dart';
 
-class SeepageAnalysisFrom extends StatelessWidget {
-  const SeepageAnalysisFrom({Key key}) : super(key: key);
+class SeepageAnalysisFrom extends StatefulWidget {
+  const SeepageAnalysisFrom({Key key, @required this.onDataChanged})
+      : assert(onDataChanged != null),
+        super(key: key);
+  final ValueChanged<List<SeepageAnalysis>> onDataChanged;
+  @override
+  _SeepageAnalysisFromState createState() => _SeepageAnalysisFromState();
+}
 
+class _SeepageAnalysisFromState extends State<SeepageAnalysisFrom> {
+  List<SeepageAnalysis> seepageAnalysisList = [SeepageAnalysis()];
+  List<GlobalKey<FormState>> formKeys = [GlobalKey()];
   @override
   Widget build(BuildContext context) {
     return CustomListView(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: HeadingText(
-            'Sample 1 - Visual Inspection',
-          ),
-        ),
-        AppInputTextField(
-          labelText: 'Temperature',
-        ),
-        AppInputTextField(
-          labelText: 'Condition',
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText(
-            'Upload photo (Normal Camera)',
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SizedBox(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Colors.grey.shade300,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(7.0),
-                      onTap: () {},
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: Colors.grey.shade600,
-                            ),
-                            Text(
-                              'Add Photo',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        ),
-                      ),
+        ...createSeepageAnalysisSample(),
+      ],
+    );
+  }
+
+  List<Form> createSeepageAnalysisSample() => seepageAnalysisList
+      .asMap()
+      .keys
+      .map((seepageAnalysisIndex) => Form(
+            key: formKeys[seepageAnalysisIndex],
+            onChanged: () {
+              formKeys[seepageAnalysisIndex].currentState.save();
+              widget.onDataChanged(seepageAnalysisList);
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  child: HeadingText(
+                    'Sample ${seepageAnalysisIndex + 1} - Visual Inspection',
+                  ),
+                ),
+                AppInputTextField(
+                  labelText: 'Temperature',
+                  onSaved: (newValue) {
+                    seepageAnalysisList[seepageAnalysisIndex].temperature =
+                        newValue;
+                  },
+                ),
+                AppInputTextField(
+                  labelText: 'Condition',
+                  onSaved: (newValue) {
+                    seepageAnalysisList[seepageAnalysisIndex].condition =
+                        newValue;
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  child: SubHeadingText(
+                    'Upload photo (Normal Camera)',
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  child: SizedBox(
+                    height: 80,
+                    child: ImageListViewBuilder(
+                      onImageAdd: (path) {
+                        setState(() {
+                          seepageAnalysisList[seepageAnalysisIndex]
+                              .photosNormal
+                              .add(path);
+                        });
+                        widget.onDataChanged(seepageAnalysisList);
+                      },
+                      onImageTap: (index) {},
+                      images: seepageAnalysisList[seepageAnalysisIndex]
+                          .photosNormal,
                     ),
                   ),
-                );
-              },
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText(
-            'Upload photo (Thermal Camera)',
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SizedBox(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Colors.grey.shade300,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(7.0),
-                      onTap: () {},
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: Colors.grey.shade600,
-                            ),
-                            Text(
-                              'Add Photo',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        ),
-                      ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  child: SubHeadingText(
+                    'Upload photo (Thermal Camera)',
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  child: SizedBox(
+                    height: 80,
+                    child: ImageListViewBuilder(
+                      onImageAdd: (path) {
+                        setState(() {
+                          seepageAnalysisList[seepageAnalysisIndex]
+                              .photosThermal
+                              .add(path);
+                        });
+                        widget.onDataChanged(seepageAnalysisList);
+                      },
+                      onImageTap: (index) {},
+                      images: seepageAnalysisList[seepageAnalysisIndex]
+                          .photosThermal,
                     ),
                   ),
-                );
-              },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  child: SubHeadingText(
+                    'Moisture Meter Reading',
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  child: DataTable(
+                    columns: [
+                      DataColumn(label: Text('S.N.')),
+                      DataColumn(label: Text('Readings')),
+                    ],
+                    rows: [
+                      ...createSeepageAnalysisFromDataRow(seepageAnalysisIndex)
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  child: SubHeadingText(
+                    'Upload Photo using Moisture Meter',
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  child: SizedBox(
+                    height: 80,
+                    child: ImageListViewBuilder(
+                      onImageAdd: (path) {
+                        setState(() {
+                          seepageAnalysisList[seepageAnalysisIndex]
+                              .photosMoistureMeter
+                              .add(path);
+                        });
+                        widget.onDataChanged(seepageAnalysisList);
+                      },
+                      onImageTap: (index) {},
+                      images: seepageAnalysisList[seepageAnalysisIndex]
+                          .photosMoistureMeter,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  child: SubHeadingText(
+                    'Digital Level',
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  child: SubHeadingText(
+                    'Upload Photo',
+                    subHeading: SubHeading.sub2,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  child: SizedBox(
+                    height: 80,
+                    child: ImageListViewBuilder(
+                      onImageAdd: (path) {
+                        setState(() {
+                          seepageAnalysisList[seepageAnalysisIndex]
+                              .photosDigitalLevel
+                              .add(path);
+                        });
+                        widget.onDataChanged(seepageAnalysisList);
+                      },
+                      onImageTap: (index) {},
+                      images: seepageAnalysisList[seepageAnalysisIndex]
+                          .photosDigitalLevel,
+                    ),
+                  ),
+                ),
+                AppInputTextField(
+                  labelText: 'Comment on Digital Level Verification',
+                  onSaved: (newValue) {
+                    seepageAnalysisList[seepageAnalysisIndex]
+                        .commentsDigitalLevel = newValue;
+                  },
+                ),
+                Padding(padding: EdgeInsets.only(top: 16.0)),
+              ],
             ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText(
-            'Moisture Meter Reading',
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: DataTable(
-            columns: [
-              DataColumn(label: Text('S.N.')),
-              DataColumn(label: Text('Readings')),
-            ],
-            rows: [
+          ))
+      .toList();
+  List<DataRow> createSeepageAnalysisFromDataRow(int sampleIndex) =>
+      seepageAnalysisList[sampleIndex]
+          .readings
+          .asMap()
+          .keys
+          .map(
+            (readingIndex) => DataRow(
+              cells: [
+                DataCell(
+                  Text('${readingIndex + 1}'),
+                  placeholder: true,
+                ),
+                DataCell(
+                  Text(seepageAnalysisList[sampleIndex].readings[readingIndex]),
+                  onTap: () {
+                    showSimpleAddDialog(
+                      context,
+                      title: 'Add Moisture Meter Reading',
+                      onFormSave: (value) {
+                        setState(() {
+                          seepageAnalysisList[sampleIndex]
+                              .readings[readingIndex] = value;
+                        });
+                        Navigator.of(context).pop();
+                        widget.onDataChanged(seepageAnalysisList);
+                      },
+                      toEditValue: seepageAnalysisList[sampleIndex]
+                          .readings[readingIndex],
+                    );
+                  },
+                  placeholder: true,
+                  showEditIcon: true,
+                ),
+              ],
+            ),
+          )
+          .toList()
+            ..add(
               DataRow(
                 cells: [
                   DataCell(
-                    Text('1'),
+                    Text(
+                        '${seepageAnalysisList[sampleIndex].readings.length + 1}'),
                     placeholder: true,
                   ),
                   DataCell(
                     Text('Enter Readings Here'),
+                    onTap: () {
+                      showSimpleAddDialog(
+                        context,
+                        title: 'Add Luxmeter Reading',
+                        onFormSave: (value) {
+                          setState(() {
+                            seepageAnalysisList[sampleIndex]
+                                .readings
+                                .add(value);
+                          });
+                          Navigator.of(context).pop();
+                          widget.onDataChanged(seepageAnalysisList);
+                        },
+                      );
+                    },
                     placeholder: true,
                     showEditIcon: true,
                   )
                 ],
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText(
-            'Upload Photo using Moisture Meter',
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SizedBox(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Colors.grey.shade300,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(7.0),
-                      onTap: () {},
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: Colors.grey.shade600,
-                            ),
-                            Text(
-                              'Add Photo',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText(
-            'Digital Level',
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SubHeadingText(
-            'Upload Photo',
-            subHeading: SubHeading.sub2,
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: SizedBox(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Colors.grey.shade300,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(7.0),
-                      onTap: () {},
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: Colors.grey.shade600,
-                            ),
-                            Text(
-                              'Add Photo',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-        AppInputTextField(
-          labelText: 'Comment on Digital Level Verification',
-        ),
-        Padding(padding: EdgeInsets.only(top: 16.0)),
-      ],
-    );
-  }
+            );
 }
