@@ -55,4 +55,13 @@ class InspectionFileRepository {
       throw err;
     }
   }
+
+  Future<File> getFile(String filename) async {
+    try {
+      final file = await _localFile(filename);
+      return file;
+    } catch (err) {
+      throw err;
+    }
+  }
 }

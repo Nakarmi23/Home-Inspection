@@ -21,10 +21,13 @@ part 'metal_alumunium_works_view.dart';
 part 'cleaning_view.dart';
 
 class MinorChecksForm extends StatelessWidget {
-  const MinorChecksForm({Key key}) : super(key: key);
-
+  const MinorChecksForm({Key key, @required this.onDataChanged})
+      : assert(onDataChanged != null),
+        super(key: key);
+  final ValueChanged<MinorChecks> onDataChanged;
   @override
   Widget build(BuildContext context) {
+    MinorChecks minorChecks = MinorChecks();
     return DefaultTabController(
       length: 9,
       child: Column(
@@ -70,68 +73,59 @@ class MinorChecksForm extends StatelessWidget {
               children: [
                 DoorView(
                   onDataChanged: (value) {
-                    value.forEach((element) {
-                      print(element.toJson());
-                    });
+                    minorChecks.doors = value;
+                    onDataChanged(minorChecks);
                   },
                 ),
                 WindowView(
                   onDataChanged: (value) {
-                    value.forEach((element) {
-                      print(element.toJson());
-                    });
+                    minorChecks.window = value;
+                    onDataChanged(minorChecks);
                   },
                 ),
                 CellingView(
                   onDataChanged: (value) {
-                    value.forEach((element) {
-                      print(element.toJson());
-                    });
+                    minorChecks.ceiling = value;
+                    onDataChanged(minorChecks);
                   },
                 ),
                 WallsView(
                   onDataChanged: (value) {
-                    value.forEach((element) {
-                      print(element.toJson());
-                    });
+                    minorChecks.wall = value;
+                    onDataChanged(minorChecks);
                   },
                 ),
                 ElectricalFittingView(
                   onDataChanged: (value) {
-                    value.forEach((element) {
-                      print(element.toJson());
-                    });
+                    minorChecks.electricalFitting = value;
+                    onDataChanged(minorChecks);
                   },
                 ),
                 PestInspectionView(
                   onDataChanged: (value) {
-                    value.forEach((element) {
-                      print(element.toJson());
-                    });
+                    minorChecks.pestInspection = value;
+                    onDataChanged(minorChecks);
                   },
                 ),
                 MinorChecksImageCommentForm(
                   title: 'Carpentry',
                   onDataChanged: (value) {
-                    value.forEach((element) {
-                      print(element.toJson());
-                    });
+                    minorChecks.carpentry = value;
+                    onDataChanged(minorChecks);
                   },
                 ),
                 MinorChecksImageCommentForm(
                   title: 'Metal and Alumunium Works',
                   onDataChanged: (value) {
-                    value.forEach((element) {
-                      print(element.toJson());
-                    });
+                    minorChecks.metalAluminiumWork = value;
+                    onDataChanged(minorChecks);
                   },
                 ),
                 MinorChecksImageCommentForm(
                   title: 'Cleaning',
                   onDataChanged: (value) {
-                    value.forEach((element) {
-                      print(element.toJson());
-                    });
+                    minorChecks.cleaning = value;
+                    onDataChanged(minorChecks);
                   },
                 ),
               ],

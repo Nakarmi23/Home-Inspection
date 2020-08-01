@@ -31,8 +31,8 @@ class Ceiling implements ImageAndComment {
             paintingCondition ?? MinorChecksCondition();
 
   factory Ceiling.fromJson(Map<String, dynamic> json) =>
-      _$CellingFromJson(json);
+      _$CeilingFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$CellingToJson(this);
+  Map<String, dynamic> toJson() => _$CeilingToJson(this);
 }

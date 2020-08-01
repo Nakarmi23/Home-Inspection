@@ -8,8 +8,6 @@ class HomeInspectionForm extends StatefulWidget {
 }
 
 class _HomeInspectionFormState extends State<HomeInspectionForm> {
-  TextEditingController _materialTextFieldController =
-      TextEditingController(text: '');
   InspectionData _inspectionData = InspectionData();
   Building _building = Building(
     storeyNo: 1,
@@ -21,6 +19,12 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     isEditing = ModalRoute.of(context).settings.arguments ?? false;
+    if (isEditing) {
+      _inspectionData =
+          (context.cubit<HomeInspectionCubit>().state as HomeInspectionSuccess)
+              .inspectionData;
+      _building = _inspectionData.buildingData;
+    }
   }
 
   @override
@@ -62,20 +66,21 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
       ),
     );
 
-    return CubitConsumer<HomeInspectionCubit, HomeInspectionState>(
-        listener: (context, state) {
-      if (state is HomeInspectionSuccess) {
-        if (isEditing == false) {
-          context.cubit<InspectionFileInfoCubit>().saveData(InspectionFileInfo(
-              address: state.inspectionData.address,
-              name: state.inspectionData.name,
-              fileName: state.inspectionDataFile.path.split('/').last,
-              path: state.inspectionDataFile.path));
+    return CubitListener<HomeInspectionCubit, HomeInspectionState>(
+      listener: (context, state) {
+        if (state is HomeInspectionSuccess) {
+          if (isEditing == false) {
+            context.cubit<InspectionFileInfoCubit>().saveData(
+                InspectionFileInfo(
+                    address: state.inspectionData.address,
+                    name: state.inspectionData.name,
+                    fileName: state.inspectionDataFile.path.split('/').last,
+                    path: state.inspectionDataFile.path));
+          }
+          isEditing = true;
         }
-        isEditing = true;
-      }
-    }, builder: (context, state) {
-      return Scaffold(
+      },
+      child: Scaffold(
         body: CustomScrollView(
           slivers: <Widget>[
             appBar,
@@ -87,7 +92,8 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                     child: Form(
                       key: formKey,
                       onChanged: () {
-                        onFormChanged(context, state);
+                        onFormChanged(context,
+                            context.cubit<HomeInspectionCubit>().state);
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -99,15 +105,21 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                             child: HeadingText('Client Detail'),
                           ),
                           AppInputTextField(
+                            initialValue: _inspectionData.name,
                             labelText: 'Client Name',
                             onSaved: (value) {
-                              _inspectionData.name = value;
+                              setState(() {
+                                _inspectionData.name = value;
+                              });
                             },
                           ),
                           AppInputTextField(
+                            initialValue: _inspectionData.address,
                             labelText: 'Address',
                             onSaved: (value) {
-                              _inspectionData.address = value;
+                              setState(() {
+                                _inspectionData.address = value;
+                              });
                             },
                           ),
                           Padding(
@@ -116,21 +128,32 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                             child: HeadingText('Building Deatils'),
                           ),
                           AppInputTextField(
+                            enabled: (_inspectionData.address?.isNotEmpty ??
+                                    false) &&
+                                (_inspectionData.name?.isNotEmpty ?? false),
                             labelText: 'No. of Storey',
                             keyboardType: TextInputType.number,
-                            initialValue: '1',
+                            initialValue: _building.storeyNo?.toString() ?? '1',
                             onSaved: (value) {
                               _building.storeyNo =
                                   value.isNotEmpty ? int.parse(value) : 1;
                             },
                           ),
                           AppInputTextField(
+                            initialValue: _building.originalPurpose,
+                            enabled: (_inspectionData.address?.isNotEmpty ??
+                                    false) &&
+                                (_inspectionData.name?.isNotEmpty ?? false),
                             labelText: 'Original Purpose of Building',
                             onSaved: (value) {
                               _building.originalPurpose = value;
                             },
                           ),
                           AppInputTextField(
+                            initialValue: _building.currentPurpose,
+                            enabled: (_inspectionData.address?.isNotEmpty ??
+                                    false) &&
+                                (_inspectionData.name?.isNotEmpty ?? false),
                             labelText: 'Current Purpose of Building',
                             onSaved: (value) {
                               _building.currentPurpose = value;
@@ -149,11 +172,17 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                             children: <Widget>[
                               Expanded(
                                 child: AppInputTextField(
+                                  enabled:
+                                      (_inspectionData.address?.isNotEmpty ??
+                                              false) &&
+                                          (_inspectionData.name?.isNotEmpty ??
+                                              false),
                                   keyboardType: TextInputType.numberWithOptions(
                                     decimal: true,
                                   ),
                                   labelText: 'Length',
-                                  initialValue: '0',
+                                  initialValue:
+                                      _building.length?.toString() ?? '0',
                                   onSaved: (value) {
                                     _building.length = double.parse(value);
                                   },
@@ -161,11 +190,17 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                               ),
                               Expanded(
                                 child: AppInputTextField(
+                                  enabled:
+                                      (_inspectionData.address?.isNotEmpty ??
+                                              false) &&
+                                          (_inspectionData.name?.isNotEmpty ??
+                                              false),
                                   keyboardType: TextInputType.numberWithOptions(
                                     decimal: true,
                                   ),
                                   labelText: 'Breath',
-                                  initialValue: '0',
+                                  initialValue:
+                                      _building.breath?.toString() ?? '0',
                                   onSaved: (value) {
                                     _building.length = double.parse(value);
                                   },
@@ -184,11 +219,13 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                           ),
                           CubitBuilder<StructuralSystemCubit,
                               StructuralSystemState>(
-                            builder: (context, state) {
+                            builder: (context, structuralSystemstate) {
                               List<StructuralSystem> data;
-                              if (state is StructuralSystemSuccess) {
-                                data = [...state.structuralSystem]
-                                  ..add(StructuralSystem(
+                              if (structuralSystemstate
+                                  is StructuralSystemSuccess) {
+                                data = [
+                                  ...structuralSystemstate.structuralSystem
+                                ]..add(StructuralSystem(
                                     id: 0,
                                     isEditable: 0,
                                     systemName: 'Other',
@@ -198,20 +235,28 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                               }
                               return Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                child: AppDropdownMenu<StructuralSystem>(
+                                child: AppDropdownMenu<int>(
                                   title: 'Structural System of Building',
-                                  value: _building?.structuralSystem?.id == 0
-                                      ? data.last
-                                      : _building?.structuralSystem ?? null,
+                                  value: (_building?.structuralSystem?.id == 0)
+                                      ? data.last.id
+                                      : _building?.structuralSystem?.id ?? null,
                                   onChanged: (value) {
                                     setState(() {
-                                      _building?.structuralSystem = value;
+                                      _building?.structuralSystem = data
+                                          .where(
+                                              (element) => element.id == value)
+                                          .toList()[0];
                                     });
+                                    onFormChanged(
+                                        context,
+                                        context
+                                            .cubit<HomeInspectionCubit>()
+                                            .state);
                                   },
                                   items: data
                                       .map((item) => DropdownMenuItem(
                                             child: Text(item.systemName),
-                                            value: item,
+                                            value: item.id,
                                           ))
                                       .toList(),
                                 ),
@@ -219,6 +264,9 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                             },
                           ),
                           AppInputTextField(
+                            initialValue: _building.structuralSystem?.id == 0
+                                ? _building.structuralSystem.systemName
+                                : null,
                             enabled:
                                 _building?.structuralSystem?.id == 0 ?? false,
                             labelText: 'Other Structural System of Building',
@@ -256,23 +304,45 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                                 ],
                               ),
                             ),
-                            onTap: () {
-                              showAddMaterialDialog(context);
-                            },
+                            onTap: (_inspectionData.address?.isNotEmpty ??
+                                        false) &&
+                                    (_inspectionData.name?.isNotEmpty ?? false)
+                                ? () async {
+                                    await showAddMaterialDialog(context);
+
+                                    onFormChanged(
+                                        context,
+                                        context
+                                            .cubit<HomeInspectionCubit>()
+                                            .state);
+                                  }
+                                : null,
                           ),
                           AppInputTextField(
+                            initialValue: _building.foundationCondition,
+                            enabled: (_inspectionData.address?.isNotEmpty ??
+                                    false) &&
+                                (_inspectionData.name?.isNotEmpty ?? false),
                             labelText: 'Soil/Foundation Condition of Building',
                             onSaved: (value) {
                               _building.foundationCondition = value;
                             },
                           ),
                           AppInputTextField(
+                            initialValue: _building.supervisionStatus,
+                            enabled: (_inspectionData.address?.isNotEmpty ??
+                                    false) &&
+                                (_inspectionData.name?.isNotEmpty ?? false),
                             labelText: 'Supervision Status',
                             onSaved: (value) {
                               _building.supervisionStatus = value;
                             },
                           ),
                           AppInputTextField(
+                            initialValue: _building.comment,
+                            enabled: (_inspectionData.address?.isNotEmpty ??
+                                    false) &&
+                                (_inspectionData.name?.isNotEmpty ?? false),
                             labelText: 'Comment',
                             onSaved: (value) {
                               _building.comment = value;
@@ -280,27 +350,42 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                           ),
                           CubitBuilder<InspectionCauseCubit,
                               InspectionCauseState>(
-                            builder: (context, state) {
+                            builder: (context, causeOfInspectionState) {
                               List<InspectionCause> data;
-                              if (state is InspectionCauseSuccess) {
-                                data = state.inspectionCause;
+                              if (causeOfInspectionState
+                                  is InspectionCauseSuccess) {
+                                data = causeOfInspectionState.inspectionCause;
                               } else {
                                 data = [];
                               }
                               return Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                child: AppDropdownMenu<InspectionCause>(
+                                child: AppDropdownMenu<int>(
                                   title: 'Cause of Inspection',
-                                  value: _building.inspectionCause ?? null,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _building.inspectionCause = value;
-                                    });
-                                  },
+                                  value: _building?.inspectionCause?.id ?? null,
+                                  onChanged: (_inspectionData
+                                                  .address?.isNotEmpty ??
+                                              false) &&
+                                          (_inspectionData.name?.isNotEmpty ??
+                                              false)
+                                      ? (value) {
+                                          setState(() {
+                                            _building.inspectionCause = data
+                                                .where((element) =>
+                                                    element.id == value)
+                                                .toList()[0];
+                                          });
+                                          onFormChanged(
+                                              context,
+                                              context
+                                                  .cubit<HomeInspectionCubit>()
+                                                  .state);
+                                        }
+                                      : null,
                                   items: data
                                       .map((item) => DropdownMenuItem(
                                             child: Text(item.inspectionCause),
-                                            value: item,
+                                            value: item.id,
                                           ))
                                       .toList(),
                                 ),
@@ -308,6 +393,10 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                             },
                           ),
                           AppInputTextField(
+                            initialValue: _building.problemComment,
+                            enabled: (_inspectionData.address?.isNotEmpty ??
+                                    false) &&
+                                (_inspectionData.name?.isNotEmpty ?? false),
                             labelText: 'Comment on Existing Problems',
                             onSaved: (value) {
                               _building.problemComment = value;
@@ -336,9 +425,24 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                                 ],
                               ),
                             ),
-                            onTap: () {
-                              showAddRoom(context);
-                            },
+                            onTap: (_inspectionData.address?.isNotEmpty ??
+                                        false) &&
+                                    (_inspectionData.name?.isNotEmpty ?? false)
+                                ? () async {
+                                    await showAddRoom(context);
+
+                                    onFormChanged(
+                                        context,
+                                        context
+                                            .cubit<HomeInspectionCubit>()
+                                            .state);
+                                    Navigator.of(context)
+                                        .pushNamed('/roomFrom', arguments: {
+                                      'inspectionData': _inspectionData,
+                                      'roomIndex': _building.rooms.length - 1,
+                                    });
+                                  }
+                                : null,
                           ),
                         ],
                       ),
@@ -349,8 +453,8 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
             ),
           ],
         ),
-      );
-    });
+      ),
+    );
   }
 
   Future showAddRoom(BuildContext context, [int index]) {
@@ -368,9 +472,6 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                     _building.rooms.add(value);
                   });
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed('/roomFrom',
-                      arguments:
-                          '${value.storeyNo}/${value.roomNo}/${value.roomPurpose.purpose}');
                 } else {
                   this.setState(() {
                     _building.rooms[index] = value;
@@ -402,8 +503,8 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                   } else {
                     _building.materialUsed.add(value);
                   }
-                  Navigator.of(context).pop();
                 });
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -417,8 +518,8 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
       formKey.currentState.save();
       _inspectionData.buildingData = _building;
       if (isEditing == false) {
-        if (_inspectionData.name.isNotEmpty &&
-            _inspectionData.address.isNotEmpty) {
+        if ((_inspectionData.name.isNotEmpty ?? false) &&
+            (_inspectionData.address.isNotEmpty ?? false)) {
           context.cubit<HomeInspectionCubit>().saveData(_inspectionData);
         }
       } else {
@@ -531,12 +632,14 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
     _building.rooms.sort((a, b) => a.storeyNo.compareTo(b.storeyNo));
 
     return _building.rooms
+        .asMap()
+        .keys
         .map(
-          (item) => Dismissible(
+          (roomIndex) => Dismissible(
             key: UniqueKey(),
             onDismissed: (direction) {
               setState(() {
-                _building.rooms.removeAt(_building.rooms.indexOf(item));
+                _building.rooms.removeAt(roomIndex);
               });
             },
             confirmDismiss: (direction) async {
@@ -544,7 +647,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                 bool isUserSure = await deleteItemAlertModel(context);
                 return isUserSure ?? false;
               } else if (direction == DismissDirection.startToEnd) {
-                await showAddRoom(context, _building.rooms.indexOf(item));
+                await showAddRoom(context, roomIndex);
                 return false;
               } else {
                 return false;
@@ -580,23 +683,24 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
             ),
             child: ListTile(
               title: Text(
-                  '${item.storeyNo}/${item.roomNo}/${item.roomPurpose.purpose}'),
+                  '${_building.rooms[roomIndex].storeyNo}/${_building.rooms[roomIndex].roomNo}/${_building.rooms[roomIndex].roomPurpose.purpose}'),
               onTap: () {
-                Navigator.of(context).pushNamed('/roomFrom',
-                    arguments:
-                        '${item.storeyNo}/${item.roomNo}/${item.roomPurpose.purpose}');
+                Navigator.of(context).pushNamed('/roomFrom', arguments: {
+                  'index': roomIndex,
+                  'building': _inspectionData
+                });
               },
               trailing: PopupMenuButton(
                 onSelected: (value) async {
                   switch (value) {
                     case 0:
-                      showAddRoom(context, _building.rooms.indexOf(item));
+                      showAddRoom(context, roomIndex);
                       break;
                     case 1:
                       bool isUserSure = await deleteItemAlertModel(context);
                       if (isUserSure)
                         setState(() {
-                          _building.rooms.remove(item);
+                          _building.rooms.remove(roomIndex);
                         });
                       break;
                     default:

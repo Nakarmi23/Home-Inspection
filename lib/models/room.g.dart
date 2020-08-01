@@ -32,23 +32,24 @@ Room _$RoomFromJson(Map<String, dynamic> json) {
             ? null
             : SeepageAnalysis.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    kitchenInspection: json['kitchenInspection'] == null
+        ? null
+        : KitchenInspection.fromJson(
+            json['kitchenInspection'] as Map<String, dynamic>),
+    toiletInspection: json['toiletInspection'] == null
+        ? null
+        : ToiletInspection.fromJson(
+            json['toiletInspection'] as Map<String, dynamic>),
+    staircaseInspection: (json['staircaseInspection'] as List)
+        ?.map((e) => e == null
+            ? null
+            : StaircaseInspection.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     minorChecks: json['minorChecks'] == null
         ? null
         : MinorChecks.fromJson(json['minorChecks'] as Map<String, dynamic>),
     roomNo: json['roomNo'] as int,
-  )
-    ..kitchenInspection = json['kitchenInspection'] == null
-        ? null
-        : KitchenInspection.fromJson(
-            json['kitchenInspection'] as Map<String, dynamic>)
-    ..toiletInspection = json['toiletInspection'] == null
-        ? null
-        : ToiletInspection.fromJson(
-            json['toiletInspection'] as Map<String, dynamic>)
-    ..staircaseInspection = json['staircaseInspection'] == null
-        ? null
-        : StaircaseInspection.fromJson(
-            json['staircaseInspection'] as Map<String, dynamic>);
+  );
 }
 
 Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
@@ -63,7 +64,8 @@ Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
       'minorChecks': instance.minorChecks?.toJson(),
       'kitchenInspection': instance.kitchenInspection?.toJson(),
       'toiletInspection': instance.toiletInspection?.toJson(),
-      'staircaseInspection': instance.staircaseInspection?.toJson(),
+      'staircaseInspection':
+          instance.staircaseInspection?.map((e) => e?.toJson())?.toList(),
       'roomId': instance.roomId,
       'storeyNo': instance.storeyNo,
       'roomNo': instance.roomNo,

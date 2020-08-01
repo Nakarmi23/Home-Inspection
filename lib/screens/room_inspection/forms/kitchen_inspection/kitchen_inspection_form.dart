@@ -15,10 +15,10 @@ part 'gas_gas_stove_view.dart';
 part 'kitchen_plumbing_view.dart';
 
 class KitchenInspectionForm extends StatelessWidget {
-  const KitchenInspectionForm({Key key, @required this.onDataChange})
-      : assert(onDataChange != null),
+  const KitchenInspectionForm({Key key, @required this.onDataChanged})
+      : assert(onDataChanged != null),
         super(key: key);
-  final ValueChanged<KitchenInspection> onDataChange;
+  final ValueChanged<KitchenInspection> onDataChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -60,37 +60,37 @@ class KitchenInspectionForm extends StatelessWidget {
                 KitchenCabinetView(
                   onDataChange: (value) {
                     kitchenInspection.kitchenCabinet = value;
-                    onDataChange(kitchenInspection);
+                    onDataChanged(kitchenInspection);
                   },
                 ),
                 DishWasherView(
                   onDataChange: (value) {
                     kitchenInspection.dishWasher = value;
-                    onDataChange(kitchenInspection);
+                    onDataChanged(kitchenInspection);
                   },
                 ),
                 GarbageDisposalView(
                   onDataChange: (value) {
                     kitchenInspection.garbageDisposal = value;
-                    onDataChange(kitchenInspection);
+                    onDataChanged(kitchenInspection);
                   },
                 ),
                 KitchenSinkView(
                   onDataChange: (value) {
                     kitchenInspection.kitchenSink = value;
-                    onDataChange(kitchenInspection);
+                    onDataChanged(kitchenInspection);
                   },
                 ),
                 GasAndGasStoveView(
                   onDataChange: (value) {
                     kitchenInspection.gasAndGasStove = value;
-                    onDataChange(kitchenInspection);
+                    onDataChanged(kitchenInspection);
                   },
                 ),
                 KitchenPlumbingView(
                   onDataChange: (value) {
                     kitchenInspection.plumbing = value;
-                    onDataChange(kitchenInspection);
+                    onDataChanged(kitchenInspection);
                   },
                 ),
               ],

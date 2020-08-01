@@ -146,7 +146,7 @@ Map<String, dynamic> _$WindowToJson(Window instance) => <String, dynamic>{
       'photos': instance.photos,
     };
 
-Ceiling _$CellingFromJson(Map<String, dynamic> json) {
+Ceiling _$CeilingFromJson(Map<String, dynamic> json) {
   return Ceiling(
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
     comment: json['comment'] as String,
@@ -173,7 +173,7 @@ Ceiling _$CellingFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$CellingToJson(Ceiling instance) => <String, dynamic>{
+Map<String, dynamic> _$CeilingToJson(Ceiling instance) => <String, dynamic>{
       'paintingCondition': instance.paintingCondition?.toJson(),
       'plasteringCondition': instance.plasteringCondition?.toJson(),
       'falseCeilingsCondition': instance.falseCeilingsCondition?.toJson(),

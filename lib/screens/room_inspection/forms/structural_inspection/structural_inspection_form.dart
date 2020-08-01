@@ -14,10 +14,10 @@ part 'visual_inspection_sheet_view.dart';
 part 'non_distructive_test_view.dart';
 
 class StructuralInspectionForm extends StatelessWidget {
-  const StructuralInspectionForm({Key key, @required this.onDataChange})
-      : assert(onDataChange != null),
+  const StructuralInspectionForm({Key key, @required this.onDataChanged})
+      : assert(onDataChanged != null),
         super(key: key);
-  final ValueChanged<StructuralInspection> onDataChange;
+  final ValueChanged<StructuralInspection> onDataChanged;
   @override
   Widget build(BuildContext context) {
     StructuralInspection structuralInspection = StructuralInspection();
@@ -44,13 +44,13 @@ class StructuralInspectionForm extends StatelessWidget {
                 VisualInspectionSheetView(
                   onFormSave: (value) {
                     structuralInspection.visualInspection = value;
-                    onDataChange(structuralInspection);
+                    onDataChanged(structuralInspection);
                   },
                 ),
                 NonDestructiveTestView(
                   onFormSave: (value) {
                     structuralInspection.nonDestructiveTest = value;
-                    onDataChange(structuralInspection);
+                    onDataChanged(structuralInspection);
                   },
                 ),
               ],

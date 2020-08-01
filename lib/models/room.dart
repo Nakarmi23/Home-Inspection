@@ -22,7 +22,7 @@ class Room extends BaseModel {
   MinorChecks minorChecks;
   KitchenInspection kitchenInspection;
   ToiletInspection toiletInspection;
-  StaircaseInspection staircaseInspection;
+  List<StaircaseInspection> staircaseInspection;
   String roomId;
   int storeyNo;
   int roomNo;
@@ -36,11 +36,15 @@ class Room extends BaseModel {
     List<WaterQuality> waterQualities,
     List<LuxmeterReading> luxmeterReadings,
     List<SeepageAnalysis> seepageAnalysis,
+    this.kitchenInspection,
+    this.toiletInspection,
+    List<StaircaseInspection> staircaseInspection,
     this.minorChecks,
     this.roomNo,
   })  : this.pictures = pictures ?? [],
         this.waterQualities = waterQualities ?? [],
         this.luxmeterReadings = luxmeterReadings ?? [],
+        this.staircaseInspection = staircaseInspection ?? [],
         this.seepageAnalysis = seepageAnalysis ?? [];
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);

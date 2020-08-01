@@ -12,10 +12,10 @@ part 'flush_view.dart';
 part 'toilet_plumbing_view.dart';
 
 class ToiletInspectionForm extends StatelessWidget {
-  const ToiletInspectionForm({Key key, @required this.onDateChange})
-      : assert(onDateChange != null),
+  const ToiletInspectionForm({Key key, @required this.onDateChanged})
+      : assert(onDateChanged != null),
         super(key: key);
-  final ValueChanged<ToiletInspection> onDateChange;
+  final ValueChanged<ToiletInspection> onDateChanged;
   @override
   Widget build(BuildContext context) {
     ToiletInspection toiletInspection = ToiletInspection();
@@ -53,31 +53,31 @@ class ToiletInspectionForm extends StatelessWidget {
                 WashBasinView(
                   onDataChange: (value) {
                     toiletInspection.washBasin = value;
-                    onDateChange(toiletInspection);
+                    onDateChanged(toiletInspection);
                   },
                 ),
                 MirrorView(
                   onDataChange: (value) {
                     toiletInspection.mirror = value;
-                    onDateChange(toiletInspection);
+                    onDateChanged(toiletInspection);
                   },
                 ),
                 WaterClosetView(
                   onDataChange: (value) {
                     toiletInspection.waterCloset = value;
-                    onDateChange(toiletInspection);
+                    onDateChanged(toiletInspection);
                   },
                 ),
                 FlushView(
                   onDataChange: (value) {
                     toiletInspection.flush = value;
-                    onDateChange(toiletInspection);
+                    onDateChanged(toiletInspection);
                   },
                 ),
                 ToiletPlumbingView(
                   onDataChange: (value) {
                     toiletInspection.plumbing = value;
-                    onDateChange(toiletInspection);
+                    onDateChanged(toiletInspection);
                   },
                 ),
               ],
