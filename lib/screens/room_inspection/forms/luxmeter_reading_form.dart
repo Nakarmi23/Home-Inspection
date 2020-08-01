@@ -22,9 +22,8 @@ class _LuxmeterReadingFormState extends State<LuxmeterReadingForm> {
   List<LuxmeterReading> luxmeterReadings = [LuxmeterReading()];
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    luxmeterReadings = widget.value ?? luxmeterReadings;
+    luxmeterReadings = widget.value.isEmpty ? luxmeterReadings : widget.value;
   }
 
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];

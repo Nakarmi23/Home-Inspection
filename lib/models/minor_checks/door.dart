@@ -24,10 +24,11 @@ class Door implements ImageAndComment {
     List<String> photos,
   })  : this.photos = photos ?? [],
         doorFramesCondition = doorFramesCondition ?? MinorChecksCondition(),
-        doorPanelsCondition = doorFramesCondition ?? MinorChecksCondition(),
-        hingesCondition = doorFramesCondition ?? MinorChecksCondition(),
-        holderCondition = doorFramesCondition ?? MinorChecksCondition(),
-        otherFixturesCondition = doorFramesCondition ?? MinorChecksCondition();
+        doorPanelsCondition = doorPanelsCondition ?? MinorChecksCondition(),
+        hingesCondition = hingesCondition ?? MinorChecksCondition(),
+        holderCondition = holderCondition ?? MinorChecksCondition(),
+        otherFixturesCondition =
+            otherFixturesCondition ?? MinorChecksCondition();
   factory Door.fromJson(Map<String, dynamic> json) => _$DoorFromJson(json);
   @override
   Map<String, dynamic> toJson() => _$DoorToJson(this);
