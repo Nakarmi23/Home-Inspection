@@ -1,10 +1,11 @@
 part of './kitchen_inspection_form.dart';
 
 class GarbageDisposalView extends StatefulWidget {
-  const GarbageDisposalView({Key key, @required this.onDataChange})
+  const GarbageDisposalView({Key key, @required this.onDataChange, this.value})
       : assert(onDataChange != null),
         super(key: key);
   final ValueChanged<ImageAndComment> onDataChange;
+  final ImageAndComment value;
 
   @override
   _GarbageDisposalViewState createState() => _GarbageDisposalViewState();
@@ -12,6 +13,11 @@ class GarbageDisposalView extends StatefulWidget {
 
 class _GarbageDisposalViewState extends State<GarbageDisposalView> {
   ImageAndComment garbageDisposal = ImageAndComment();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    garbageDisposal = widget.value ?? ImageAndComment();
+  }
 
   @override
   Widget build(BuildContext context) {

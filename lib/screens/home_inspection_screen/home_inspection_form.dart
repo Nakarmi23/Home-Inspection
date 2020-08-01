@@ -78,6 +78,11 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                     path: state.inspectionDataFile.path));
           }
           isEditing = true;
+
+          if (state is HomeInspectionSuccess) {
+            _inspectionData = state.inspectionData;
+            _building = _inspectionData.buildingData;
+          }
         }
       },
       child: Scaffold(
@@ -686,8 +691,8 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                   '${_building.rooms[roomIndex].storeyNo}/${_building.rooms[roomIndex].roomNo}/${_building.rooms[roomIndex].roomPurpose.purpose}'),
               onTap: () {
                 Navigator.of(context).pushNamed('/roomFrom', arguments: {
-                  'index': roomIndex,
-                  'building': _inspectionData
+                  'roomIndex': roomIndex,
+                  'inspectionData': _inspectionData
                 });
               },
               trailing: PopupMenuButton(

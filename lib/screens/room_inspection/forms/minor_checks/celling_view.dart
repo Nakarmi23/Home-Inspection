@@ -1,10 +1,11 @@
 part of './minor_checks_form.dart';
 
 class CellingView extends StatefulWidget {
-  const CellingView({Key key, @required this.onDataChanged})
+  const CellingView({Key key, @required this.onDataChanged, this.value})
       : assert(onDataChanged != null),
         super(key: key);
   final ValueChanged<List<Ceiling>> onDataChanged;
+  final List<Ceiling> value;
   @override
   _CellingViewState createState() => _CellingViewState();
 }
@@ -12,6 +13,12 @@ class CellingView extends StatefulWidget {
 class _CellingViewState extends State<CellingView> {
   List<Ceiling> cellingList = [Ceiling()];
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    cellingList = widget.value.isEmpty ? cellingList : widget.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(

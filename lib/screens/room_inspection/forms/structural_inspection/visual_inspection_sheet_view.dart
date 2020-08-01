@@ -3,10 +3,11 @@ part of './structural_inspection_form.dart';
 typedef VisualInspectionSheetOnSave = Function(VisualInspection value);
 
 class VisualInspectionSheetView extends StatefulWidget {
-  const VisualInspectionSheetView({Key key, @required this.onFormSave})
+  const VisualInspectionSheetView(
+      {Key key, @required this.onFormSave, this.value})
       : super(key: key);
   final VisualInspectionSheetOnSave onFormSave;
-
+  final VisualInspection value;
   @override
   _VisualInspectionSheetViewState createState() =>
       _VisualInspectionSheetViewState();
@@ -15,6 +16,13 @@ class VisualInspectionSheetView extends StatefulWidget {
 class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
   VisualInspection visualInspection = VisualInspection();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    visualInspection = widget.value ?? visualInspection;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -32,6 +40,7 @@ class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
             child: HeadingText('Visual Inspection Sheet'),
           ),
           AppInputTextField(
+            initialValue: visualInspection.location,
             labelText: 'Location of Visual Inspection',
             validator: (value) {
               switch (value) {
@@ -95,6 +104,7 @@ class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
             children: <Widget>[
               Expanded(
                 child: AppInputTextField(
+                  initialValue: visualInspection.cracking?.depth?.toString(),
                   labelText: 'Depth',
                   keyboardType: TextInputType.number,
                   validator: (value) {
@@ -113,6 +123,7 @@ class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
               ),
               Expanded(
                 child: AppInputTextField(
+                  initialValue: visualInspection.cracking?.width?.toString(),
                   labelText: 'Width',
                   keyboardType: TextInputType.number,
                   validator: (value) {
@@ -162,7 +173,9 @@ class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
             children: <Widget>[
               Expanded(
                 child: AppInputTextField(
+                  initialValue: visualInspection.bulging?.depth?.toString(),
                   labelText: 'Depth',
+                  keyboardType: TextInputType.number,
                   validator: (value) {
                     switch (value) {
                       case '':
@@ -179,7 +192,9 @@ class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
               ),
               Expanded(
                 child: AppInputTextField(
+                  initialValue: visualInspection.bulging?.height?.toString(),
                   labelText: 'Width',
+                  keyboardType: TextInputType.number,
                   validator: (value) {
                     switch (value) {
                       case '':
@@ -190,7 +205,7 @@ class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
                     }
                   },
                   onSaved: (newValue) {
-                    visualInspection.bulging.depth = double.tryParse(newValue);
+                    visualInspection.bulging.height = double.tryParse(newValue);
                   },
                 ),
               ),
@@ -203,8 +218,8 @@ class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
             ),
           ),
           InspectionImageComment(
-            images: visualInspection.tilting.photos,
-            comment: visualInspection.tilting.comment,
+            images: visualInspection.tilting?.photos,
+            comment: visualInspection.tilting?.comment,
             onCommentSaved: (value) {
               visualInspection.tilting.comment = value;
             },
@@ -216,6 +231,7 @@ class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
             onImageTap: (index) {},
           ),
           AppInputTextField(
+            initialValue: visualInspection.tilting?.tiltingReading,
             labelText: 'Tilting Reading',
           ),
           Padding(
@@ -232,7 +248,7 @@ class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
               child: ImageListViewBuilder(
                 onImageAdd: (path) {
                   setState(() {
-                    visualInspection.tilting.digitalLevelMeterPhotos.add(path);
+                    visualInspection.tilting?.digitalLevelMeterPhotos.add(path);
                   });
                   widget.onFormSave(visualInspection);
                 },
@@ -295,7 +311,7 @@ class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
     );
   }
 
-  createOtherProblems() => visualInspection.otherProblems.map(
+  createOtherProblems() => visualInspection?.otherProblems?.map(
         (item) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

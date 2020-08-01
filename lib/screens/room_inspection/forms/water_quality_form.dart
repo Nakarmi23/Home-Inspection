@@ -8,12 +8,11 @@ import 'package:house_review/models/water_quality.dart';
 import 'package:house_review/utility/debounce.dart';
 
 class WaterQualityForm extends StatefulWidget {
-  const WaterQualityForm({
-    Key key,
-    @required this.onDataChanged,
-  })  : assert(onDataChanged != null),
+  const WaterQualityForm({Key key, @required this.onDataChanged, this.value})
+      : assert(onDataChanged != null),
         super(key: key);
   final ValueChanged<List<WaterQuality>> onDataChanged;
+  final List<WaterQuality> value;
   @override
   _WaterQualityFormState createState() => _WaterQualityFormState();
 }
@@ -21,6 +20,13 @@ class WaterQualityForm extends StatefulWidget {
 class _WaterQualityFormState extends State<WaterQualityForm> {
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];
   List<WaterQuality> waterQualityList = [WaterQuality()];
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    waterQualityList = widget.value.isEmpty ? waterQualityList : widget.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -73,6 +79,7 @@ class _WaterQualityFormState extends State<WaterQualityForm> {
                 child: HeadingText('Sample ${key + 1}'),
               ),
               AppInputTextField(
+                initialValue: waterQualityList[key].source,
                 labelText: 'Sample Source',
                 onSaved: (newValue) {
                   waterQualityList[key].source = newValue;
@@ -99,54 +106,63 @@ class _WaterQualityFormState extends State<WaterQualityForm> {
                 ),
               ),
               AppInputTextField(
+                initialValue: waterQualityList[key].color,
                 labelText: 'Color',
                 onSaved: (newValue) {
                   waterQualityList[key].color = newValue;
                 },
               ),
               AppInputTextField(
+                initialValue: waterQualityList[key].taste,
                 labelText: 'Taste',
                 onSaved: (newValue) {
                   waterQualityList[key].taste = newValue;
                 },
               ),
               AppInputTextField(
+                initialValue: waterQualityList[key].odour,
                 labelText: 'Odour',
                 onSaved: (newValue) {
                   waterQualityList[key].odour = newValue;
                 },
               ),
               AppInputTextField(
+                initialValue: waterQualityList[key].phValue,
                 labelText: 'PH Value',
                 onSaved: (newValue) {
                   waterQualityList[key].phValue = newValue;
                 },
               ),
               AppInputTextField(
+                initialValue: waterQualityList[key].turbidty,
                 labelText: 'Turbuduty',
                 onSaved: (newValue) {
                   waterQualityList[key].turbidty = newValue;
                 },
               ),
               AppInputTextField(
+                initialValue: waterQualityList[key].ecMeterReading,
                 labelText: 'EC Meter Reading',
                 onSaved: (newValue) {
                   waterQualityList[key].ecMeterReading = newValue;
                 },
               ),
               AppInputTextField(
+                initialValue: waterQualityList[key].temperature,
                 labelText: 'Temperature',
                 onSaved: (newValue) {
                   waterQualityList[key].temperature = newValue;
                 },
               ),
               AppInputTextField(
+                initialValue: waterQualityList[key].tdsMeterReading,
                 labelText: 'TDS Meter Reading',
                 onSaved: (newValue) {
                   waterQualityList[key].tdsMeterReading = newValue;
                 },
               ),
               AppInputTextField(
+                initialValue: waterQualityList[key].chlorineMeterReading,
                 labelText: 'Chlorine Meter Reading',
                 onSaved: (newValue) {
                   waterQualityList[key].chlorineMeterReading = newValue;

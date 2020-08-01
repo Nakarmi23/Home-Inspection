@@ -1,10 +1,11 @@
 part of './minor_checks_form.dart';
 
 class WindowView extends StatefulWidget {
-  const WindowView({Key key, @required this.onDataChanged})
+  const WindowView({Key key, @required this.onDataChanged, this.value})
       : assert(onDataChanged != null),
         super(key: key);
   final ValueChanged<List<Window>> onDataChanged;
+  final List<Window> value;
   @override
   _WindowViewState createState() => _WindowViewState();
 }
@@ -12,6 +13,13 @@ class WindowView extends StatefulWidget {
 class _WindowViewState extends State<WindowView> {
   List<Window> windowList = [Window()];
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    windowList = widget.value.isEmpty ? windowList : widget.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -64,6 +72,7 @@ class _WindowViewState extends State<WindowView> {
                 child: HeadingText('Window ${windowIndex + 1}'),
               ),
               AppInputTextField(
+                initialValue: windowList[windowIndex].material,
                 labelText: 'Window Material',
                 onSaved: (newValue) {
                   windowList[windowIndex].material = newValue;

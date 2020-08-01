@@ -1,11 +1,11 @@
 part of './minor_checks_form.dart';
 
 class WallsView extends StatefulWidget {
-  const WallsView({Key key, @required this.onDataChanged})
+  const WallsView({Key key, @required this.onDataChanged, this.value})
       : assert(onDataChanged != null),
         super(key: key);
   final ValueChanged<List<Wall>> onDataChanged;
-
+  final List<Wall> value;
   @override
   _WallsViewState createState() => _WallsViewState();
 }
@@ -13,6 +13,12 @@ class WallsView extends StatefulWidget {
 class _WallsViewState extends State<WallsView> {
   List<Wall> wallList = [Wall()];
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    wallList = widget.value.isEmpty ? wallList : widget.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(

@@ -1,10 +1,11 @@
 part of './minor_checks_form.dart';
 
 class DoorView extends StatefulWidget {
-  const DoorView({Key key, @required this.onDataChanged})
+  const DoorView({Key key, @required this.onDataChanged, this.value})
       : assert(onDataChanged != null),
         super(key: key);
   final ValueChanged<List<Door>> onDataChanged;
+  final List<Door> value;
 
   @override
   _DoorViewState createState() => _DoorViewState();
@@ -13,6 +14,12 @@ class DoorView extends StatefulWidget {
 class _DoorViewState extends State<DoorView> {
   List<Door> doorList = [Door()];
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    doorList = widget.value.isEmpty ? doorList : widget.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -65,6 +72,7 @@ class _DoorViewState extends State<DoorView> {
                 child: HeadingText('Door ${doorIndex + 1}'),
               ),
               AppInputTextField(
+                initialValue: doorList[doorIndex].material,
                 labelText: 'Door Material',
                 onSaved: (newValue) {
                   doorList[doorIndex].material = newValue;

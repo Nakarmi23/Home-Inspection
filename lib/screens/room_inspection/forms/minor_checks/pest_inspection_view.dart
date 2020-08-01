@@ -1,10 +1,11 @@
 part of './minor_checks_form.dart';
 
 class PestInspectionView extends StatefulWidget {
-  const PestInspectionView({Key key, @required this.onDataChanged})
+  const PestInspectionView({Key key, @required this.onDataChanged, this.value})
       : assert(onDataChanged != null),
         super(key: key);
   final ValueChanged<List<PestInspection>> onDataChanged;
+  final List<PestInspection> value;
   @override
   _PestInspectionViewState createState() => _PestInspectionViewState();
 }
@@ -12,6 +13,13 @@ class PestInspectionView extends StatefulWidget {
 class _PestInspectionViewState extends State<PestInspectionView> {
   List<PestInspection> pestInspectionList = [PestInspection()];
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    pestInspectionList =
+        widget.value.isEmpty ? pestInspectionList : widget.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -62,6 +70,8 @@ class _PestInspectionViewState extends State<PestInspectionView> {
                     HeadingText('Pest Inspection ${pestInspectionIndex + 1}'),
               ),
               AppInputTextField(
+                initialValue: pestInspectionList[pestInspectionIndex]
+                    .surroundingCondition,
                 labelText: 'Surrounding Condition of House',
                 onSaved: (newValue) {
                   pestInspectionList[pestInspectionIndex].surroundingCondition =

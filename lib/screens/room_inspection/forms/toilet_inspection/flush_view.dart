@@ -1,16 +1,24 @@
 part of './toilet_inspection_form.dart';
 
 class FlushView extends StatefulWidget {
-  const FlushView({Key key, @required this.onDataChange})
+  const FlushView({Key key, @required this.onDataChange, this.value})
       : assert(onDataChange != null),
         super(key: key);
   final ValueChanged<ImageAndComment> onDataChange;
+  final ImageAndComment value;
   @override
   _FlushViewState createState() => _FlushViewState();
 }
 
 class _FlushViewState extends State<FlushView> {
   ImageAndComment flush = ImageAndComment();
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    flush = widget.value ?? flush;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(

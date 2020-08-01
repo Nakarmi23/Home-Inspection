@@ -19,9 +19,9 @@ class ToiletInspection extends BaseModel {
     ImageAndComment plumbing,
   })  : this.washBasin = washBasin ?? ImageAndComment(),
         this.mirror = mirror ?? ImageAndComment(),
-        this.waterCloset = ImageAndComment(),
-        this.flush = ImageAndComment(),
-        this.plumbing = ImageAndComment();
+        this.waterCloset = waterCloset ?? ImageAndComment(),
+        this.flush = flush ?? ImageAndComment(),
+        this.plumbing = plumbing ?? ImageAndComment();
   factory ToiletInspection.fromJson(Map<String, dynamic> json) =>
       _$ToiletInspectionFromJson(json);
 

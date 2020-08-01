@@ -1,10 +1,12 @@
 part of './minor_checks_form.dart';
 
 class ElectricalFittingView extends StatefulWidget {
-  const ElectricalFittingView({Key key, @required this.onDataChanged})
+  const ElectricalFittingView(
+      {Key key, @required this.onDataChanged, this.value})
       : assert(onDataChanged != null),
         super(key: key);
   final ValueChanged<List<ElectricalFitting>> onDataChanged;
+  final List<ElectricalFitting> value;
   @override
   _ElectricalFittingViewState createState() => _ElectricalFittingViewState();
 }
@@ -12,6 +14,13 @@ class ElectricalFittingView extends StatefulWidget {
 class _ElectricalFittingViewState extends State<ElectricalFittingView> {
   List<ElectricalFitting> elecFittingList = [ElectricalFitting()];
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    elecFittingList = widget.value.isEmpty ? elecFittingList : widget.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -65,6 +74,7 @@ class _ElectricalFittingViewState extends State<ElectricalFittingView> {
                     HeadingText('Electrical Fitting ${elecFittingIndex + 1}'),
               ),
               AppInputTextField(
+                initialValue: elecFittingList[elecFittingIndex].age.toString(),
                 labelText: 'Age of Electrical Fitting',
                 keyboardType: TextInputType.numberWithOptions(decimal: false),
                 onSaved: (newValue) {

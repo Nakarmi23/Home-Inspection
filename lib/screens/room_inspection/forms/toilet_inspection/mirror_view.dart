@@ -1,16 +1,23 @@
 part of './toilet_inspection_form.dart';
 
 class MirrorView extends StatefulWidget {
-  const MirrorView({Key key, @required this.onDataChange})
+  const MirrorView({Key key, @required this.onDataChange, this.value})
       : assert(onDataChange != null),
         super(key: key);
   final ValueChanged<ImageAndComment> onDataChange;
+  final ImageAndComment value;
   @override
   _MirrorViewState createState() => _MirrorViewState();
 }
 
 class _MirrorViewState extends State<MirrorView> {
   ImageAndComment mirror = ImageAndComment();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    mirror = widget.value ?? mirror;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(

@@ -16,12 +16,12 @@ part 'room.g.dart';
 class Room extends BaseModel {
   RoomPurpose roomPurpose;
   StructuralInspection structuralInspection;
-  List<WaterQuality> waterQualities;
-  List<LuxmeterReading> luxmeterReadings;
-  List<SeepageAnalysis> seepageAnalysis;
   MinorChecks minorChecks;
   KitchenInspection kitchenInspection;
   ToiletInspection toiletInspection;
+  List<WaterQuality> waterQualities;
+  List<LuxmeterReading> luxmeterReadings;
+  List<SeepageAnalysis> seepageAnalysis;
   List<StaircaseInspection> staircaseInspection;
   String roomId;
   int storeyNo;

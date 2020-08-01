@@ -1,10 +1,11 @@
 part of './kitchen_inspection_form.dart';
 
 class KitchenPlumbingView extends StatefulWidget {
-  const KitchenPlumbingView({Key key, @required this.onDataChange})
+  const KitchenPlumbingView({Key key, @required this.onDataChange, this.value})
       : assert(onDataChange != null),
         super(key: key);
   final ValueChanged<ImageAndComment> onDataChange;
+  final ImageAndComment value;
 
   @override
   _KitchenPlumbingViewState createState() => _KitchenPlumbingViewState();
@@ -12,6 +13,11 @@ class KitchenPlumbingView extends StatefulWidget {
 
 class _KitchenPlumbingViewState extends State<KitchenPlumbingView> {
   ImageAndComment plumbing = ImageAndComment();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    plumbing = widget.value ?? ImageAndComment();
+  }
 
   @override
   Widget build(BuildContext context) {

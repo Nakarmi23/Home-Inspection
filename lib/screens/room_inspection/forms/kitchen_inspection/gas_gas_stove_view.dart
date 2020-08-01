@@ -1,17 +1,24 @@
 part of './kitchen_inspection_form.dart';
 
 class GasAndGasStoveView extends StatefulWidget {
-  const GasAndGasStoveView({Key key, @required this.onDataChange})
+  const GasAndGasStoveView({Key key, @required this.onDataChange, this.value})
       : assert(onDataChange != null),
         super(key: key);
   final ValueChanged<ImageAndComment> onDataChange;
 
+  final ImageAndComment value;
   @override
   _GasAndGasStoveViewState createState() => _GasAndGasStoveViewState();
 }
 
 class _GasAndGasStoveViewState extends State<GasAndGasStoveView> {
   ImageAndComment gasAndGasStove = ImageAndComment();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    gasAndGasStove = widget.value ?? ImageAndComment();
+  }
 
   @override
   Widget build(BuildContext context) {

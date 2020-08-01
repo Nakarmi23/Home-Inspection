@@ -24,11 +24,9 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
   void didChangeDependencies() {
     inspectionData = (ModalRoute.of(context).settings.arguments
         as Map<String, dynamic>)['inspectionData'];
-    room = inspectionData.buildingData.rooms[(ModalRoute.of(context)
-        .settings
-        .arguments as Map<String, dynamic>)['roomIndex']];
     index = (ModalRoute.of(context).settings.arguments
         as Map<String, dynamic>)['roomIndex'];
+    room = inspectionData.buildingData.rooms[index];
   }
 
   @override
@@ -111,65 +109,81 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
         ),
       ),
     );
-    return DefaultTabController(
-      length: 8,
-      child: NestedScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [appBar];
-        },
-        body: Material(
-          child: TabBarView(
-            children: <Widget>[
-              StructuralInspectionForm(
-                onDataChanged: (value) {
-                  room.structuralInspection = value;
-                  saveData(context);
-                },
-              ),
-              WaterQualityForm(
-                onDataChanged: (value) {
-                  room.waterQualities = value;
-                  saveData(context);
-                },
-              ),
-              LuxmeterReadingForm(
-                onDataChanged: (value) {
-                  room.luxmeterReadings = value;
-                  saveData(context);
-                },
-              ),
-              SeepageAnalysisFrom(
-                onDataChanged: (value) {
-                  room.seepageAnalysis = value;
-                  saveData(context);
-                },
-              ),
-              MinorChecksForm(
-                onDataChanged: (value) {
-                  room.minorChecks = value;
-                  saveData(context);
-                },
-              ),
-              KitchenInspectionForm(
-                onDataChanged: (value) {
-                  room.kitchenInspection = value;
-                  saveData(context);
-                },
-              ),
-              ToiletInspectionForm(
-                onDateChanged: (value) {
-                  room.toiletInspection = value;
-                  saveData(context);
-                },
-              ),
-              StaircaseInspectionForm(
-                onDataChanged: (value) {
-                  room.staircaseInspection = value;
-                  saveData(context);
-                },
-              ),
-            ],
+    return CubitListener<HomeInspectionCubit, HomeInspectionState>(
+      listener: (context, state) {
+        if (state is HomeInspectionSuccess) {
+          inspectionData = state.inspectionData;
+          room = inspectionData.buildingData.rooms[index];
+        }
+      },
+      child: DefaultTabController(
+        length: 8,
+        child: NestedScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [appBar];
+          },
+          body: Material(
+            child: TabBarView(
+              children: <Widget>[
+                StructuralInspectionForm(
+                  value: room.structuralInspection,
+                  onDataChanged: (value) {
+                    room.structuralInspection = value;
+                    saveData(context);
+                  },
+                ),
+                WaterQualityForm(
+                  value: room.waterQualities,
+                  onDataChanged: (value) {
+                    room.waterQualities = value;
+                    saveData(context);
+                  },
+                ),
+                LuxmeterReadingForm(
+                  value: room.luxmeterReadings,
+                  onDataChanged: (value) {
+                    room.luxmeterReadings = value;
+                    saveData(context);
+                  },
+                ),
+                SeepageAnalysisFrom(
+                  value: room.seepageAnalysis,
+                  onDataChanged: (value) {
+                    room.seepageAnalysis = value;
+                    saveData(context);
+                  },
+                ),
+                MinorChecksForm(
+                  value: room.minorChecks,
+                  onDataChanged: (value) {
+                    room.minorChecks = value;
+                    saveData(context);
+                  },
+                ),
+                KitchenInspectionForm(
+                  value: room.kitchenInspection,
+                  onDataChanged: (value) {
+                    room.kitchenInspection = value;
+                    saveData(context);
+                  },
+                ),
+                ToiletInspectionForm(
+                  value: room.toiletInspection,
+                  onDateChanged: (value) {
+                    room.toiletInspection = value;
+                    saveData(context);
+                  },
+                ),
+                StaircaseInspectionForm(
+                  value: room.staircaseInspection,
+                  onDataChanged: (value) {
+                    room.staircaseInspection = value;
+                    saveData(context);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -9,9 +9,10 @@ import 'package:house_review/models/luxmeter_reading.dart';
 import 'package:house_review/utility/debounce.dart';
 
 class LuxmeterReadingForm extends StatefulWidget {
-  const LuxmeterReadingForm({Key key, @required this.onDataChanged})
+  const LuxmeterReadingForm({Key key, @required this.onDataChanged, this.value})
       : assert(onDataChanged != null),
         super(key: key);
+  final List<LuxmeterReading> value;
   final ValueChanged<List<LuxmeterReading>> onDataChanged;
   @override
   _LuxmeterReadingFormState createState() => _LuxmeterReadingFormState();
@@ -19,6 +20,13 @@ class LuxmeterReadingForm extends StatefulWidget {
 
 class _LuxmeterReadingFormState extends State<LuxmeterReadingForm> {
   List<LuxmeterReading> luxmeterReadings = [LuxmeterReading()];
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    luxmeterReadings = widget.value ?? luxmeterReadings;
+  }
+
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];
   @override
   Widget build(BuildContext context) {
@@ -66,13 +74,14 @@ class _LuxmeterReadingFormState extends State<LuxmeterReadingForm> {
               });
             },
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
                   child: HeadingText('Sample ${sampleIndex + 1}'),
                 ),
                 AppInputTextField(
+                  initialValue: luxmeterReadings[sampleIndex].source,
                   labelText: 'Sample Source',
                   onSaved: (newValue) {
                     luxmeterReadings[sampleIndex].source = newValue;
@@ -104,7 +113,9 @@ class _LuxmeterReadingFormState extends State<LuxmeterReadingForm> {
                   child: SubHeadingText('Sample 1 - Luxmeter Reading'),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  padding: EdgeInsets.only(
+                    top: 16.0,
+                  ),
                   child: DataTable(
                     columns: [
                       DataColumn(label: Text('S.N.')),

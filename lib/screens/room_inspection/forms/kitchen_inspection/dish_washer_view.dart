@@ -1,16 +1,23 @@
 part of './kitchen_inspection_form.dart';
 
 class DishWasherView extends StatefulWidget {
-  const DishWasherView({Key key, @required this.onDataChange})
+  const DishWasherView({Key key, @required this.onDataChange, this.value})
       : assert(onDataChange != null),
         super(key: key);
   final ValueChanged<ImageAndComment> onDataChange;
+  final ImageAndComment value;
   @override
   _DishWasherViewState createState() => _DishWasherViewState();
 }
 
 class _DishWasherViewState extends State<DishWasherView> {
   ImageAndComment dishWasher = ImageAndComment();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    dishWasher = widget.value ?? ImageAndComment();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(

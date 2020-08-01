@@ -5,13 +5,12 @@ import 'package:house_review/models/image_comment.dart';
 import 'package:house_review/screens/room_inspection/components/inspection_image_comment.dart';
 
 class MinorChecksImageCommentForm extends StatefulWidget {
-  const MinorChecksImageCommentForm({
-    Key key,
-    @required this.title,
-    @required this.onDataChanged,
-  }) : super(key: key);
+  const MinorChecksImageCommentForm(
+      {Key key, @required this.title, @required this.onDataChanged, this.value})
+      : super(key: key);
   final String title;
   final ValueChanged<List<ImageAndComment>> onDataChanged;
+  final List<ImageAndComment> value;
   @override
   _MinorChecksImageCommentFormState createState() =>
       _MinorChecksImageCommentFormState();
@@ -21,6 +20,13 @@ class _MinorChecksImageCommentFormState
     extends State<MinorChecksImageCommentForm> {
   List<ImageAndComment> imageAndCommentList = [ImageAndComment()];
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    imageAndCommentList =
+        widget.value.isEmpty ? imageAndCommentList : widget.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(

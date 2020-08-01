@@ -8,10 +8,11 @@ import 'package:house_review/components/sub_heading_text.dart';
 import 'package:house_review/models/seepage_analysis.dart';
 
 class SeepageAnalysisFrom extends StatefulWidget {
-  const SeepageAnalysisFrom({Key key, @required this.onDataChanged})
+  const SeepageAnalysisFrom({Key key, @required this.onDataChanged, this.value})
       : assert(onDataChanged != null),
         super(key: key);
   final ValueChanged<List<SeepageAnalysis>> onDataChanged;
+  final List<SeepageAnalysis> value;
   @override
   _SeepageAnalysisFromState createState() => _SeepageAnalysisFromState();
 }
@@ -20,10 +21,41 @@ class _SeepageAnalysisFromState extends State<SeepageAnalysisFrom> {
   List<SeepageAnalysis> seepageAnalysisList = [SeepageAnalysis()];
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    seepageAnalysisList =
+        widget.value.isEmpty ? seepageAnalysisList : widget.value;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomListView(
       children: <Widget>[
         ...createSeepageAnalysisSample(),
+        InkWell(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: Text('Add Luxmeter Reading Sample'),
+                ),
+                Icon(
+                  Icons.add_circle,
+                  color: Theme.of(context).accentColor,
+                ),
+              ],
+            ),
+          ),
+          onTap: () {
+            formKeys.add(GlobalKey());
+            setState(() {
+              seepageAnalysisList.add(SeepageAnalysis());
+            });
+          },
+        ),
       ],
     );
   }
@@ -47,6 +79,8 @@ class _SeepageAnalysisFromState extends State<SeepageAnalysisFrom> {
                   ),
                 ),
                 AppInputTextField(
+                  initialValue:
+                      seepageAnalysisList[seepageAnalysisIndex].temperature,
                   labelText: 'Temperature',
                   onSaved: (newValue) {
                     seepageAnalysisList[seepageAnalysisIndex].temperature =
@@ -54,6 +88,8 @@ class _SeepageAnalysisFromState extends State<SeepageAnalysisFrom> {
                   },
                 ),
                 AppInputTextField(
+                  initialValue:
+                      seepageAnalysisList[seepageAnalysisIndex].condition,
                   labelText: 'Condition',
                   onSaved: (newValue) {
                     seepageAnalysisList[seepageAnalysisIndex].condition =
@@ -117,7 +153,9 @@ class _SeepageAnalysisFromState extends State<SeepageAnalysisFrom> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                  padding: EdgeInsets.only(
+                    top: 16.0,
+                  ),
                   child: DataTable(
                     columns: [
                       DataColumn(label: Text('S.N.')),
@@ -186,6 +224,8 @@ class _SeepageAnalysisFromState extends State<SeepageAnalysisFrom> {
                   ),
                 ),
                 AppInputTextField(
+                  initialValue: seepageAnalysisList[seepageAnalysisIndex]
+                      .commentsDigitalLevel,
                   labelText: 'Comment on Digital Level Verification',
                   onSaved: (newValue) {
                     seepageAnalysisList[seepageAnalysisIndex]

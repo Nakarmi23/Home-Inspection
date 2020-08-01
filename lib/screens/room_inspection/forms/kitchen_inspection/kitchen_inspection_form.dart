@@ -15,14 +15,16 @@ part 'gas_gas_stove_view.dart';
 part 'kitchen_plumbing_view.dart';
 
 class KitchenInspectionForm extends StatelessWidget {
-  const KitchenInspectionForm({Key key, @required this.onDataChanged})
+  const KitchenInspectionForm(
+      {Key key, @required this.onDataChanged, this.value})
       : assert(onDataChanged != null),
         super(key: key);
   final ValueChanged<KitchenInspection> onDataChanged;
+  final KitchenInspection value;
 
   @override
   Widget build(BuildContext context) {
-    KitchenInspection kitchenInspection = KitchenInspection();
+    KitchenInspection kitchenInspection = value ?? KitchenInspection();
     return DefaultTabController(
       length: 6,
       child: Column(
@@ -58,36 +60,42 @@ class KitchenInspectionForm extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               children: [
                 KitchenCabinetView(
+                  value: kitchenInspection.kitchenCabinet,
                   onDataChange: (value) {
                     kitchenInspection.kitchenCabinet = value;
                     onDataChanged(kitchenInspection);
                   },
                 ),
                 DishWasherView(
+                  value: kitchenInspection.dishWasher,
                   onDataChange: (value) {
                     kitchenInspection.dishWasher = value;
                     onDataChanged(kitchenInspection);
                   },
                 ),
                 GarbageDisposalView(
+                  value: kitchenInspection.garbageDisposal,
                   onDataChange: (value) {
                     kitchenInspection.garbageDisposal = value;
                     onDataChanged(kitchenInspection);
                   },
                 ),
                 KitchenSinkView(
+                  value: kitchenInspection.kitchenSink,
                   onDataChange: (value) {
                     kitchenInspection.kitchenSink = value;
                     onDataChanged(kitchenInspection);
                   },
                 ),
                 GasAndGasStoveView(
+                  value: kitchenInspection.gasAndGasStove,
                   onDataChange: (value) {
                     kitchenInspection.gasAndGasStove = value;
                     onDataChanged(kitchenInspection);
                   },
                 ),
                 KitchenPlumbingView(
+                  value: kitchenInspection.plumbing,
                   onDataChange: (value) {
                     kitchenInspection.plumbing = value;
                     onDataChanged(kitchenInspection);

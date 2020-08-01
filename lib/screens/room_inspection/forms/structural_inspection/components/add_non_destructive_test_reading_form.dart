@@ -21,6 +21,7 @@ class AddNonDestructiveTestReadingForm extends StatelessWidget {
           AppInputTextField(
             labelText: 'Reading',
             initialValue: toEditValue,
+            keyboardType: TextInputType.numberWithOptions(decimal: false),
             validator: (value) {
               switch (value) {
                 case '':

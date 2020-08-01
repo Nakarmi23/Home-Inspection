@@ -12,13 +12,17 @@ part 'flush_view.dart';
 part 'toilet_plumbing_view.dart';
 
 class ToiletInspectionForm extends StatelessWidget {
-  const ToiletInspectionForm({Key key, @required this.onDateChanged})
-      : assert(onDateChanged != null),
+  const ToiletInspectionForm({
+    Key key,
+    @required this.onDateChanged,
+    this.value,
+  })  : assert(onDateChanged != null),
         super(key: key);
   final ValueChanged<ToiletInspection> onDateChanged;
+  final ToiletInspection value;
   @override
   Widget build(BuildContext context) {
-    ToiletInspection toiletInspection = ToiletInspection();
+    ToiletInspection toiletInspection = value ?? ToiletInspection();
     return DefaultTabController(
       length: 5,
       child: Column(
@@ -51,30 +55,35 @@ class ToiletInspectionForm extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               children: [
                 WashBasinView(
+                  value: toiletInspection.washBasin,
                   onDataChange: (value) {
                     toiletInspection.washBasin = value;
                     onDateChanged(toiletInspection);
                   },
                 ),
                 MirrorView(
+                  value: toiletInspection.mirror,
                   onDataChange: (value) {
                     toiletInspection.mirror = value;
                     onDateChanged(toiletInspection);
                   },
                 ),
                 WaterClosetView(
+                  value: toiletInspection.waterCloset,
                   onDataChange: (value) {
                     toiletInspection.waterCloset = value;
                     onDateChanged(toiletInspection);
                   },
                 ),
                 FlushView(
+                  value: toiletInspection.flush,
                   onDataChange: (value) {
                     toiletInspection.flush = value;
                     onDateChanged(toiletInspection);
                   },
                 ),
                 ToiletPlumbingView(
+                  value: toiletInspection.plumbing,
                   onDataChange: (value) {
                     toiletInspection.plumbing = value;
                     onDateChanged(toiletInspection);

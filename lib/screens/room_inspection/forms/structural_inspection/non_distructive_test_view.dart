@@ -1,17 +1,22 @@
 part of './structural_inspection_form.dart';
 
 class NonDestructiveTestView extends StatefulWidget {
-  const NonDestructiveTestView({
-    Key key,
-    this.onFormSave,
-  }) : super(key: key);
+  const NonDestructiveTestView({Key key, this.onFormSave, this.value})
+      : super(key: key);
   final ValueChanged<NonDestructiveTest> onFormSave;
+  final NonDestructiveTest value;
   @override
   _NonDestructiveTestViewState createState() => _NonDestructiveTestViewState();
 }
 
 class _NonDestructiveTestViewState extends State<NonDestructiveTestView> {
   NonDestructiveTest nonDestructiveTest = NonDestructiveTest();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    nonDestructiveTest = widget.value ?? nonDestructiveTest;
+  }
+
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -51,24 +56,28 @@ class _NonDestructiveTestViewState extends State<NonDestructiveTestView> {
                 )),
           ),
           AppInputTextField(
+            initialValue: nonDestructiveTest.structureElement,
             labelText: 'Element of Structure',
             onSaved: (newValue) {
               nonDestructiveTest.structureElement = newValue;
             },
           ),
           AppInputTextField(
+            initialValue: nonDestructiveTest.concreteGrade,
             labelText: 'Concrete Grade',
             onSaved: (newValue) {
               nonDestructiveTest.concreteGrade = newValue;
             },
           ),
           AppInputTextField(
+            initialValue: nonDestructiveTest.impactDirection,
             labelText: 'Direction of Impact',
             onSaved: (newValue) {
               nonDestructiveTest.impactDirection = newValue;
             },
           ),
           AppInputTextField(
+            initialValue: nonDestructiveTest.location,
             labelText: 'Location',
             onSaved: (newValue) {
               nonDestructiveTest.location = newValue;
@@ -109,19 +118,21 @@ class _NonDestructiveTestViewState extends State<NonDestructiveTestView> {
   }
 
   List<DataRow> createDataRow() => nonDestructiveTest.readings
+      .asMap()
+      .keys
       .map(
         (e) => DataRow(
           cells: [
             DataCell(
-              Text((nonDestructiveTest.readings.indexOf(e) + 1).toString()),
+              Text((e + 1).toString()),
               placeholder: true,
             ),
             DataCell(
-              Text(e.toString()),
+              Text(nonDestructiveTest.readings[e].toString()),
               placeholder: true,
               showEditIcon: true,
               onTap: () {
-                showAddReadingDialog(e.toString());
+                showAddReadingDialog(e);
               },
             )
           ],
@@ -148,7 +159,7 @@ class _NonDestructiveTestViewState extends State<NonDestructiveTestView> {
           ],
         ));
 
-  Future showAddReadingDialog([String reading]) {
+  Future showAddReadingDialog([int readingIndex]) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -157,22 +168,23 @@ class _NonDestructiveTestViewState extends State<NonDestructiveTestView> {
           children: <Widget>[
             AddNonDestructiveTestReadingForm(
               onFormSave: (value) {
-                if (reading == null) {
+                if (readingIndex == null) {
                   setState(() {
                     nonDestructiveTest.readings.add(double.tryParse(value));
                   });
                   Navigator.of(context).pop();
                 } else {
                   setState(() {
-                    nonDestructiveTest.readings[nonDestructiveTest.readings
-                            .indexOf(double.parse(reading))] =
+                    nonDestructiveTest.readings[readingIndex] =
                         double.tryParse(value);
                   });
                   Navigator.of(context).pop();
                 }
                 widget.onFormSave(nonDestructiveTest);
               },
-              toEditValue: reading,
+              toEditValue: readingIndex != null
+                  ? nonDestructiveTest.readings[readingIndex].toString()
+                  : null,
             ),
           ],
         );

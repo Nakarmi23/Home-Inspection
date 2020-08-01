@@ -16,18 +16,16 @@ part 'celling_view.dart';
 part 'walls_view.dart';
 part 'electrical_fitting_view.dart';
 part 'pest_inspection_view.dart';
-part 'carpentry_view.dart';
-part 'metal_alumunium_works_view.dart';
-part 'cleaning_view.dart';
 
 class MinorChecksForm extends StatelessWidget {
-  const MinorChecksForm({Key key, @required this.onDataChanged})
+  const MinorChecksForm({Key key, @required this.onDataChanged, this.value})
       : assert(onDataChanged != null),
         super(key: key);
   final ValueChanged<MinorChecks> onDataChanged;
+  final MinorChecks value;
   @override
   Widget build(BuildContext context) {
-    MinorChecks minorChecks = MinorChecks();
+    MinorChecks minorChecks = value ?? MinorChecks();
     return DefaultTabController(
       length: 9,
       child: Column(
@@ -72,42 +70,49 @@ class MinorChecksForm extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               children: [
                 DoorView(
+                  value: minorChecks.doors,
                   onDataChanged: (value) {
                     minorChecks.doors = value;
                     onDataChanged(minorChecks);
                   },
                 ),
                 WindowView(
+                  value: minorChecks.window,
                   onDataChanged: (value) {
                     minorChecks.window = value;
                     onDataChanged(minorChecks);
                   },
                 ),
                 CellingView(
+                  value: minorChecks.ceiling,
                   onDataChanged: (value) {
                     minorChecks.ceiling = value;
                     onDataChanged(minorChecks);
                   },
                 ),
                 WallsView(
+                  value: minorChecks.wall,
                   onDataChanged: (value) {
                     minorChecks.wall = value;
                     onDataChanged(minorChecks);
                   },
                 ),
                 ElectricalFittingView(
+                  value: minorChecks.electricalFitting,
                   onDataChanged: (value) {
                     minorChecks.electricalFitting = value;
                     onDataChanged(minorChecks);
                   },
                 ),
                 PestInspectionView(
+                  value: minorChecks.pestInspection,
                   onDataChanged: (value) {
                     minorChecks.pestInspection = value;
                     onDataChanged(minorChecks);
                   },
                 ),
                 MinorChecksImageCommentForm(
+                  value: minorChecks.carpentry,
                   title: 'Carpentry',
                   onDataChanged: (value) {
                     minorChecks.carpentry = value;
@@ -115,6 +120,7 @@ class MinorChecksForm extends StatelessWidget {
                   },
                 ),
                 MinorChecksImageCommentForm(
+                  value: minorChecks.metalAluminiumWork,
                   title: 'Metal and Alumunium Works',
                   onDataChanged: (value) {
                     minorChecks.metalAluminiumWork = value;
@@ -122,6 +128,7 @@ class MinorChecksForm extends StatelessWidget {
                   },
                 ),
                 MinorChecksImageCommentForm(
+                  value: minorChecks.cleaning,
                   title: 'Cleaning',
                   onDataChanged: (value) {
                     minorChecks.cleaning = value;

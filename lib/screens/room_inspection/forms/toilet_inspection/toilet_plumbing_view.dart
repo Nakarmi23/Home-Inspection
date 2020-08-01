@@ -1,10 +1,11 @@
 part of './toilet_inspection_form.dart';
 
 class ToiletPlumbingView extends StatefulWidget {
-  const ToiletPlumbingView({Key key, @required this.onDataChange})
+  const ToiletPlumbingView({Key key, @required this.onDataChange, this.value})
       : assert(onDataChange != null),
         super(key: key);
   final ValueChanged<ImageAndComment> onDataChange;
+  final ImageAndComment value;
 
   @override
   _ToiletPlumbingViewState createState() => _ToiletPlumbingViewState();
@@ -12,6 +13,12 @@ class ToiletPlumbingView extends StatefulWidget {
 
 class _ToiletPlumbingViewState extends State<ToiletPlumbingView> {
   ImageAndComment plumbing = ImageAndComment();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    plumbing = widget.value ?? plumbing;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(

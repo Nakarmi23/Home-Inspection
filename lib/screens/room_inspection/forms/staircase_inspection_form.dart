@@ -9,10 +9,12 @@ import 'package:house_review/screens/room_inspection/components/inspection_image
 import 'package:house_review/utility/debounce.dart';
 
 class StaircaseInspectionForm extends StatefulWidget {
-  const StaircaseInspectionForm({Key key, @required this.onDataChanged})
+  const StaircaseInspectionForm(
+      {Key key, @required this.onDataChanged, this.value})
       : assert(onDataChanged != null),
         super(key: key);
   final ValueChanged<List<StaircaseInspection>> onDataChanged;
+  final List<StaircaseInspection> value;
 
   @override
   _StaircaseInspectionFormState createState() =>
@@ -22,6 +24,14 @@ class StaircaseInspectionForm extends StatefulWidget {
 class _StaircaseInspectionFormState extends State<StaircaseInspectionForm> {
   List<StaircaseInspection> staircaseInspectionList = [StaircaseInspection()];
   List<GlobalKey<FormState>> _formKeys = [GlobalKey()];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    staircaseInspectionList = widget.value.isEmpty
+        ? staircaseInspectionList
+        : staircaseInspectionList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomListView(
@@ -75,18 +85,21 @@ class _StaircaseInspectionFormState extends State<StaircaseInspectionForm> {
                   child: HeadingText('Staircase ${key + 1}'),
                 ),
                 AppInputTextField(
+                  initialValue: staircaseInspectionList[key].location,
                   labelText: 'Location',
                   onSaved: (newValue) {
                     staircaseInspectionList[key].location = newValue;
                   },
                 ),
                 AppInputTextField(
+                  initialValue: staircaseInspectionList[key].type,
                   labelText: 'Stair Case Type',
                   onSaved: (newValue) {
                     staircaseInspectionList[key].type = newValue;
                   },
                 ),
                 AppInputTextField(
+                  initialValue: staircaseInspectionList[key].material,
                   labelText: 'Staircase Material',
                   onSaved: (newValue) {
                     staircaseInspectionList[key].material = newValue;

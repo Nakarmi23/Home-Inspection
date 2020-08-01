@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ScrollController _scrollController;
   bool isFABExtended = true;
   List<InspectionData> _clientData = [];
-
+  bool shouldListen = true;
   @override
   void didChangeDependencies() {}
 
@@ -43,8 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, state) {
         return Scaffold(
           floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed('/inspectionForm');
+            onPressed: () async {
+              shouldListen = false;
+              await Navigator.of(context).pushNamed('/inspectionForm');
+              shouldListen = true;
             },
             child: Icon(Icons.add),
             tooltip: 'Create New Inspection',
@@ -66,35 +68,55 @@ class _HomeScreenState extends State<HomeScreen> {
                 snap: false,
               ),
               CubitListener<HomeInspectionCubit, HomeInspectionState>(
-                listener: (context, state) {
+                listener: (context, state) async {
                   if (state is HomeInspectionSuccess) {
-                    Navigator.of(context)
+                    shouldListen = false;
+                    await Navigator.of(context)
                         .pushNamed('/inspectionForm', arguments: true);
+                    shouldListen = true;
                   }
+                },
+                listenWhen: (previous, current) {
+                  return shouldListen;
                 },
                 child: CubitBuilder<InspectionFileInfoCubit,
                     InspectionFileInfoState>(
                   builder: (context, state) {
                     if (state is InspectionFileInfoSuccess) {
                       return SliverList(
-                        delegate: SliverChildBuilderDelegate((context, index) {
-                          return ListTile(
-                            onTap: () async {
-                              context.cubit<HomeInspectionCubit>().readData(
-                                  state.inspectionFileInfos[index].fileName);
-                            },
-                            leading: Column(
-                              children: <Widget>[
-                                Text(
-                                  index.toString(),
-                                ),
-                              ],
-                            ),
-                            title: Text(state.inspectionFileInfos[index].name),
-                            subtitle:
-                                Text(state.inspectionFileInfos[index].address),
-                          );
-                        }, childCount: state.inspectionFileInfos.length),
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            if (index.isOdd) {
+                              return Divider(
+                                height: 0,
+                                indent: (32.0 * 2),
+                              );
+                            }
+                            return ListTile(
+                              onTap: () async {
+                                context.cubit<HomeInspectionCubit>().readData(
+                                    state.inspectionFileInfos[index ~/ 2]
+                                        .fileName);
+                              },
+                              leading: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    (index ~/ 2).toString(),
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                ],
+                              ),
+                              title: Text(
+                                  state.inspectionFileInfos[index ~/ 2].name),
+                              subtitle: Text(state
+                                  .inspectionFileInfos[index ~/ 2].address),
+                            );
+                          },
+                          childCount:
+                              (state.inspectionFileInfos.length * 2) - 1,
+                        ),
                       );
                     }
                   },
