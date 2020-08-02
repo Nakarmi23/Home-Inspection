@@ -5,6 +5,8 @@ abstract class InspectionFileInfoState {}
 
 class InspectionFileInfoInitial extends InspectionFileInfoState {}
 
+class InspectionFileInfoInProcess extends InspectionFileInfoState {}
+
 class InspectionFileInfoSuccess extends InspectionFileInfoState {
   final List<InspectionFileInfo> inspectionFileInfos;
 

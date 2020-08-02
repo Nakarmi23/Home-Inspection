@@ -64,4 +64,11 @@ class InspectionFileRepository {
       throw err;
     }
   }
+
+  Future<FileSystemEntity> deleteFile(String filename) async {
+    try {
+      final file = await _localFile(filename);
+      return file.delete();
+    } catch (err) {}
+  }
 }
