@@ -130,7 +130,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                           Padding(
                             padding: EdgeInsets.only(
                                 top: 16.0, left: 16.0, right: 16.0),
-                            child: HeadingText('Building Deatils'),
+                            child: HeadingText('Building Details'),
                           ),
                           AppInputTextField(
                             enabled: (_inspectionData.address?.isNotEmpty ??
@@ -224,12 +224,12 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                           ),
                           CubitBuilder<StructuralSystemCubit,
                               StructuralSystemState>(
-                            builder: (context, structuralSystemstate) {
+                            builder: (context, structuralSystemState) {
                               List<StructuralSystem> data;
-                              if (structuralSystemstate
+                              if (structuralSystemState
                                   is StructuralSystemSuccess) {
                                 data = [
-                                  ...structuralSystemstate.structuralSystem
+                                  ...structuralSystemState.structuralSystem
                                 ]..add(StructuralSystem(
                                     id: 0,
                                     isEditable: 0,
