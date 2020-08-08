@@ -19,18 +19,72 @@ class RoomInspectionScreen extends StatefulWidget {
 class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
   Room room = Room();
   InspectionData inspectionData;
-  int index;
+  int roomIndex;
   @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
     inspectionData = (ModalRoute.of(context).settings.arguments
         as Map<String, dynamic>)['inspectionData'];
-    index = (ModalRoute.of(context).settings.arguments
+    roomIndex = (ModalRoute.of(context).settings.arguments
         as Map<String, dynamic>)['roomIndex'];
-    room = inspectionData.buildingData.rooms[index];
+    room = inspectionData.buildingData.rooms[roomIndex];
   }
 
   @override
   Widget build(BuildContext context) {
+    var tabBar = PreferredSize(
+      child: Container(
+        color: Theme.of(context).primaryColor,
+        child: TabBar(
+          isScrollable: true,
+          tabs: [
+            'Structural Inspection',
+            'Water Quality',
+            'Luxmeter Reading',
+            'Seepage Analysis',
+            'Minor Checks',
+            'Kitchen Inspection',
+            'Toilet Inspection',
+            'Staircase Inspection',
+          ].map((tabBarLabel) => Tab(text: tabBarLabel)).toList(),
+        ),
+      ),
+      preferredSize: Size.fromHeight(kToolbarHeight),
+    );
+    var appBarBackgroundImage = FlexibleSpaceBar(
+      background: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          room.pictures.length == 0
+              ? Container()
+              : Image.file(
+                  File(room.pictures[0]),
+                  fit: BoxFit.cover,
+                ),
+          Positioned(
+            bottom: 60.0,
+            right: 16.0,
+            child: SizedBox.fromSize(
+              size: Size(60.0, 60.0),
+              child: FloatingActionButton(
+                child: Icon(Icons.camera_enhance),
+                onPressed: () {
+                  showImagePickerBottomSheet(
+                    context,
+                    onImage: (path) {
+                      setState(() {
+                        room.pictures.add(path);
+                      });
+                      saveData(context);
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
     var appBar = SliverAppBar(
       expandedHeight: 300.0,
       title: Text(
@@ -39,81 +93,14 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
       centerTitle: true,
       floating: true,
       pinned: true,
-      bottom: PreferredSize(
-        child: Container(
-          color: Theme.of(context).primaryColor,
-          child: TabBar(
-            isScrollable: true,
-            tabs: [
-              Tab(
-                text: 'Structural Inspection',
-              ),
-              Tab(
-                text: 'Water Quality',
-              ),
-              Tab(
-                text: 'Luxmeter Reading',
-              ),
-              Tab(
-                text: 'Seepage Analysis',
-              ),
-              Tab(
-                text: 'Minor Checks',
-              ),
-              Tab(
-                text: 'Kitchen Inspection',
-              ),
-              Tab(
-                text: 'Toilet Inspection',
-              ),
-              Tab(
-                text: 'Staircase Inspection',
-              ),
-            ],
-          ),
-        ),
-        preferredSize: Size.fromHeight(kToolbarHeight),
-      ),
-      flexibleSpace: FlexibleSpaceBar(
-        background: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            room.pictures.length == 0
-                ? Container()
-                : Image.file(
-                    File(room.pictures[0]),
-                    fit: BoxFit.cover,
-                  ),
-            Positioned(
-              bottom: 60.0,
-              right: 16.0,
-              child: SizedBox.fromSize(
-                size: Size(60.0, 60.0),
-                child: FloatingActionButton(
-                  child: Icon(Icons.camera_enhance),
-                  onPressed: () {
-                    showImagePickerBottomSheet(
-                      context,
-                      onImage: (path) {
-                        setState(() {
-                          room.pictures.add(path);
-                        });
-                        saveData(context);
-                      },
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      bottom: tabBar,
+      flexibleSpace: appBarBackgroundImage,
     );
     return CubitListener<HomeInspectionCubit, HomeInspectionState>(
       listener: (context, state) {
         if (state is HomeInspectionSuccess) {
           inspectionData = state.inspectionData;
-          room = inspectionData.buildingData.rooms[index];
+          room = inspectionData.buildingData.rooms[roomIndex];
         }
       },
       child: DefaultTabController(
