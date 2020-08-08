@@ -140,6 +140,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: state.inspectionFileInfos.length,
                   );
                 }
+                return Center(
+                  child: Column(
+                    children: <Widget>[
+                      Text('No data to display'),
+                      RaisedButton(
+                        child: Text('Reload Data'),
+                        onPressed: () {
+                          context.cubit<InspectionFileInfoCubit>().loadData();
+                        },
+                      ),
+                    ],
+                  ),
+                );
               },
             ),
           ),

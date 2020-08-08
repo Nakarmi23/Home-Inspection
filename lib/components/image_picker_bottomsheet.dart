@@ -29,7 +29,7 @@ class ImagePickerBottomSheet extends StatelessWidget {
       : assert(onImage != null),
         super(key: key);
 
-  Future<String> _getImage(ImageSource source) async {
+  Future<void> _getImage(ImageSource source) async {
     PickedFile pickedFile = await ImagePicker().getImage(source: source);
     if (pickedFile != null)
       onImage(pickedFile.path);
