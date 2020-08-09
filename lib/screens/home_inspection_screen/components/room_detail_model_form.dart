@@ -66,7 +66,7 @@ class _RoomDetailModelFormState extends State<RoomDetailModelForm> {
                 : '1',
             validator: storeyNumberValidation,
             onSaved: (newValue) {
-              roomDetail.storeyNo = int.tryParse(newValue);
+              roomDetail.storeyNo = double.tryParse(newValue);
             },
           ),
           CubitBuilder<RoomPurposeCubit, RoomPurposeState>(

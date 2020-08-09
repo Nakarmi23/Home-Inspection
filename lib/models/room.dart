@@ -24,7 +24,7 @@ class Room extends BaseModel {
   List<SeepageAnalysis> seepageAnalysis;
   List<StaircaseInspection> staircaseInspection;
   String roomId;
-  int storeyNo;
+  double storeyNo;
   int roomNo;
   List<String> pictures;
   Room({

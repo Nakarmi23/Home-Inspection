@@ -16,7 +16,7 @@ Room _$RoomFromJson(Map<String, dynamic> json) {
         : StructuralInspection.fromJson(
             json['structuralInspection'] as Map<String, dynamic>),
     roomId: json['roomId'] as String,
-    storeyNo: json['storeyNo'] as int,
+    storeyNo: (json['storeyNo'] as num)?.toDouble(),
     pictures: (json['pictures'] as List)?.map((e) => e as String)?.toList(),
     waterQualities: (json['waterQualities'] as List)
         ?.map((e) =>
