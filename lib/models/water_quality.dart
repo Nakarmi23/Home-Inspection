@@ -12,7 +12,7 @@ class WaterQuality extends BaseModel {
   String taste;
   String odour;
   String phValue;
-  String turbidty;
+  String turbidity;
   String ecMeterReading;
   String temperature;
   String tdsMeterReading;
@@ -26,7 +26,7 @@ class WaterQuality extends BaseModel {
     this.taste,
     this.odour,
     this.phValue,
-    this.turbidty,
+    this.turbidity,
     this.ecMeterReading,
     this.temperature,
     this.tdsMeterReading,

@@ -134,10 +134,10 @@ class _WaterQualityFormState extends State<WaterQualityForm> {
                 },
               ),
               AppInputTextField(
-                initialValue: waterQualityList[key].turbidty,
-                labelText: 'Turbuduty',
+                initialValue: waterQualityList[key].turbidity,
+                labelText: 'Turbidity',
                 onSaved: (newValue) {
-                  waterQualityList[key].turbidty = newValue;
+                  waterQualityList[key].turbidity = newValue;
                 },
               ),
               AppInputTextField(
