@@ -1,0 +1,16 @@
+TODO:
+    Bug Fix:
+        Inspection Form:
+            ☐ Avoid having room with same room number
+            ☐ Storey support double
+            ✔ Correct spelling to "Details" @done(20-08-08 17:13)
+            ☐ unrelate building storey and room storey number
+            ☐ Donot navigate to room inspection form if user goes back
+        Room Inspection Form:
+            Water Quality:
+                ☐ Correct Spelling to "Trubidity"
+            Seepage:
+                ☐ Correct title of add widget
+            Minor Check:
+                ☐ If the condition is bad show picture and comment widgets not when in skip or in good condition
+                ☐ Other Fixture should be dynamic
