@@ -485,6 +485,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                 }
               },
               toEditValue: index != null ? _building.rooms[index] : null,
+              existingRooms: _building.rooms,
             ),
           ],
         );

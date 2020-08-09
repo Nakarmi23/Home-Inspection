@@ -12,15 +12,18 @@ class RoomDetailModelForm extends StatefulWidget {
   final double buildingStorey;
   final RoomDetailFormSave onFormSave;
   final Room toEditValue;
+  final List<Room> existingRooms;
 
   RoomDetailModelForm({
     Key key,
     @required this.buildingStorey,
     @required this.onFormSave,
-    this.toEditValue,
+    @required this.existingRooms,
+    @required this.toEditValue,
   })  : assert(buildingStorey != null),
         assert(!buildingStorey.isNegative),
         assert(onFormSave != null),
+        assert(existingRooms != null),
         super(key: key);
 
   @override
@@ -29,11 +32,14 @@ class RoomDetailModelForm extends StatefulWidget {
 
 class _RoomDetailModelFormState extends State<RoomDetailModelForm> {
   Room roomDetail = Room();
-
+  TextEditingController storeyInputController;
   @override
   void initState() {
     super.initState();
     if (widget.toEditValue != null) roomDetail = widget.toEditValue;
+    storeyInputController = TextEditingController(
+        text:
+            widget.toEditValue != null ? roomDetail?.storeyNo.toString() : '1');
   }
 
   GlobalKey<FormState> roomDetailFromKey = GlobalKey<FormState>();
@@ -61,9 +67,7 @@ class _RoomDetailModelFormState extends State<RoomDetailModelForm> {
           AppInputTextField(
             labelText: 'Storey Number',
             keyboardType: TextInputType.number,
-            initialValue: widget.toEditValue != null
-                ? roomDetail?.storeyNo.toString()
-                : '1',
+            controller: storeyInputController,
             validator: storeyNumberValidation,
             onSaved: (newValue) {
               roomDetail.storeyNo = double.tryParse(newValue);
@@ -147,9 +151,20 @@ class _RoomDetailModelFormState extends State<RoomDetailModelForm> {
     switch (value) {
       case '':
         return 'Room Number is required';
-      case '0':
-        return 'Room Number can not be 0';
       default:
+        if (widget.existingRooms.length > 0) {
+          double doubleValue = double.tryParse(value);
+          if (storeyInputController.text.isNotEmpty) {
+            double storeyNumber = double.tryParse(storeyInputController.text);
+            for (Room room in widget.existingRooms) {
+              if (room.roomNo == doubleValue && storeyNumber == room.storeyNo) {
+                return 'Room with Room Number $value already exists on storey ${storeyInputController.text}';
+              }
+            }
+          } else {
+            return 'Please enter the storey number the room is on first';
+          }
+        }
         return null;
     }
   }
