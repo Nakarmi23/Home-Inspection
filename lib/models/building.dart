@@ -13,7 +13,7 @@ class Building extends BaseModel {
   String photo;
   double length;
   double breath;
-  int storeyNo;
+  double storeyNo;
   List<String> materialUsed;
   String originalPurpose;
   String currentPurpose;

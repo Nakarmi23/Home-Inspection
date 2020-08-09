@@ -19,7 +19,7 @@ Building _$BuildingFromJson(Map<String, dynamic> json) {
     photo: json['photo'] as String,
     length: (json['length'] as num)?.toDouble(),
     breath: (json['breath'] as num)?.toDouble(),
-    storeyNo: json['storeyNo'] as int,
+    storeyNo: (json['storeyNo'] as num)?.toDouble(),
     materialUsed:
         (json['materialUsed'] as List)?.map((e) => e as String)?.toList(),
     originalPurpose: json['originalPurpose'] as String,

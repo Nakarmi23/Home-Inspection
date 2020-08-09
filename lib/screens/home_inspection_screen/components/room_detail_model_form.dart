@@ -9,7 +9,7 @@ import 'package:house_review/models/room_purpose.dart';
 typedef void RoomDetailFormSave(Room value);
 
 class RoomDetailModelForm extends StatefulWidget {
-  final int buildingStorey;
+  final double buildingStorey;
   final RoomDetailFormSave onFormSave;
   final Room toEditValue;
 

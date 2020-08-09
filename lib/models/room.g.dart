@@ -55,15 +55,15 @@ Room _$RoomFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
       'roomPurpose': instance.roomPurpose?.toJson(),
       'structuralInspection': instance.structuralInspection?.toJson(),
+      'minorChecks': instance.minorChecks?.toJson(),
+      'kitchenInspection': instance.kitchenInspection?.toJson(),
+      'toiletInspection': instance.toiletInspection?.toJson(),
       'waterQualities':
           instance.waterQualities?.map((e) => e?.toJson())?.toList(),
       'luxmeterReadings':
           instance.luxmeterReadings?.map((e) => e?.toJson())?.toList(),
       'seepageAnalysis':
           instance.seepageAnalysis?.map((e) => e?.toJson())?.toList(),
-      'minorChecks': instance.minorChecks?.toJson(),
-      'kitchenInspection': instance.kitchenInspection?.toJson(),
-      'toiletInspection': instance.toiletInspection?.toJson(),
       'staircaseInspection':
           instance.staircaseInspection?.map((e) => e?.toJson())?.toList(),
       'roomId': instance.roomId,

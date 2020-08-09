@@ -141,7 +141,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                             initialValue: _building.storeyNo?.toString() ?? '1',
                             onSaved: (value) {
                               _building.storeyNo =
-                                  value.isNotEmpty ? int.parse(value) : 1;
+                                  value.isNotEmpty ? double.parse(value) : 1;
                             },
                           ),
                           AppInputTextField(
