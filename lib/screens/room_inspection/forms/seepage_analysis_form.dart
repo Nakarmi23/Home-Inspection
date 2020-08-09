@@ -22,7 +22,6 @@ class _SeepageAnalysisFromState extends State<SeepageAnalysisFrom> {
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     seepageAnalysisList =
         widget.value.isEmpty ? seepageAnalysisList : widget.value;
@@ -40,7 +39,7 @@ class _SeepageAnalysisFromState extends State<SeepageAnalysisFrom> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Expanded(
-                  child: Text('Add Luxmeter Reading Sample'),
+                  child: Text('Add Seepage Analysis Sample'),
                 ),
                 Icon(
                   Icons.add_circle,
