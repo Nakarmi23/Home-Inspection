@@ -10,10 +10,16 @@ class MinorChecksCondition implements ImageAndComment {
   @override
   String comment;
 
+  String otherFixtureName;
+
   @override
   List<String> photos;
 
-  MinorChecksCondition({this.condition = 0, List<String> photos, this.comment})
+  MinorChecksCondition(
+      {this.condition = 0,
+      List<String> photos,
+      this.comment,
+      this.otherFixtureName})
       : this.photos = photos ?? [];
 
   factory MinorChecksCondition.fromJson(Map<String, dynamic> json) =>

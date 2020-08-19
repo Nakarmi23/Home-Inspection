@@ -6,7 +6,7 @@ class ElectricalFitting implements ImageAndComment {
   MinorChecksCondition switchesCondition;
   MinorChecksCondition lightsCondition;
   MinorChecksCondition ceilingFanCondition;
-  MinorChecksCondition otherAccessoriesCondition;
+  List<MinorChecksCondition> otherAccessoriesCondition;
   int age;
   @override
   List<String> photos;
@@ -21,15 +21,14 @@ class ElectricalFitting implements ImageAndComment {
     MinorChecksCondition switchesCondition,
     MinorChecksCondition lightsCondition,
     MinorChecksCondition ceilingFanCondition,
-    MinorChecksCondition otherAccessoriesCondition,
+    List<MinorChecksCondition> otherAccessoriesCondition,
   })  : this.photos = photos ?? [],
         this.wiringCondition = wiringCondition ?? MinorChecksCondition(),
         this.switchesCondition = switchesCondition ?? MinorChecksCondition(),
         this.lightsCondition = lightsCondition ?? MinorChecksCondition(),
         this.ceilingFanCondition =
             ceilingFanCondition ?? MinorChecksCondition(),
-        this.otherAccessoriesCondition =
-            otherAccessoriesCondition ?? MinorChecksCondition();
+        this.otherAccessoriesCondition = otherAccessoriesCondition ?? [];
 
   factory ElectricalFitting.fromJson(Map<String, dynamic> json) =>
       _$ElectricalFittingFromJson(json);

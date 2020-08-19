@@ -6,7 +6,7 @@ class Ceiling implements ImageAndComment {
   MinorChecksCondition plasteringCondition;
   MinorChecksCondition falseCeilingsCondition;
   MinorChecksCondition masonProblemCondition;
-  MinorChecksCondition otherProblemCondition;
+  List<MinorChecksCondition> otherProblemCondition;
   @override
   List<String> photos;
   @override
@@ -19,7 +19,7 @@ class Ceiling implements ImageAndComment {
     MinorChecksCondition plasteringCondition,
     MinorChecksCondition falseCeilingsCondition,
     MinorChecksCondition masonProblemCondition,
-    MinorChecksCondition otherProblemCondition,
+    List<MinorChecksCondition> otherProblemCondition,
   })  : this.photos = photos ?? [],
         this.paintingCondition = paintingCondition ?? MinorChecksCondition(),
         this.plasteringCondition = paintingCondition ?? MinorChecksCondition(),
@@ -27,8 +27,7 @@ class Ceiling implements ImageAndComment {
             paintingCondition ?? MinorChecksCondition(),
         this.masonProblemCondition =
             paintingCondition ?? MinorChecksCondition(),
-        this.otherProblemCondition =
-            paintingCondition ?? MinorChecksCondition();
+        this.otherProblemCondition = paintingCondition ?? [];
 
   factory Ceiling.fromJson(Map<String, dynamic> json) =>
       _$CeilingFromJson(json);

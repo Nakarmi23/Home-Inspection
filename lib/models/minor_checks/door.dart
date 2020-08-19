@@ -1,17 +1,13 @@
 part of 'minor_checks.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Door implements ImageAndComment {
+class Door {
   String material;
   MinorChecksCondition doorFramesCondition;
   MinorChecksCondition doorPanelsCondition;
   MinorChecksCondition hingesCondition;
   MinorChecksCondition holderCondition;
-  MinorChecksCondition otherFixturesCondition;
-  @override
-  List<String> photos;
-  @override
-  String comment;
+  List<MinorChecksCondition> otherFixturesCondition;
 
   Door({
     this.material,
@@ -19,16 +15,12 @@ class Door implements ImageAndComment {
     MinorChecksCondition doorPanelsCondition,
     MinorChecksCondition hingesCondition,
     MinorChecksCondition holderCondition,
-    MinorChecksCondition otherFixturesCondition,
-    this.comment,
-    List<String> photos,
-  })  : this.photos = photos ?? [],
-        doorFramesCondition = doorFramesCondition ?? MinorChecksCondition(),
+    List<MinorChecksCondition> otherFixturesCondition,
+  })  : doorFramesCondition = doorFramesCondition ?? MinorChecksCondition(),
         doorPanelsCondition = doorPanelsCondition ?? MinorChecksCondition(),
         hingesCondition = hingesCondition ?? MinorChecksCondition(),
         holderCondition = holderCondition ?? MinorChecksCondition(),
-        otherFixturesCondition =
-            otherFixturesCondition ?? MinorChecksCondition();
+        otherFixturesCondition = otherFixturesCondition ?? [];
   factory Door.fromJson(Map<String, dynamic> json) => _$DoorFromJson(json);
   @override
   Map<String, dynamic> toJson() => _$DoorToJson(this);

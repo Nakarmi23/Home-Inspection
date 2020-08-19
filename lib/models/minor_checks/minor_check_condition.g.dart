@@ -11,6 +11,7 @@ MinorChecksCondition _$MinorChecksConditionFromJson(Map<String, dynamic> json) {
     condition: json['condition'] as int,
     photos: (json['photos'] as List)?.map((e) => e as String)?.toList(),
     comment: json['comment'] as String,
+    otherFixtureName: json['otherFixtureName'] as String,
   );
 }
 
@@ -19,5 +20,6 @@ Map<String, dynamic> _$MinorChecksConditionToJson(
     <String, dynamic>{
       'condition': instance.condition,
       'comment': instance.comment,
+      'otherFixtureName': instance.otherFixtureName,
       'photos': instance.photos,
     };

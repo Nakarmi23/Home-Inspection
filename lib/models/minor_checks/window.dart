@@ -7,7 +7,7 @@ class Window implements ImageAndComment {
   MinorChecksCondition windowPanelsCondition;
   MinorChecksCondition hingesCondition;
   MinorChecksCondition holderCondition;
-  MinorChecksCondition otherFixturesCondition;
+  List<MinorChecksCondition> otherFixturesCondition;
   @override
   String comment;
   @override
@@ -19,7 +19,7 @@ class Window implements ImageAndComment {
     MinorChecksCondition doorPanelsCondition,
     MinorChecksCondition hingesCondition,
     MinorChecksCondition holderCondition,
-    MinorChecksCondition otherFixturesCondition,
+    List<MinorChecksCondition> otherFixturesCondition,
     this.comment,
     List<String> photos,
   })  : this.photos = photos ?? [],
@@ -27,7 +27,7 @@ class Window implements ImageAndComment {
         windowPanelsCondition = doorFramesCondition ?? MinorChecksCondition(),
         hingesCondition = doorFramesCondition ?? MinorChecksCondition(),
         holderCondition = doorFramesCondition ?? MinorChecksCondition(),
-        otherFixturesCondition = doorFramesCondition ?? MinorChecksCondition();
+        otherFixturesCondition = doorFramesCondition ?? [];
 
   factory Window.fromJson(Map<String, dynamic> json) => _$WindowFromJson(json);
 
