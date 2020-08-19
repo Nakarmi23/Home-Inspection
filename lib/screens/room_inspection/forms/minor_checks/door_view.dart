@@ -135,12 +135,9 @@ class _DoorViewState extends State<DoorView> {
                     subHeading: SubHeading.sub2,
                   ),
                   onDataChanged: (value) {
-                    MinorChecksCondition newValue = value;
-                    newValue.otherFixtureName =
-                        fixturesCondition.otherFixtureName;
                     setState(() {
                       doorList[doorIndex]
-                          .otherFixturesCondition[otherFixtureIndex] = newValue;
+                          .otherFixturesCondition[otherFixtureIndex] = value;
                     });
                     widget.onDataChanged(doorList);
                   },
@@ -156,7 +153,6 @@ class _DoorViewState extends State<DoorView> {
                       setState(() {
                         doorList[doorIndex].otherFixturesCondition.add(problem);
                       });
-                      widget.onDataChanged(doorList);
                     }
                   });
                 },
