@@ -18,6 +18,36 @@ class InspectionMinorChecksCondition extends StatelessWidget {
   Widget build(BuildContext context) {
     MinorChecksCondition minorChecksCondition = value;
     GlobalKey<FormState> formKey = GlobalKey();
+    List<Widget> formChildren = [
+      Padding(
+        padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+        child: title,
+      ),
+      RadioList(
+        groupValue: minorChecksCondition.condition,
+        onChanged: (value) {
+          minorChecksCondition.condition = value;
+          onDataChanged(minorChecksCondition);
+        },
+      ),
+    ];
+
+    if (minorChecksCondition.condition == 2) {
+      formChildren.add(InspectionImageComment(
+        images: minorChecksCondition.photos,
+        comment: minorChecksCondition.comment,
+        onCommentSaved: (value) {
+          minorChecksCondition.comment = value;
+        },
+        onImageAdd: (path) {
+          minorChecksCondition.photos.add(path);
+          onDataChanged(minorChecksCondition);
+        },
+        onImageTap: (index) {},
+        enabled: minorChecksCondition.condition != 0,
+      ));
+    }
+
     return Form(
       key: formKey,
       onChanged: () {
@@ -28,32 +58,7 @@ class InspectionMinorChecksCondition extends StatelessWidget {
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-            child: title,
-          ),
-          RadioList(
-            groupValue: minorChecksCondition.condition,
-            onChanged: (value) {
-              minorChecksCondition.condition = value;
-              onDataChanged(minorChecksCondition);
-            },
-          ),
-          InspectionImageComment(
-            images: minorChecksCondition.photos,
-            comment: minorChecksCondition.comment,
-            onCommentSaved: (value) {
-              minorChecksCondition.comment = value;
-            },
-            onImageAdd: (path) {
-              minorChecksCondition.photos.add(path);
-              onDataChanged(minorChecksCondition);
-            },
-            onImageTap: (index) {},
-            enabled: minorChecksCondition.condition != 0,
-          ),
-        ],
+        children: formChildren,
       ),
     );
   }
