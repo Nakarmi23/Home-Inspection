@@ -80,15 +80,16 @@ class _RoomDetailModelFormState extends State<RoomDetailModelForm> {
               }
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: AppDropdownMenu<RoomPurpose>(
+                child: AppDropdownMenu<int>(
                   title: 'Room Purpose',
                   value: roomDetail?.roomPurpose != null
-                      ? roomDetail?.roomPurpose
-                      : roomPurposeList[0],
+                      ? roomDetail?.roomPurpose.id
+                      : roomPurposeList[0].id,
                   items: createDropdownList(roomPurposeList),
                   onChanged: (value) {
                     setState(() {
-                      roomDetail.roomPurpose = value;
+                      roomDetail.roomPurpose = roomPurposeList
+                          .firstWhere((element) => element.id == value);
                     });
                   },
                 ),
@@ -121,13 +122,12 @@ class _RoomDetailModelFormState extends State<RoomDetailModelForm> {
     );
   }
 
-  List<DropdownMenuItem<RoomPurpose>> createDropdownList(
-      List<RoomPurpose> data) {
+  List<DropdownMenuItem<int>> createDropdownList(List<RoomPurpose> data) {
     return data
         .map(
           (purpose) => DropdownMenuItem(
             child: Text(purpose.purpose),
-            value: purpose,
+            value: purpose.id,
           ),
         )
         .toList();
@@ -140,7 +140,7 @@ class _RoomDetailModelFormState extends State<RoomDetailModelForm> {
       case '0':
         return 'Storey Number can not be 0';
       default:
-        if (int.tryParse(value) > widget.buildingStorey) {
+        if (double.tryParse(value) > widget.buildingStorey) {
           return 'Storey Num is greater building\'s Storey No.';
         }
         return null;
@@ -153,16 +153,18 @@ class _RoomDetailModelFormState extends State<RoomDetailModelForm> {
         return 'Room Number is required';
       default:
         if (widget.existingRooms.length > 0) {
-          double doubleValue = double.tryParse(value);
+          int roomNumber = int.tryParse(value);
           if (storeyInputController.text.isNotEmpty) {
             double storeyNumber = double.tryParse(storeyInputController.text);
             for (Room room in widget.existingRooms) {
-              if (room.roomNo == doubleValue && storeyNumber == room.storeyNo) {
+              if (widget.toEditValue == null ||
+                  (room.roomNo == roomNumber &&
+                      storeyNumber == room.storeyNo)) {
                 return 'Room with Room Number $value already exists on storey ${storeyInputController.text}';
               }
             }
           } else {
-            return 'Please enter the storey number the room is on first';
+            return 'Please enter the storey number of the room is on first';
           }
         }
         return null;

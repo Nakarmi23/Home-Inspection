@@ -434,17 +434,20 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                                         false) &&
                                     (_inspectionData.name?.isNotEmpty ?? false)
                                 ? () async {
-                                    await showAddRoom(context);
-
-                                    onFormChanged(
-                                        context,
-                                        context
-                                            .cubit<HomeInspectionCubit>()
-                                            .state);
-                                    Navigator.of(context)
-                                        .pushNamed('/roomFrom', arguments: {
-                                      'inspectionData': _inspectionData,
-                                      'roomIndex': _building.rooms.length - 1,
+                                    await showAddRoom(context).then((value) {
+                                      if (value == true) {
+                                        onFormChanged(
+                                            context,
+                                            context
+                                                .cubit<HomeInspectionCubit>()
+                                                .state);
+                                        Navigator.of(context)
+                                            .pushNamed('/roomFrom', arguments: {
+                                          'inspectionData': _inspectionData,
+                                          'roomIndex':
+                                              _building.rooms.length - 1,
+                                        });
+                                      }
                                     });
                                   }
                                 : null,
@@ -462,7 +465,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
     );
   }
 
-  Future showAddRoom(BuildContext context, [int index]) {
+  Future<bool> showAddRoom(BuildContext context, [int index]) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -476,12 +479,12 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
                   this.setState(() {
                     _building.rooms.add(value);
                   });
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(true);
                 } else {
                   this.setState(() {
                     _building.rooms[index] = value;
                   });
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(false);
                 }
               },
               toEditValue: index != null ? _building.rooms[index] : null,
@@ -567,6 +570,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
               _building.materialUsed
                   .removeAt(_building.materialUsed.indexOf(item));
             });
+            onFormChanged(context, context.cubit<HomeInspectionCubit>().state);
           },
           confirmDismiss: (direction) async {
             if (direction == DismissDirection.endToStart) {
@@ -574,7 +578,11 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
               return isUserSure ?? false;
             } else if (direction == DismissDirection.startToEnd) {
               await showAddMaterialDialog(
-                  context, _building.materialUsed.indexOf(item));
+                      context, _building.materialUsed.indexOf(item))
+                  .then((value) {
+                onFormChanged(
+                    context, context.cubit<HomeInspectionCubit>().state);
+              });
               return false;
             } else {
               return false;
@@ -647,13 +655,18 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
               setState(() {
                 _building.rooms.removeAt(roomIndex);
               });
+              onFormChanged(
+                  context, context.cubit<HomeInspectionCubit>().state);
             },
             confirmDismiss: (direction) async {
               if (direction == DismissDirection.endToStart) {
                 bool isUserSure = await deleteItemAlertModel(context);
                 return isUserSure ?? false;
               } else if (direction == DismissDirection.startToEnd) {
-                await showAddRoom(context, roomIndex);
+                await showAddRoom(context, roomIndex).then((value) {
+                  onFormChanged(
+                      context, context.cubit<HomeInspectionCubit>().state);
+                });
                 return false;
               } else {
                 return false;
