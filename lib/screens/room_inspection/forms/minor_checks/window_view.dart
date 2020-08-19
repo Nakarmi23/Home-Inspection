@@ -25,22 +25,8 @@ class _WindowViewState extends State<WindowView> {
     return CustomListView(
       children: <Widget>[
         ...createWindowForm(),
-        InkWell(
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Expanded(
-                  child: Text('Add Window'),
-                ),
-                Icon(
-                  Icons.add_circle,
-                  color: Theme.of(context).accentColor,
-                ),
-              ],
-            ),
-          ),
+        AddElementButton(
+          title: Text('Add Window'),
           onTap: () {
             formKeys.add(GlobalKey());
             setState(() {
@@ -89,7 +75,6 @@ class _WindowViewState extends State<WindowView> {
                 'Window Panels',
                 'Hinges',
                 'Holder',
-                'Other Fixtures'
               ]
                   .map(
                     (item) => InspectionMinorChecksCondition(
@@ -125,13 +110,6 @@ class _WindowViewState extends State<WindowView> {
                             });
                             widget.onDataChanged(windowList);
                             break;
-                          case 'Other Fixtures':
-                            setState(() {
-                              windowList[windowIndex].otherFixturesCondition =
-                                  value;
-                            });
-                            widget.onDataChanged(windowList);
-                            break;
                           default:
                         }
                       },
@@ -139,22 +117,42 @@ class _WindowViewState extends State<WindowView> {
                     ),
                   )
                   .toList(),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: InspectionImageComment(
-                  images: windowList[windowIndex].photos,
-                  comment: windowList[windowIndex].comment,
-                  onCommentSaved: (value) {
-                    windowList[windowIndex].comment = value;
-                  },
-                  onImageAdd: (path) {
+              ...windowList[windowIndex]
+                  .otherFixturesCondition
+                  .asMap()
+                  .keys
+                  .map((otherFixtureIndex) {
+                MinorChecksCondition fixtureCondition = windowList[windowIndex]
+                    .otherFixturesCondition[otherFixtureIndex];
+                return InspectionMinorChecksCondition(
+                  title: SubHeadingText(
+                    fixtureCondition.otherFixtureName,
+                    subHeading: SubHeading.sub2,
+                  ),
+                  onDataChanged: (value) {
                     setState(() {
-                      windowList[windowIndex].photos.add(path);
+                      windowList[windowIndex]
+                          .otherFixturesCondition[otherFixtureIndex] = value;
                     });
                     widget.onDataChanged(windowList);
                   },
-                  onImageTap: (index) {},
-                ),
+                  value: fixtureCondition,
+                );
+              }).toList(),
+              AddElementButton(
+                title: Text('Window ${windowIndex + 1} - Add Other Fixture'),
+                onTap: () {
+                  buildAddOtherProblemDialog(context, Text('Other Fixture'))
+                      .then((problem) {
+                    if (problem != null) {
+                      setState(() {
+                        windowList[windowIndex]
+                            .otherFixturesCondition
+                            .add(problem);
+                      });
+                    }
+                  });
+                },
               ),
             ],
           ),
@@ -175,9 +173,6 @@ class _WindowViewState extends State<WindowView> {
         break;
       case 'Holder':
         return windowList[windowIndex].holderCondition;
-        break;
-      case 'Other Fixtures':
-        return windowList[windowIndex].otherFixturesCondition;
         break;
       default:
     }
