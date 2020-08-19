@@ -2,6 +2,7 @@ TODO:
     Bug Fix:
         Inspection Form:
             ☐ unrelate building storey and room storey number
+    Feature Request:
         Room Inspection Form:
             Minor Check:
                 ☐ If the condition is bad show picture and comment widgets not when in skip or in good condition
