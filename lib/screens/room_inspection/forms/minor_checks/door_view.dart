@@ -25,22 +25,8 @@ class _DoorViewState extends State<DoorView> {
     return CustomListView(
       children: <Widget>[
         ...createDoorForm(),
-        InkWell(
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Expanded(
-                  child: Text('Add Door'),
-                ),
-                Icon(
-                  Icons.add_circle,
-                  color: Theme.of(context).accentColor,
-                ),
-              ],
-            ),
-          ),
+        AddElementButton(
+          title: Text('Add Door'),
           onTap: () {
             formKeys.add(GlobalKey());
             setState(() {
@@ -89,7 +75,6 @@ class _DoorViewState extends State<DoorView> {
                 'Door Panels',
                 'Hinges',
                 'Holder',
-                'Other Fixtures'
               ]
                   .map(
                     (item) => InspectionMinorChecksCondition(
@@ -123,13 +108,13 @@ class _DoorViewState extends State<DoorView> {
                             });
                             widget.onDataChanged(doorList);
                             break;
-                          case 'Other Fixtures':
-                            setState(() {
-                              doorList[doorIndex].otherFixturesCondition =
-                                  value;
-                            });
-                            widget.onDataChanged(doorList);
-                            break;
+                          // case 'Other Fixtures':
+                          //   setState(() {
+                          //     doorList[doorIndex].otherFixturesCondition =
+                          //         value;
+                          //   });
+                          //   widget.onDataChanged(doorList);
+                          //   break;
                           default:
                         }
                       },
@@ -137,22 +122,44 @@ class _DoorViewState extends State<DoorView> {
                     ),
                   )
                   .toList(),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: InspectionImageComment(
-                  images: doorList[doorIndex].photos,
-                  comment: doorList[doorIndex].comment,
-                  onCommentSaved: (value) {
-                    doorList[doorIndex].comment = value;
-                  },
-                  onImageAdd: (path) {
+              ...doorList[doorIndex]
+                  .otherFixturesCondition
+                  .asMap()
+                  .keys
+                  .map((otherFixtureIndex) {
+                var fixturesCondition = doorList[doorIndex]
+                    .otherFixturesCondition[otherFixtureIndex];
+                return InspectionMinorChecksCondition(
+                  title: SubHeadingText(
+                    fixturesCondition.otherFixtureName,
+                    subHeading: SubHeading.sub2,
+                  ),
+                  onDataChanged: (value) {
+                    MinorChecksCondition newValue = value;
+                    newValue.otherFixtureName =
+                        fixturesCondition.otherFixtureName;
                     setState(() {
-                      doorList[doorIndex].photos.add(path);
+                      doorList[doorIndex]
+                          .otherFixturesCondition[otherFixtureIndex] = newValue;
                     });
                     widget.onDataChanged(doorList);
                   },
-                  onImageTap: (index) {},
-                ),
+                  value: fixturesCondition,
+                );
+              }).toList(),
+              AddElementButton(
+                title: Text('Door ${doorIndex + 1} - Add Other Fixture'),
+                onTap: () {
+                  buildAddOtherProblemDialog(context, Text('Other Fixture'))
+                      .then((problem) {
+                    if (problem != null) {
+                      setState(() {
+                        doorList[doorIndex].otherFixturesCondition.add(problem);
+                      });
+                      widget.onDataChanged(doorList);
+                    }
+                  });
+                },
               ),
             ],
           ),
@@ -173,9 +180,6 @@ class _DoorViewState extends State<DoorView> {
         break;
       case 'Holder':
         return doorList[doorIndex].holderCondition;
-        break;
-      case 'Other Fixtures':
-        return doorList[doorIndex].otherFixturesCondition;
         break;
       default:
     }

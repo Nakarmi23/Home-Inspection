@@ -4,12 +4,12 @@ import 'package:house_review/models/minor_checks/minor_check_condition.dart';
 import 'package:house_review/models/structural_inspection/structural_inspection.dart';
 
 Future<MinorChecksCondition> buildAddOtherProblemDialog(
-    BuildContext context, int doorIndex) {
+    BuildContext context, Widget title) {
   return showDialog(
     context: context,
     builder: (context) {
       return SimpleDialog(
-        title: Text('Other Fixture'),
+        title: title,
         children: <Widget>[
           AddOtherProblemsForm(
             onFormSave: (problem) {
