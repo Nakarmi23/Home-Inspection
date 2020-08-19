@@ -24,22 +24,8 @@ class _CellingViewState extends State<CellingView> {
     return CustomListView(
       children: <Widget>[
         ...createCellingForm(),
-        InkWell(
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Expanded(
-                  child: Text('Add Celling'),
-                ),
-                Icon(
-                  Icons.add_circle,
-                  color: Theme.of(context).accentColor,
-                ),
-              ],
-            ),
-          ),
+        AddElementButton(
+          title: Text('Add Celling'),
           onTap: () {
             formKeys.add(GlobalKey());
             setState(() {
@@ -81,7 +67,6 @@ class _CellingViewState extends State<CellingView> {
                 'Plastering',
                 'False Ceiling',
                 'Mason Problems',
-                'Other Problems'
               ]
                   .map(
                     (item) => InspectionMinorChecksCondition(
@@ -119,13 +104,6 @@ class _CellingViewState extends State<CellingView> {
                             });
                             widget.onDataChanged(cellingList);
                             break;
-                          case 'Other Problems':
-                            setState(() {
-                              cellingList[cellingIndex].otherProblemCondition =
-                                  value;
-                            });
-                            widget.onDataChanged(cellingList);
-                            break;
                           default:
                         }
                       },
@@ -133,22 +111,43 @@ class _CellingViewState extends State<CellingView> {
                     ),
                   )
                   .toList(),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: InspectionImageComment(
-                  images: cellingList[cellingIndex].photos,
-                  comment: cellingList[cellingIndex].comment,
-                  onCommentSaved: (value) {
-                    cellingList[cellingIndex].comment = value;
-                  },
-                  onImageAdd: (path) {
+              ...cellingList[cellingIndex]
+                  .otherProblemCondition
+                  .asMap()
+                  .keys
+                  .map((otherProbelmIndex) {
+                MinorChecksCondition problemCondition =
+                    cellingList[cellingIndex]
+                        .otherProblemCondition[otherProbelmIndex];
+                return InspectionMinorChecksCondition(
+                  title: SubHeadingText(
+                    problemCondition.otherFixtureName,
+                    subHeading: SubHeading.sub2,
+                  ),
+                  onDataChanged: (value) {
                     setState(() {
-                      cellingList[cellingIndex].photos.add(path);
+                      cellingList[cellingIndex]
+                          .otherProblemCondition[otherProbelmIndex] = value;
                     });
                     widget.onDataChanged(cellingList);
                   },
-                  onImageTap: (index) {},
-                ),
+                  value: problemCondition,
+                );
+              }).toList(),
+              AddElementButton(
+                title: Text('Celling ${cellingIndex + 1} - Add Other Problem'),
+                onTap: () {
+                  buildAddOtherProblemDialog(context, Text('Other Problem'))
+                      .then((problem) {
+                    if (problem != null) {
+                      setState(() {
+                        cellingList[cellingIndex]
+                            .otherProblemCondition
+                            .add(problem);
+                      });
+                    }
+                  });
+                },
               ),
             ],
           ),
@@ -169,9 +168,6 @@ class _CellingViewState extends State<CellingView> {
         break;
       case 'Mason Problems':
         return cellingList[doorIndex].masonProblemCondition;
-        break;
-      case 'Other Problems':
-        return cellingList[doorIndex].otherProblemCondition;
         break;
       default:
     }
