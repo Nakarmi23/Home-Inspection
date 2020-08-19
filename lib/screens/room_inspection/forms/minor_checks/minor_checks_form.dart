@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:house_review/components/add_element_button.dart';
 import 'package:house_review/components/app_input_text_field.dart';
 import 'package:house_review/components/custom_list_view.dart';
 import 'package:house_review/components/heading_text.dart';
 import 'package:house_review/components/sub_heading_text.dart';
+import 'package:house_review/models/minor_checks/minor_check_condition.dart';
 import 'package:house_review/models/minor_checks/minor_checks.dart';
 import 'package:house_review/screens/room_inspection/components/inspection_image_comment.dart';
+import 'package:house_review/screens/room_inspection/forms/minor_checks/components/add_other_problem_form.dart';
 import 'package:house_review/screens/room_inspection/forms/minor_checks/components/inspection_minor_check_condition.dart';
 import 'package:house_review/screens/room_inspection/forms/minor_checks/components/minor_checks_form.dart';
-import 'package:house_review/screens/room_inspection/forms/minor_checks/components/radio_list.dart';
 import 'package:house_review/utility/debounce.dart';
 
 part 'door_view.dart';

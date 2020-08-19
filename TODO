@@ -2,11 +2,8 @@ TODO:
     Bug Fix:
         Inspection Form:
             ☐ unrelate building storey and room storey number
-    Feature Request:
-        Room Inspection Form:
-            Minor Check:
-                ☐ Other Fixture should be dynamic
 Archive:
+  ✔ Other Fixture should be dynamic @done(20-08-20 02:02) @project(TODO.Feature Request.Room Inspection Form.Minor Check)
   ✔ If the condition is bad show picture and comment widgets not when in skip or in good condition @done(20-08-19 22:41) @project(TODO.Feature Request.Room Inspection Form.Minor Check)
   ✔ when editing dropdown error occures @done(20-08-19 22:16) @project(TODO.Bug Fix.Inspection Form)
   ✔ Material Used and Rooms items wont delete after deleting @done(20-08-17 09:34) @project(TODO.Bug Fix.Inspection Form)

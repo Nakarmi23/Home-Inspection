@@ -12,7 +12,7 @@ class ElectricalFittingView extends StatefulWidget {
 }
 
 class _ElectricalFittingViewState extends State<ElectricalFittingView> {
-  List<ElectricalFitting> elecFittingList = [ElectricalFitting()];
+  List<ElectricalFitting> elecFittingList = [ElectricalFitting(age: 1)];
   List<GlobalKey<FormState>> formKeys = [GlobalKey()];
 
   @override
@@ -26,26 +26,12 @@ class _ElectricalFittingViewState extends State<ElectricalFittingView> {
     return CustomListView(
       children: <Widget>[
         ...createElectricalFittingForm(),
-        InkWell(
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Expanded(
-                  child: Text('Add Electrical Fitting'),
-                ),
-                Icon(
-                  Icons.add_circle,
-                  color: Theme.of(context).accentColor,
-                ),
-              ],
-            ),
-          ),
+        AddElementButton(
+          title: Text('Add Electrical Fitting'),
           onTap: () {
             formKeys.add(GlobalKey());
             setState(() {
-              elecFittingList.add(ElectricalFitting());
+              elecFittingList.add(ElectricalFitting(age: 1));
             });
           },
         ),
@@ -93,7 +79,6 @@ class _ElectricalFittingViewState extends State<ElectricalFittingView> {
                 'Switches',
                 'Lights',
                 'Ceiling Fan',
-                'Other Accessories'
               ]
                   .map(
                     (item) => InspectionMinorChecksCondition(
@@ -131,13 +116,6 @@ class _ElectricalFittingViewState extends State<ElectricalFittingView> {
                             });
                             widget.onDataChanged(elecFittingList);
                             break;
-                          case 'Other Accessories':
-                            setState(() {
-                              elecFittingList[elecFittingIndex]
-                                  .otherAccessoriesCondition = value;
-                            });
-                            widget.onDataChanged(elecFittingList);
-                            break;
                           default:
                         }
                       },
@@ -145,22 +123,43 @@ class _ElectricalFittingViewState extends State<ElectricalFittingView> {
                     ),
                   )
                   .toList(),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: InspectionImageComment(
-                  images: elecFittingList[elecFittingIndex].photos,
-                  comment: elecFittingList[elecFittingIndex].comment,
-                  onCommentSaved: (value) {
-                    elecFittingList[elecFittingIndex].comment = value;
-                  },
-                  onImageAdd: (path) {
+              ...elecFittingList[elecFittingIndex]
+                  .otherAccessoriesCondition
+                  .asMap()
+                  .keys
+                  .map((accessoriesIndex) {
+                MinorChecksCondition accessoriesCondition =
+                    elecFittingList[elecFittingIndex]
+                        .otherAccessoriesCondition[accessoriesIndex];
+                return InspectionMinorChecksCondition(
+                  title: SubHeadingText(
+                    accessoriesCondition.otherFixtureName,
+                    subHeading: SubHeading.sub2,
+                  ),
+                  onDataChanged: (value) {
                     setState(() {
-                      elecFittingList[elecFittingIndex].photos.add(path);
+                      accessoriesCondition = value;
                     });
                     widget.onDataChanged(elecFittingList);
                   },
-                  onImageTap: (index) {},
-                ),
+                  value: accessoriesCondition,
+                );
+              }).toList(),
+              AddElementButton(
+                title: Text(
+                    'Electrical Fitting ${elecFittingIndex + 1} - Add Other Accessories'),
+                onTap: () {
+                  buildAddOtherProblemDialog(context, Text('Other Accessories'))
+                      .then((accessories) {
+                    if (accessories != null) {
+                      setState(() {
+                        elecFittingList[elecFittingIndex]
+                            .otherAccessoriesCondition
+                            .add(accessories);
+                      });
+                    }
+                  });
+                },
               ),
             ],
           ),
@@ -181,9 +180,6 @@ class _ElectricalFittingViewState extends State<ElectricalFittingView> {
         break;
       case 'Ceiling Fan':
         return elecFittingList[elecFittingIndex].ceilingFanCondition;
-        break;
-      case 'Other Accessories':
-        return elecFittingList[elecFittingIndex].otherAccessoriesCondition;
         break;
       default:
     }
