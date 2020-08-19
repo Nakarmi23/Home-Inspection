@@ -126,8 +126,7 @@ class _CellingViewState extends State<CellingView> {
                   ),
                   onDataChanged: (value) {
                     setState(() {
-                      cellingList[cellingIndex]
-                          .otherProblemCondition[otherProbelmIndex] = value;
+                      problemCondition = value;
                     });
                     widget.onDataChanged(cellingList);
                   },

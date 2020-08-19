@@ -24,22 +24,8 @@ class _WallsViewState extends State<WallsView> {
     return CustomListView(
       children: <Widget>[
         ...createCellingForm(),
-        InkWell(
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Expanded(
-                  child: Text('Add Wall'),
-                ),
-                Icon(
-                  Icons.add_circle,
-                  color: Theme.of(context).accentColor,
-                ),
-              ],
-            ),
-          ),
+        AddElementButton(
+          title: Text('Add Wall'),
           onTap: () {
             formKeys.add(GlobalKey());
             setState(() {
@@ -76,7 +62,7 @@ class _WallsViewState extends State<WallsView> {
                   'Checklist',
                 ),
               ),
-              ...['Painting', 'Plastering', 'Mason Problems', 'Other Problems']
+              ...['Painting', 'Plastering', 'Mason Problems']
                   .map(
                     (item) => InspectionMinorChecksCondition(
                       title: SubHeadingText(
@@ -103,12 +89,6 @@ class _WallsViewState extends State<WallsView> {
                             });
                             widget.onDataChanged(wallList);
                             break;
-                          case 'Other Problems':
-                            setState(() {
-                              wallList[wallIndex].otherProblemCondition = value;
-                            });
-                            widget.onDataChanged(wallList);
-                            break;
                           default:
                         }
                       },
@@ -116,22 +96,39 @@ class _WallsViewState extends State<WallsView> {
                     ),
                   )
                   .toList(),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: InspectionImageComment(
-                  images: wallList[wallIndex].photos,
-                  comment: wallList[wallIndex].comment,
-                  onCommentSaved: (value) {
-                    wallList[wallIndex].comment = value;
-                  },
-                  onImageAdd: (path) {
+              ...wallList[wallIndex]
+                  .otherProblemCondition
+                  .asMap()
+                  .keys
+                  .map((otherProblemIndex) {
+                MinorChecksCondition problemCondition = wallList[wallIndex]
+                    .otherProblemCondition[otherProblemIndex];
+                return InspectionMinorChecksCondition(
+                  title: SubHeadingText(
+                    problemCondition.otherFixtureName,
+                    subHeading: SubHeading.sub2,
+                  ),
+                  onDataChanged: (value) {
                     setState(() {
-                      wallList[wallIndex].photos.add(path);
+                      problemCondition = value;
                     });
                     widget.onDataChanged(wallList);
                   },
-                  onImageTap: (index) {},
-                ),
+                  value: problemCondition,
+                );
+              }).toList(),
+              AddElementButton(
+                title: Text('Wall ${wallIndex + 1} - Add Other Problem'),
+                onTap: () {
+                  buildAddOtherProblemDialog(context, Text('Other Problem'))
+                      .then((problem) {
+                    if (problem != null) {
+                      setState(() {
+                        wallList[wallIndex].otherProblemCondition.add(problem);
+                      });
+                    }
+                  });
+                },
               ),
             ],
           ),
@@ -149,9 +146,6 @@ class _WallsViewState extends State<WallsView> {
         break;
       case 'Mason Problems':
         return wallList[wallIndex].masonProblemCondition;
-        break;
-      case 'Other Problems':
-        return wallList[wallIndex].otherProblemCondition;
         break;
       default:
     }

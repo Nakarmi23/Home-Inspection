@@ -108,13 +108,6 @@ class _DoorViewState extends State<DoorView> {
                             });
                             widget.onDataChanged(doorList);
                             break;
-                          // case 'Other Fixtures':
-                          //   setState(() {
-                          //     doorList[doorIndex].otherFixturesCondition =
-                          //         value;
-                          //   });
-                          //   widget.onDataChanged(doorList);
-                          //   break;
                           default:
                         }
                       },
@@ -127,7 +120,7 @@ class _DoorViewState extends State<DoorView> {
                   .asMap()
                   .keys
                   .map((otherFixtureIndex) {
-                var fixturesCondition = doorList[doorIndex]
+                MinorChecksCondition fixturesCondition = doorList[doorIndex]
                     .otherFixturesCondition[otherFixtureIndex];
                 return InspectionMinorChecksCondition(
                   title: SubHeadingText(
@@ -136,8 +129,7 @@ class _DoorViewState extends State<DoorView> {
                   ),
                   onDataChanged: (value) {
                     setState(() {
-                      doorList[doorIndex]
-                          .otherFixturesCondition[otherFixtureIndex] = value;
+                      fixturesCondition = value;
                     });
                     widget.onDataChanged(doorList);
                   },
