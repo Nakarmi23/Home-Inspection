@@ -1,8 +1,8 @@
 part of 'home_inspection_screen.dart';
 
 class HomeInspectionForm extends StatefulWidget {
-  HomeInspectionForm({Key key}) : super(key: key);
-
+  HomeInspectionForm({Key key, @required this.isEditing}) : super(key: key);
+  final bool isEditing;
   @override
   _HomeInspectionFormState createState() => _HomeInspectionFormState();
 }
@@ -18,7 +18,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isEditing = ModalRoute.of(context).settings.arguments ?? false;
+    isEditing = widget.isEditing;
     if (isEditing) {
       _inspectionData =
           (context.cubit<HomeInspectionCubit>().state as HomeInspectionSuccess)

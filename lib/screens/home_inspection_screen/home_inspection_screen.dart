@@ -24,10 +24,14 @@ import 'package:house_review/utility/debounce.dart';
 part 'home_inspection_form.dart';
 
 class HomeInspectionScreen extends StatelessWidget {
-  const HomeInspectionScreen({Key key}) : super(key: key);
+  const HomeInspectionScreen({Key key, @required this.isEditing})
+      : super(key: key);
+  final bool isEditing;
 
   @override
   Widget build(BuildContext context) {
-    return HomeInspectionForm();
+    return HomeInspectionForm(
+      isEditing: isEditing,
+    );
   }
 }

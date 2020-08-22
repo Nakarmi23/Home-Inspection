@@ -34,12 +34,26 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Skill Sewa: Home Inspection',
       theme: appData(),
-      initialRoute: '/splashScreen',
-      routes: {
-        '/splashScreen': (context) => SplashScreen(),
-        '/home': (context) => HomeScreen(),
-        '/inspectionForm': (context) => HomeInspectionScreen(),
-        '/roomFrom': (context) => RoomInspectionScreen(),
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(builder: (_) => SplashScreen());
+          case '/home':
+            return MaterialPageRoute(builder: (_) => HomeScreen());
+          case '/inspectionForm':
+            return MaterialPageRoute(
+                builder: (_) => HomeInspectionScreen(
+                      isEditing: settings.arguments,
+                    ));
+          case '/roomFrom':
+            return MaterialPageRoute(
+                builder: (_) => RoomInspectionScreen(
+                      inspectionData: (settings.arguments
+                          as Map<String, dynamic>)['inspectionData'],
+                      roomIndex: (settings.arguments
+                          as Map<String, dynamic>)['roomIndex'],
+                    ));
+        }
       },
     );
   }

@@ -9,9 +9,13 @@ import 'package:house_review/models/room.dart';
 import './forms/forms.dart';
 
 class RoomInspectionScreen extends StatefulWidget {
-  final String title;
-  RoomInspectionScreen({Key key, this.title}) : super(key: key);
-
+  RoomInspectionScreen({
+    Key key,
+    @required this.inspectionData,
+    @required this.roomIndex,
+  }) : super(key: key);
+  final InspectionData inspectionData;
+  final int roomIndex;
   @override
   _RoomInspectionScreenState createState() => _RoomInspectionScreenState();
 }
@@ -23,11 +27,8 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    inspectionData = (ModalRoute.of(context).settings.arguments
-        as Map<String, dynamic>)['inspectionData'];
-    roomIndex = (ModalRoute.of(context).settings.arguments
-        as Map<String, dynamic>)['roomIndex'];
-    room = inspectionData.buildingData.rooms[roomIndex];
+    inspectionData = widget.inspectionData;
+    room = inspectionData.buildingData.rooms[widget.roomIndex];
   }
 
   @override
