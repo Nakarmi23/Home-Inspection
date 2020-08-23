@@ -157,10 +157,16 @@ class _RoomDetailModelFormState extends State<RoomDetailModelForm> {
           if (storeyInputController.text.isNotEmpty) {
             double storeyNumber = double.tryParse(storeyInputController.text);
             for (Room room in widget.existingRooms) {
-              if (widget.toEditValue == null ||
-                  (room.roomNo == roomNumber &&
-                      storeyNumber == room.storeyNo)) {
-                return 'Room with Room Number $value already exists on storey ${storeyInputController.text}';
+              if (room.roomNo == roomNumber && storeyNumber == room.storeyNo) {
+                if (widget.toEditValue != null) {
+                  if ((widget.toEditValue.storeyNo != room.storeyNo &&
+                          room.roomNo == roomNumber) ||
+                      (widget.toEditValue.roomNo != roomNumber &&
+                          roomNumber == room.roomId)) {
+                    return 'Room with Room Number $value already exists on storey ${storeyInputController.text}';
+                  }
+                } else
+                  return 'Room with Room Number $value already exists on storey ${storeyInputController.text}';
               }
             }
           } else {
