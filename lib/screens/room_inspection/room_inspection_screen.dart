@@ -23,7 +23,6 @@ class RoomInspectionScreen extends StatefulWidget {
 class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
   Room room = Room();
   InspectionData inspectionData;
-  int roomIndex;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -101,7 +100,7 @@ class _RoomInspectionScreenState extends State<RoomInspectionScreen> {
       listener: (context, state) {
         if (state is HomeInspectionSuccess) {
           inspectionData = state.inspectionData;
-          room = inspectionData.buildingData.rooms[roomIndex];
+          room = inspectionData.buildingData.rooms[widget.roomIndex];
         }
       },
       child: DefaultTabController(
