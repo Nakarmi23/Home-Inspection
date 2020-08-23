@@ -555,6 +555,7 @@ class _HomeInspectionFormState extends State<HomeInspectionForm> {
             setState(() {
               _building.photo = image;
             });
+            onFormChanged(context, context.cubit<HomeInspectionCubit>().state);
           },
         );
       },
