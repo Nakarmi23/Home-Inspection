@@ -227,12 +227,16 @@ class _VisualInspectionSheetViewState extends State<VisualInspectionSheetView> {
               setState(() {
                 visualInspection.tilting.photos.add(path);
               });
+              widget.onFormSave(visualInspection);
             },
             onImageTap: (index) {},
           ),
           AppInputTextField(
             initialValue: visualInspection.tilting?.tiltingReading,
             labelText: 'Tilting Reading',
+            onSaved: (value) {
+              visualInspection.tilting.tiltingReading = value;
+            },
           ),
           Padding(
             padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
