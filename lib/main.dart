@@ -5,6 +5,7 @@ import 'package:house_review/cubit/inspection_cause_cubit/inspection_cause_cubit
 import 'package:house_review/cubit/inspection_file_info_cubit/inspection_file_info_cubit.dart';
 import 'package:house_review/cubit/room_purpose_cubit/room_purpose_cubit.dart';
 import 'package:house_review/cubit/strucutural_system_cubit/structural_system_cubit.dart';
+import 'package:house_review/screens/generated_pdf_screen/generated_pdf_screen.dart';
 import 'package:house_review/screens/home_inspection_screen/home_inspection_screen.dart';
 import 'package:house_review/screens/home_screen.dart';
 import 'package:house_review/screens/room_inspection/room_inspection_screen.dart';
@@ -52,6 +53,11 @@ class MyApp extends StatelessWidget {
                           as Map<String, dynamic>)['inspectionData'],
                       roomIndex: (settings.arguments
                           as Map<String, dynamic>)['roomIndex'],
+                    ));
+          case '/generateReport':
+            return MaterialPageRoute(
+                builder: (_) => GeneratedPDFScreen(
+                      inspectionData: settings.arguments,
                     ));
         }
       },

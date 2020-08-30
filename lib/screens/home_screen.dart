@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String toRoute = '';
     return CubitBuilder<InspectionFileInfoCubit, InspectionFileInfoState>(
       builder: (context, state) {
         return Scaffold(
@@ -57,7 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               shouldListen = false;
-              await Navigator.of(context).pushNamed('/inspectionForm');
+              await Navigator.of(context)
+                  .pushNamed('/inspectionForm', arguments: false);
               shouldListen = true;
             },
             child: Icon(Icons.add),
@@ -66,10 +68,22 @@ class _HomeScreenState extends State<HomeScreen> {
           body: CubitListener<HomeInspectionCubit, HomeInspectionState>(
             listener: (context, state) async {
               if (state is HomeInspectionSuccess) {
-                shouldListen = false;
-                await Navigator.of(context)
-                    .pushNamed('/inspectionForm', arguments: true);
-                shouldListen = true;
+                if (toRoute.isNotEmpty) {
+                  switch (toRoute) {
+                    case '/inspectionForm':
+                      shouldListen = false;
+                      await Navigator.of(context)
+                          .pushNamed(toRoute, arguments: true);
+                      shouldListen = true;
+                      break;
+                    case '/generateReport':
+                      shouldListen = false;
+                      await Navigator.of(context)
+                          .pushNamed(toRoute, arguments: state.inspectionData);
+                      shouldListen = true;
+                      break;
+                  }
+                }
               }
             },
             listenWhen: (previous, current) {
@@ -86,8 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   return ListView.separated(
                     itemBuilder: (context, index) {
                       return Dismissible(
-                        direction: DismissDirection.endToStart,
-                        background: DismissibleBackground(
+                        direction: DismissDirection.horizontal,
+                        secondaryBackground: DismissibleBackground(
                           color: Theme.of(context).errorColor,
                           forDirection: DismissDirection.endToStart,
                           icon: Icon(
@@ -101,10 +115,32 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
+                        background: DismissibleBackground(
+                          color: Theme.of(context).primaryColor,
+                          forDirection: DismissDirection.startToEnd,
+                          icon: Icon(
+                            Icons.picture_as_pdf,
+                            color: Colors.white,
+                          ),
+                          child: Text(
+                            'PDF',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                         key: UniqueKey(),
                         confirmDismiss: (direction) async {
-                          bool isConfirm = await deleteItemAlertModel(context);
-                          return isConfirm;
+                          if (direction == DismissDirection.endToStart) {
+                            bool isConfirm =
+                                await deleteItemAlertModel(context);
+                            return isConfirm;
+                          } else {
+                            toRoute = '/generateReport';
+                            context.cubit<HomeInspectionCubit>().readData(
+                                state.inspectionFileInfos[index].fileName);
+                            return false;
+                          }
                         },
                         onDismissed: (direction) {
                           context
@@ -113,6 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: ListTile(
                           onTap: () async {
+                            toRoute = '/inspectionForm';
                             context.cubit<HomeInspectionCubit>().readData(
                                 state.inspectionFileInfos[index].fileName);
                           },
